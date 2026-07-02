@@ -66,7 +66,7 @@ __attribute__((constructor)) static void initializer(void)
 		firstLoad = true;
 	}
 
-	/*
+	
 	int err = boomerang_recoverPrimitives(firstLoad, true);
 	if (err != 0) {
 		char msg[1000];
@@ -74,7 +74,7 @@ __attribute__((constructor)) static void initializer(void)
 		abort_with_reason(7, 1, msg, 0);
 		return;
 	}
-	*/
+	
 
 	if (jbupdatePrevVersion && jbupdateNewVersion) {
 		jbupdate_finalize_stage2(jbupdatePrevVersion, jbupdateNewVersion);
@@ -82,7 +82,7 @@ __attribute__((constructor)) static void initializer(void)
 		unsetenv("JBUPDATE_NEW_VERSION");
 	}
 
-	//cs_allow_invalid(proc_self(), false);
+	cs_allow_invalid(proc_self(), false);
 
 	/*
 	initXPCHooks();
