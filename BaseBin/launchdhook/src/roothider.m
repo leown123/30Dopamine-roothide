@@ -95,6 +95,9 @@ void roothide_launchd_postinit(bool firstLoad)
 
 			// load jailbreakd after applying hooks
 			assert(initJailbreakd(firstLoad) == 0);
+
+
+			return;
 		}
 	//////
 	
