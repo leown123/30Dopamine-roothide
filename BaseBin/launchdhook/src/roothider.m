@@ -109,6 +109,8 @@ void roothide_launchd_postinit(bool firstLoad)
 		asprintf(&HOOK_DYLIB_PATH, "/usr/lib/libswiftPrivate_BiomeStreams.dylib", jbinfo(jbrand));
 	}
 
+	return;
+
 	if (__builtin_available(iOS 16.0, *))
 	{
 		void* __sysctl_orig = NULL;
