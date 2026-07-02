@@ -581,11 +581,13 @@ void *boomerang_server(struct boomerang_info *info)
         *didRemove = YES;
         return;
     }
-    
+
+	/*
     *errOut = [[DOEnvironmentManager sharedManager] prepareBootstrap];
     if (*errOut) return;
     setenv("PATH", "/sbin:/bin:/usr/sbin:/usr/bin:/rootfs/sbin:/rootfs/bin:/rootfs/usr/sbin:/rootfs/usr/bin", 1);
     setenv("TERM", "xterm-256color", 1);
+	*/
     
     if (!tweaksEnabled) {
         printf("Creating safe mode marker file since tweaks were disabled in settings\n");
@@ -639,6 +641,8 @@ setenv("DYLD_IN_CACHE", "0", 1);
 setenv("DISABLE_TWEAKS", "1", 1);
 // using the stock path during jailbreaking
 setenv("DYLD_INSERT_LIBRARIES", JBROOT_PATH("/basebin/systemhook.dylib"), 1);
+
+return;
 
 /******************************** roothide specific *************************/
 
