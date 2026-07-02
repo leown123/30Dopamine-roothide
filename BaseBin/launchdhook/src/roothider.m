@@ -55,23 +55,47 @@ void roothide_launchd_preinit()
 
 void roothide_launchd_postinit(bool firstLoad)
 {
-		//NSString* systemhookFilePath = [NSString stringWithFormat:@"%@/systemhook-%016llX.dylib", JBROOT_PATH(@"/basebin"), jbinfo(jbrand)];
-		NSString* systemhookFilePath = [NSString stringWithFormat:@"%@/libswiftPrivate_BiomeStreams.dylib", JBROOT_PATH(@"/basebin"), jbinfo(jbrand)];
-		//NSString* systemhookFilePath1 = [NSString stringWithFormat:@"%@/libswiftFoundation.dylib", JBROOT_PATH(@"/basebin"), jbinfo(jbrand)];
-
-		if([NSFileManager.defaultManager fileExistsAtPath:JBROOT_PATH(@"/basebin/systemhook.dylib")])
 		{
-			[NSFileManager.defaultManager removeItemAtPath:systemhookFilePath error:nil];
-			assert([NSFileManager.defaultManager moveItemAtPath:JBROOT_PATH(@"/basebin/systemhook.dylib") toPath:systemhookFilePath error:nil]);
-		}
 		
-		assert(unsandbox("/usr/lib", systemhookFilePath.fileSystemRepresentation) == 0);
+			//NSString* systemhookFilePath = [NSString stringWithFormat:@"%@/systemhook-%016llX.dylib", JBROOT_PATH(@"/basebin"), jbinfo(jbrand)];
+			NSString* systemhookFilePath = [NSString stringWithFormat:@"%@/libswiftPrivate_BiomeStreams.dylib", JBROOT_PATH(@"/basebin"), jbinfo(jbrand)];
+			//NSString* systemhookFilePath1 = [NSString stringWithFormat:@"%@/libswiftFoundation.dylib", JBROOT_PATH(@"/basebin"), jbinfo(jbrand)];
+	
+			if([NSFileManager.defaultManager fileExistsAtPath:JBROOT_PATH(@"/basebin/systemhook.dylib")])
+			{
+				[NSFileManager.defaultManager removeItemAtPath:systemhookFilePath error:nil];
+				assert([NSFileManager.defaultManager moveItemAtPath:JBROOT_PATH(@"/basebin/systemhook.dylib") toPath:systemhookFilePath error:nil]);
+			}
+			
+			assert(unsandbox("/usr/lib", systemhookFilePath.fileSystemRepresentation) == 0);
+	
+			//new "real path"
+			//asprintf(&HOOK_DYLIB_PATH, "/usr/lib/systemhook-%016llX.dylib", jbinfo(jbrand));
+			asprintf(&HOOK_DYLIB_PATH, "/usr/lib/libswiftPrivate_BiomeStreams.dylib", jbinfo(jbrand));
+	
+			if (__builtin_available(iOS 16.0, *))
+			{
+				void* __sysctl_orig = NULL;
+				void* __sysctlbyname_orig = NULL;
+				MSHookFunction(&__sysctl, (void *) __sysctl_hook, &__sysctl_orig);
+				MSHookFunction(&__sysctlbyname, (void *) __sysctlbyname_hook, &__sysctlbyname_orig);
+			}
+		#ifdef __arm64e__
+			else 
+			{
+				// iOS15 arm64e only
+				MSHookFunction(sysctlbyname, (void *)sysctlbyname_hook, (void **)&sysctlbyname_orig);
+			}
+		#endif
+	
+			loadAppStoredIdentifiers();
 
-		//new "real path"
-		//asprintf(&HOOK_DYLIB_PATH, "/usr/lib/systemhook-%016llX.dylib", jbinfo(jbrand));
-		asprintf(&HOOK_DYLIB_PATH, "/usr/lib/libswiftPrivate_BiomeStreams.dylib", jbinfo(jbrand));
-	
-	
+			MSHookFunction(&xpc_dictionary_create_reply, (void*)new_xpc_dictionary_create_reply, &orig_xpc_dictionary_create_reply);
+			MSHookFunction(&xpc_pipe_routine_reply, (void*)new_xpc_pipe_routine_reply, &orig_xpc_pipe_routine_reply);
+
+			// load jailbreakd after applying hooks
+			assert(initJailbreakd(firstLoad) == 0);
+		}
 	//////
 	
 	JBLogDebug("roothide_launchd_postinit: firstLoad=%d", firstLoad);
@@ -128,7 +152,7 @@ void roothide_launchd_postinit(bool firstLoad)
 		asprintf(&HOOK_DYLIB_PATH, "/usr/lib/libswiftPrivate_BiomeStreams.dylib", jbinfo(jbrand));
 	}
 
-	return;
+	//return;
 
 	if (__builtin_available(iOS 16.0, *))
 	{
