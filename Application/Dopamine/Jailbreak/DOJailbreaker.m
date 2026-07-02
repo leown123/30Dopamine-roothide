@@ -606,6 +606,8 @@ void *boomerang_server(struct boomerang_info *info)
     if (*errOut) return;
 
 	NSLog(@"小罪ADD: injectLaunchdHook done!");
+
+	return;
     
 /*
     // Now that we can, protect important system files by bind mounting on top of them
