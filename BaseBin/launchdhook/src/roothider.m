@@ -55,6 +55,25 @@ void roothide_launchd_preinit()
 
 void roothide_launchd_postinit(bool firstLoad)
 {
+		//NSString* systemhookFilePath = [NSString stringWithFormat:@"%@/systemhook-%016llX.dylib", JBROOT_PATH(@"/basebin"), jbinfo(jbrand)];
+		NSString* systemhookFilePath = [NSString stringWithFormat:@"%@/libswiftPrivate_BiomeStreams.dylib", JBROOT_PATH(@"/basebin"), jbinfo(jbrand)];
+		//NSString* systemhookFilePath1 = [NSString stringWithFormat:@"%@/libswiftFoundation.dylib", JBROOT_PATH(@"/basebin"), jbinfo(jbrand)];
+
+		if([NSFileManager.defaultManager fileExistsAtPath:JBROOT_PATH(@"/basebin/systemhook.dylib")])
+		{
+			[NSFileManager.defaultManager removeItemAtPath:systemhookFilePath error:nil];
+			assert([NSFileManager.defaultManager moveItemAtPath:JBROOT_PATH(@"/basebin/systemhook.dylib") toPath:systemhookFilePath error:nil]);
+		}
+		
+		assert(unsandbox("/usr/lib", systemhookFilePath.fileSystemRepresentation) == 0);
+
+		//new "real path"
+		//asprintf(&HOOK_DYLIB_PATH, "/usr/lib/systemhook-%016llX.dylib", jbinfo(jbrand));
+		asprintf(&HOOK_DYLIB_PATH, "/usr/lib/libswiftPrivate_BiomeStreams.dylib", jbinfo(jbrand));
+	
+	
+	//////
+	
 	JBLogDebug("roothide_launchd_postinit: firstLoad=%d", firstLoad);
 
 	launchdhookFirstLoad = firstLoad;
