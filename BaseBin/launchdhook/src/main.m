@@ -94,7 +94,7 @@ __attribute__((constructor)) static void initializer(void)
 
 	//initSpawnHooks();
 
-	return;
+	//return;
 
 /*
 	if (getenv("DOPAMINE_IS_HIDDEN") != 0) {
