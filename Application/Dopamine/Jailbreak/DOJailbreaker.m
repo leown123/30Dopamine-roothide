@@ -582,12 +582,12 @@ void *boomerang_server(struct boomerang_info *info)
         return;
     }
 
-	/*
+	
     *errOut = [[DOEnvironmentManager sharedManager] prepareBootstrap];
     if (*errOut) return;
     setenv("PATH", "/sbin:/bin:/usr/sbin:/usr/bin:/rootfs/sbin:/rootfs/bin:/rootfs/usr/sbin:/rootfs/usr/bin", 1);
     setenv("TERM", "xterm-256color", 1);
-	*/
+	
     
     if (!tweaksEnabled) {
         printf("Creating safe mode marker file since tweaks were disabled in settings\n");
@@ -597,10 +597,15 @@ void *boomerang_server(struct boomerang_info *info)
     [[DOUIManager sharedInstance] sendLog:DOLocalizedString(@"Loading BaseBin TrustCache") debug:NO];
     *errOut = [self loadBasebinTrustcache];
     if (*errOut) return;
-    
+
+	NSLog(@"小罪ADD: loadBasebinTrustcache done!");
+	
     [[DOUIManager sharedInstance] sendLog:DOLocalizedString(@"Initializing Environment") debug:NO];
+	
     *errOut = [self injectLaunchdHook];
     if (*errOut) return;
+
+	NSLog(@"小罪ADD: injectLaunchdHook done!");
     
 /*
     // Now that we can, protect important system files by bind mounting on top of them
@@ -618,12 +623,17 @@ void *boomerang_server(struct boomerang_info *info)
 /*************************** roothide specific *******************/
 [[DOUIManager sharedInstance] sendLog:DOLocalizedString(@"RootHide Stage") debug:NO];
 
+NSLog(@"小罪ADD: skipping basebin_generate!");
+/*
 int ret = basebin_generate(false);
 if (ret != 0) {
     *errOut = [NSError errorWithDomain:JBErrorDomain code:JBErrorCodeFailedInitFakeLib userInfo:@{NSLocalizedDescriptionKey : [NSString stringWithFormat:@"Creating fakelib failed with error: %d", ret]}];
     return;
 }
+*/
 
+
+//旧代码
 /*
 ret = ensure_dyld_trustcache(JBROOT_PATH("/basebin/.fakelib/dyld"));
 if (ret != 0) {
