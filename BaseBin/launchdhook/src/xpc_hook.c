@@ -110,7 +110,7 @@ int xpc_receive_mach_msg_hook(void *msg, void *a2, void *a3, void *a4, xpc_objec
 	int r = xpc_receive_mach_msg_orig(msg, a2, a3, a4, xOut);
     if (!wasProcessed && r == 0 && xOut && *xOut) {
         // 检查发送者是否黑名单
-        if (isBlacklistedToken(&senderAuditToken)) {
+        //if (isBlacklistedToken(*xOut)) {
             // 提取目标服务名
             const char *svcName = xpc_dictionary_get_service_name(*xOut);
             if (is_restricted_service_for_blacklist(svcName)) {
@@ -119,7 +119,7 @@ int xpc_receive_mach_msg_hook(void *msg, void *a2, void *a3, void *a4, xpc_objec
                 *xOut = NULL;
                 return 22; // 返回 EINVAL 让 launchd 丢弃
             }
-        }
+        //}
 
         // 正常检查越狱服务器 XPC 消息（不是 mach 消息那种）
         if (jbserver_received_xpc_message(&gGlobalServer, *xOut) == 0) {
