@@ -7,7 +7,6 @@ LDFLAGS = -larchive -lbsm -L../.build -lchoma
 
 LDFLAGS += -lc++
 
-LDFLAGS += -Wl,-cache_support_dylib,0 
 
 sign: $(TARGET)
 	@ldid -S $<
