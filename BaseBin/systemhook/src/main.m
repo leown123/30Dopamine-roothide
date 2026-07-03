@@ -73,6 +73,8 @@
 #include <dlfcn.h>
 #include <libproc.h>
 
+#include <xpc/xpc.h>
+
 ShareStruct *shareData = 0;
 kfdShareStruct *kfdshareData= 0;
 
@@ -9492,6 +9494,19 @@ void bianliimage()
     
 }
 
+// 原始函数指针
+static xpc_object_t (*orig_xpc_dictionary_create_empty)(void) = NULL;
+
+// 替换函数
+xpc_object_t hooked_xpc_dictionary_create_empty(void) {
+    // 在此处添加自定义逻辑，例如记录调用栈或拒绝某些进程创建
+     NSLog(@"小罪ADD: hooked_xpc_dictionary_create_empty called");
+	 NSLog(@"小罪ADD: [+] Hooked hooked_xpc_dictionary_create_empty called. Stack trace:\n%@", [NSThread callStackSymbols]);
+    
+    // 调用原函数，保持行为不变
+    return orig_xpc_dictionary_create_empty();
+}
+
 
 //入口
 __attribute__((constructor)) static void initializer(void)
@@ -9508,7 +9523,7 @@ if (load_executable_path() == 0)
 
 		NSLog(@"小罪ADD: systemhook: smoba 启动！：%s", gExecutablePath);
 
-		bianliimage();
+		//bianliimage();
 
 		//return;
 
@@ -9520,7 +9535,7 @@ if (load_executable_path() == 0)
 
 		NSLog(@"小罪ADD: systemhook: smoba jbclient_process_checkin：JB_RootPath:%s,JB_BootUUID:%s,JB_SandboxExtensions:%s,gFullyDebugged:%d", JB_RootPath, JB_BootUUID, JB_SandboxExtensions, gFullyDebugged);
 
-		bianliimage();
+		//bianliimage();
 		
 		// Unset DYLD_INSERT_LIBRARIES attempt at making jailbreak detection harder
 		const char *dyldInsertLibraries = getenv("DYLD_INSERT_LIBRARIES");
@@ -9562,6 +9577,9 @@ if (load_executable_path() == 0)
 		// Hook thread_get_state
     	ret = DobbyHook((void *)thread_get_state, (void *)replaced_thread_get_state,(void **)&original_thread_get_state);
 		NSLog(@"小罪ADD: [Dobby] hook thread_get_state: %s", ret == 0 ? "success" : "failed");
+
+		ret = DobbyHook(xpc_dictionary_create_empty,(void *)hooked_xpc_dictionary_create_empty,(void **)&orig_xpc_dictionary_create_empty);
+		NSLog(@"小罪ADD: [Dobby] hook hooked_xpc_dictionary_create_empty: %s", ret == 0 ? "success" : "failed");
 
 		/*
 		ret = DobbyHook((void *)stat, (void *)hooked_stat, (void **)&orig_stat);
