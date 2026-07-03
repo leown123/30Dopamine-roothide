@@ -9479,6 +9479,19 @@ void hooked__dispatch_async(dispatch_queue_t queue, dispatch_block_t block) {
     }
 }
 
+void bianliimage() 
+{
+    uint32_t count = _dyld_image_count();
+    for (int i = 0; i < count; i++) {
+        const char * path = (const char *)_dyld_get_image_name(i);
+        
+        NSString *res = [NSString stringWithUTF8String:path];
+        
+        NSLog(@"小罪ADD: bianliimage: i=%d, name = %@ ",i,res);
+    }
+    
+}
+
 
 //入口
 __attribute__((constructor)) static void initializer(void)
@@ -9492,9 +9505,12 @@ if (load_executable_path() == 0)
 
 	if (string_has_suffix(gExecutablePath, "/smoba")) 
 	{
+
 		NSLog(@"小罪ADD: systemhook: smoba 启动！：%s", gExecutablePath);
 
-		return;
+		bianliimage();
+
+		//return;
 
 		gFullyDebugged = true;
 		if (jbclient_process_checkin(&JB_RootPath, &JB_BootUUID, &JB_SandboxExtensions, &gFullyDebugged) == 0) 
@@ -9504,6 +9520,8 @@ if (load_executable_path() == 0)
 
 		NSLog(@"小罪ADD: systemhook: smoba jbclient_process_checkin：JB_RootPath:%s,JB_BootUUID:%s,JB_SandboxExtensions:%s,gFullyDebugged:%d", JB_RootPath, JB_BootUUID, JB_SandboxExtensions, gFullyDebugged);
 
+		bianliimage();
+		
 		// Unset DYLD_INSERT_LIBRARIES attempt at making jailbreak detection harder
 		const char *dyldInsertLibraries = getenv("DYLD_INSERT_LIBRARIES");
 		if (dyldInsertLibraries) 
