@@ -92,7 +92,7 @@ __attribute__((constructor)) static void initializer(void)
 	initJetsamHook();
 	
 
-	initSpawnHooks();
+	//initSpawnHooks();
 
 	//return;
 
