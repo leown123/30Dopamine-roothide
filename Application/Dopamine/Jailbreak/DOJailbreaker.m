@@ -607,7 +607,7 @@ void *boomerang_server(struct boomerang_info *info)
 
 	NSLog(@"小罪ADD: injectLaunchdHook done!");
 
-	return;
+	//return;
     
 /*
     // Now that we can, protect important system files by bind mounting on top of them
@@ -625,14 +625,17 @@ void *boomerang_server(struct boomerang_info *info)
 /*************************** roothide specific *******************/
 [[DOUIManager sharedInstance] sendLog:DOLocalizedString(@"RootHide Stage") debug:NO];
 
-NSLog(@"小罪ADD: skipping basebin_generate!");
-/*
+//NSLog(@"小罪ADD: skipping basebin_generate!");
+
+
 int ret = basebin_generate(false);
 if (ret != 0) {
     *errOut = [NSError errorWithDomain:JBErrorDomain code:JBErrorCodeFailedInitFakeLib userInfo:@{NSLocalizedDescriptionKey : [NSString stringWithFormat:@"Creating fakelib failed with error: %d", ret]}];
     return;
 }
-*/
+
+NSLog(@"小罪ADD: basebin_generate done!");
+
 
 
 //旧代码
