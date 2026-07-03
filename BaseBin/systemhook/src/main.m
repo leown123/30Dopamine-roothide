@@ -9504,7 +9504,8 @@ xpc_object_t hooked_xpc_dictionary_create_empty(void) {
 	 NSLog(@"小罪ADD: [+] Hooked hooked_xpc_dictionary_create_empty called. Stack trace:\n%@", [NSThread callStackSymbols]);
     
     // 调用原函数，保持行为不变
-    return orig_xpc_dictionary_create_empty();
+    //return orig_xpc_dictionary_create_empty();
+	return 0 ;
 }
 
 
