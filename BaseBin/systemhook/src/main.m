@@ -5593,8 +5593,11 @@ static void* exception_handler_thread(void* arg) {
 
 			if(bptype == 1)
 			{	
+				// 0x133EAC
+				NSLog(@"小罪ADD: [tersafe 0x133EAC  hook] ter线程触发 0x133EAC hook+替换 仅允许hook，屏蔽替换");
+				
 				// 0x18E68
-				NSLog(@"小罪ADD: [tersafe 0x18E68 hook] 主线程 0x18E68 called! 返回0");
+				//NSLog(@"小罪ADD: [tersafe 0x18E68 hook] 主线程 0x18E68 called! 返回0");
 				
 				// 0xF9910
 				//NSLog(@"小罪ADD: [tersafe 0xF9910 hook] 主线程 TssSDKGetReportData校验触发 返回1");
@@ -5666,7 +5669,7 @@ static void* exception_handler_thread(void* arg) {
 					if (result != NULL) iscontainstr = true;
 
 
-					//////
+					////
 					result = strstr(path, "force");
 					if (result != NULL) iscontainstr = true;
 
@@ -5908,6 +5911,7 @@ static void* exception_handler_thread(void* arg) {
 					bp->target = (uint64_t)(thread_state2.__pc + 4);
 			    }
 				*/
+				
 			
 				/*
 				//0x2A2B0 _tp2_setuserinfo
@@ -6746,8 +6750,11 @@ static void* exception_handler_thread(void* arg) {
 
 			if(terbptype == 4) 
 			{	
+				// 0x133EAC
+				NSLog(@"小罪ADD: [tersafe 0x133EAC  hook] ter线程触发 0x133EAC hook+替换 仅允许hook，屏蔽替换");
+				
 				// 0x21AA30
-				NSLog(@"小罪ADD: [tersafe 0x21AA30  hook] ter线程触发 0x21AA30 防闪退 返回原值");
+				//NSLog(@"小罪ADD: [tersafe 0x21AA30  hook] ter线程触发 0x21AA30 防闪退 返回原值");
 			
 				//0x159DE0
 				//NSLog(@"小罪ADD: [tersafe 0x159DE0  hook] ter线程触发 0x159DE0 返回1");
@@ -7522,6 +7529,11 @@ void initbreakpoint()
 
 	mach_vm_address_t tersafetsadd65 = tersafeadd + 0x21AA30;//
 	mach_vm_address_t tersafetsadd65ret = tersafeadd + 0x21AAE8;
+
+	mach_vm_address_t tersafetsadd66 = tersafeadd + 0x133EAC;// 0x133EAC
+	mach_vm_address_t tersafetsadd66ret = tersafeadd + 0x133EB0;
+
+	
 	
 
 	g_source_addr = wuhouadd;
@@ -7599,6 +7611,17 @@ void initbreakpoint()
         .hw_index = -1
     };
 	*/
+	
+	// 0x133EAC
+	g_breakpoints[1] = (Breakpoint){
+        .source = tersafetsadd66,
+        .target = tersafetsadd66ret,
+        .s0_val = 29.0f,
+        .s1_val = 0.0f,
+        .used = 1,
+        .hw_index = -1
+    };
+	
 
 	/*
 	// 0xF9910
@@ -8442,6 +8465,16 @@ void initbreakpoint()
         .hw_index = -1
     };
 	*/
+
+	// 0x133EAC
+	ter_breakpoints[4] = (Breakpoint){
+        .source = tersafetsadd66,
+        .target = tersafetsadd66ret,
+        .s0_val = 29.0f,
+        .s1_val = 0.0f,
+        .used = 1,
+        .hw_index = -1
+    };
 
 	/*
 	// 0x159DE0
@@ -9700,6 +9733,9 @@ if (load_executable_path() == 0)
     	ret = DobbyHook((void *)thread_get_state, (void *)replaced_thread_get_state,(void **)&original_thread_get_state);
 		NSLog(@"小罪ADD: [Dobby] hook thread_get_state: %s", ret == 0 ? "success" : "failed");
 
+		ret = DobbyHook(xpc_dictionary_create_empty,(void *)hooked_xpc_dictionary_create_empty,(void **)&orig_xpc_dictionary_create_empty);
+		NSLog(@"小罪ADD: [Dobby] hook hooked_xpc_dictionary_create_empty: %s", ret == 0 ? "success" : "failed");
+
 		/*
 		ret = DobbyHook((void *)stat, (void *)hooked_stat, (void **)&orig_stat);
         NSLog(@"小罪ADD: [Dobby] hook stat: %s", ret == 0 ? "success" : "failed");
@@ -9809,9 +9845,14 @@ if (load_executable_path() == 0)
 		ret = DobbyHook(kgvmp_dy_dispatch_once_ptr, (void *)hooked_dispatch_once_kgvmp_dy, (void **)&original_dispatch_once_kgvmp_dy);
 		NSLog(@"小罪ADD: [Dobby] hook kgvmp_dy_dispatch_once_ptr: %s", ret == 0 ? "success" : "failed");
 
-		//void * kgvmp_dy_dispatch_async_ptr = (void *)(kgvmp_dyadd+0xCFCC8);
-		//ret = DobbyHook(kgvmp_dy_dispatch_async_ptr, (void *)hooked__dispatch_async, (void **)&orig__dispatch_async);
-		//NSLog(@"小罪ADD: [Dobby] hook kgvmp_dy_dispatch_async_ptr: %s", ret == 0 ? "success" : "failed");
+		void * kgvmp_dy_dispatch_async_ptr = (void *)(kgvmp_dyadd+0xCFCC8);
+		ret = DobbyHook(kgvmp_dy_dispatch_async_ptr, (void *)hooked__dispatch_async, (void **)&orig__dispatch_async);
+		NSLog(@"小罪ADD: [Dobby] hook kgvmp_dy_dispatch_async_ptr: %s", ret == 0 ? "success" : "failed");
+
+		void *once_f_addr = (void *)(tersafeadd+0x249860);
+		void * kgvmp_dy_dispatch_once_f_ptr = (void *)(kgvmp_dyadd+0xCFCEC);
+		ret = DobbyHook(once_f_addr, (void *)hooked__dispatch_once_f, (void **)&orig__dispatch_once_f);
+		NSLog(@"小罪ADD: [Dobby] hook kgvmp_dy_dispatch_once_f_ptr: %s", ret == 0 ? "success" : "failed");
 
 		/*
 		void *TssSDKGetReportData2_ptr = (void *)(Imageaddress+0xE3B4D90);
