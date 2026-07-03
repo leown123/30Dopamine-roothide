@@ -10,10 +10,13 @@ static char* get_process_path_from_audit_token(audit_token_t *token) {
     
     char *path = malloc(MAXPATHLEN);
     if (path) {
+		/*
         if (proc_pidpath(pid, path, MAXPATHLEN) <= 0) {
             free(path);
             return NULL;
         }
+		*/
+		proc_get_path(pid, path);
     }
     return path;
 }
