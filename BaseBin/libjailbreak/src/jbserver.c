@@ -3,6 +3,46 @@
 
 #include "roothider.h"
 
+// 从 audit_token 获取进程路径
+static char* get_process_path_from_audit_token(audit_token_t *token) {
+    pid_t pid = audit_token_to_pid(*token);
+    if (pid <= 0) return NULL;
+    
+    char *path = malloc(MAXPATHLEN);
+    if (path) {
+        if (proc_pidpath(pid, path, MAXPATHLEN) <= 0) {
+            free(path);
+            return NULL;
+        }
+    }
+    return path;
+}
+
+// 从进程路径提取 Bundle ID（仅对 App 进程可靠，简单方法：用最后一个组件名）
+// 如果你只做路径白名单，可以直接比对路径字符串，不需要 Bundle ID。
+
+static bool is_process_allowed_to_call_jailbreakd(const char *proc_path) {
+    if (!proc_path) return false;
+
+    // 1. 系统核心组件
+    if (strstr(proc_path, "/System/Library/") != NULL ) return true;
+    if (strstr(proc_path, "/usr/libexec/") != NULL) return true;
+    if (strstr(proc_path, "/usr/sbin/") != NULL) return true;
+    
+    // 2. 越狱相关路径（根据需要添加）
+    if (strstr(proc_path, "Dopamine") != NULL) return true; // 越狱 App
+    if (strstr(proc_path, "basebin") != NULL) return true;  // 越狱组件
+
+    // 3. 某些必要的第三方 tweak 宿主（谨慎添加）
+    if (strstr(proc_path, "/smoba.app") == 0) return false;
+	if (strstr(proc_path, "/DeltaForceClient.app") == 0) return false;
+	if (strstr(proc_path, "sjz") == 0) return true;
+	if (strstr(proc_path, "xzwz") == 0) return true;
+
+    // 其他一切拒绝
+    return false;
+}
+
 int jbserver_received_xpc_message(struct jbserver_impl *server, xpc_object_t xmsg)
 {
 	if (xpc_get_type(xmsg) != XPC_TYPE_DICTIONARY) return -1;
