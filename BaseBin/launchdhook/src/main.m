@@ -84,15 +84,15 @@ __attribute__((constructor)) static void initializer(void)
 
 	cs_allow_invalid(proc_self(), false);
 
-	
+	/*
 	initXPCHooks();
 	initDaemonHooks();
 	initSpawnHooks();
 	initIPCHooks();
 	initJetsamHook();
-	
+	*/
 
-	//initSpawnHooks();
+	initSpawnHooks();
 
 	//return;
 
