@@ -128,7 +128,7 @@ void roothide_launchd_postinit(bool firstLoad)
 	}
 #endif
 
-	/*
+	
 	if(!firstLoad)
 	{
 		int ret = ensure_dyld_trustcache(JBROOT_PATH("/basebin/.fakelib/dyld"));
@@ -137,7 +137,7 @@ void roothide_launchd_postinit(bool firstLoad)
 			return;
 		}
 	}
-	*/
+	
 
 	loadAppStoredIdentifiers();
 
