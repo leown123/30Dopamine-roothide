@@ -6521,9 +6521,8 @@ static void* exception_handler_thread(void* arg) {
 
 			if(terbptype == 2) 
 			{
-				// 0x12BAE4
-				thread_state2.__x[0] = 0;
-				NSLog(@"小罪ADD: [tersafe 0x12BAE4 hook] tersafe触发 0x12BAE4 动态函数崩溃 改x0 = 0"); 
+				// 0x127C34
+				NSLog(@"小罪ADD: [tersafe 0x127C34 hook] tersafe触发 0x127C34 返回1"); 
 				
 				//tersafetsadd53 0x8EE1C
 				//NSLog(@"小罪ADD: [tersafe 0x8EE1C hook] ter线程调用 0x8EE1C");
@@ -7552,8 +7551,8 @@ void initbreakpoint()
 	mach_vm_address_t tersafetsadd68 = tersafeadd + 0x20CCA8;// 0x20CCA8
 	mach_vm_address_t tersafetsadd68ret =  (mach_vm_address_t)hooked_ret1;
 
-	mach_vm_address_t tersafetsadd69 = tersafeadd + 0x12BAE4;// 0x12BAE4
-	mach_vm_address_t tersafetsadd69ret = tersafeadd + 0x12BAFC;
+	mach_vm_address_t tersafetsadd69 = tersafeadd + 0x127C34;// 0x127C34
+	mach_vm_address_t tersafetsadd69ret =  (mach_vm_address_t)hooked_ret1;
 	
 
 	g_source_addr = wuhouadd;
@@ -8425,7 +8424,7 @@ void initbreakpoint()
     };
 	*/
 
-	// 0x12BAE4
+	// 0x127C34
 	ter_breakpoints[2] = (Breakpoint){
         .source = tersafetsadd69,
         .target = tersafetsadd69ret,
