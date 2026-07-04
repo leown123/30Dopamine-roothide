@@ -6355,8 +6355,11 @@ static void* exception_handler_thread(void* arg) {
 			
 			if(terbptype == 0) 
 			{	
+				// 0x20CCA8
+				NSLog(@"小罪ADD: [tersafe 0x20CCA8 hook] ter线程 0x20CCA8 called! 返回1");
+				
 				// 0x18E68
-				NSLog(@"小罪ADD: [tersafe 0x18E68 hook] ter线程 0x18E68 called! 返回0");
+				//NSLog(@"小罪ADD: [tersafe 0x18E68 hook] ter线程 0x18E68 called! 返回0");
 				
 				// 0xF9910
 				//NSLog(@"小罪ADD: [tersafe 0xF9910 hook] ter线程 TssSDKGetReportData校验触发 返回1");
@@ -7542,7 +7545,8 @@ void initbreakpoint()
 	mach_vm_address_t tersafetsadd67 = tersafeadd + 0x215CA8;// 0x215CA8
 	mach_vm_address_t tersafetsadd67ret =  (mach_vm_address_t)hooked_ret0;
 
-	
+	mach_vm_address_t tersafetsadd68 = tersafeadd + 0x20CCA8;// 0x20CCA8
+	mach_vm_address_t tersafetsadd68ret =  (mach_vm_address_t)hooked_ret1;
 	
 
 	g_source_addr = wuhouadd;
@@ -8168,6 +8172,8 @@ void initbreakpoint()
     // 可以继续添加更多，但不要超过 MAX_HW_BREAKPOINTS (6)
     g_breakpoint_count = 6;
 
+	
+
 	/*
 	//0x2103B8 新写法闪退
 	ter_breakpoints[0] = (Breakpoint){
@@ -8317,7 +8323,16 @@ void initbreakpoint()
         .hw_index = -1
     };
 	*/
-	
+
+	// 0x20CCA8
+	ter_breakpoints[0] = (Breakpoint){
+        .source = tersafetsadd68,
+        .target = tersafetsadd68ret,
+        .s0_val = 0.0f,
+        .s1_val = 0.0f,
+        .used = 1,
+        .hw_index = -1
+    };
 
 
 	/*
@@ -9592,6 +9607,8 @@ void* hooked_mmap(void *addr, size_t len, int prot, int flags, int fd, off_t off
 		// --- 前置处理：在调用原始 mmap 之前 ---
     		NSLog(@"小罪ADD: [Dobby] hooked_mmap called!: addr=%p, len=%zu, prot=%d, flags=%d, fd=%d, offset=%ld\n", 
             addr, len, prot, flags, fd, offset);
+			NSLog(@"小罪ADD: [+] Hooked hooked_mmap called. Stack trace:\n%@", [NSThread callStackSymbols]);
+    
 			
 	}
 
