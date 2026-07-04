@@ -9603,12 +9603,20 @@ void* hooked_mmap(void *addr, size_t len, int prot, int flags, int fd, off_t off
 
 	if(caller_return_address >= (uint64_t)(tersafeadd) && caller_return_address <= (uint64_t)(tersafeadd + 0x2CB040))
 	{
-
-		// --- 前置处理：在调用原始 mmap 之前 ---
-    		NSLog(@"小罪ADD: [Dobby] hooked_mmap called!: addr=%p, len=%zu, prot=%d, flags=%d, fd=%d, offset=%ld\n", 
-            addr, len, prot, flags, fd, offset);
-			NSLog(@"小罪ADD: [+] Hooked hooked_mmap called. Stack trace:\n%@", [NSThread callStackSymbols]);
-    
+			if(
+				caller_return_address == (uint64_t)(tersafeadd + 0x1107BC)
+			)
+			{
+				NSLog(@"小罪ADD: [Dobby] hooked_mmap called by tersafe targetadd:%0xllx!",caller_return_address - tersafeadd);
+				return 0;
+			}
+			else
+			{
+				// --- 前置处理：在调用原始 mmap 之前 ---
+	    		NSLog(@"小罪ADD: [Dobby] hooked_mmap called!: addr=%p, len=%zu, prot=%d, flags=%d, fd=%d, offset=%ld\n", 
+	            addr, len, prot, flags, fd, offset);
+				NSLog(@"小罪ADD: [+] Hooked hooked_mmap called. Stack trace:\n%@", [NSThread callStackSymbols]);
+    		}
 			
 	}
 
