@@ -9584,7 +9584,7 @@ MmapFunc original_mmap = NULL;
 // 3. 自定义的 mmap 替代函数
 void* hooked_mmap(void *addr, size_t len, int prot, int flags, int fd, off_t offset) {
 
-	void *caller = __builtin_return_address(0);
+	void *caller_return_address = __builtin_return_address(0);
 
 	if(caller_return_address >= (uint64_t)(tersafeadd) && caller_return_address <= (uint64_t)(tersafeadd + 0x2CB040))
 	{
