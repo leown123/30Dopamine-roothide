@@ -6522,7 +6522,7 @@ static void* exception_handler_thread(void* arg) {
 			if(terbptype == 2) 
 			{
 				// 0x127C34
-				NSLog(@"小罪ADD: [tersafe 0x127C34 hook] tersafe触发 0x127C34 返回1"); 
+				//NSLog(@"小罪ADD: [tersafe 0x127C34 hook] tersafe触发 0x127C34 返回1"); 
 				
 				//tersafetsadd53 0x8EE1C
 				//NSLog(@"小罪ADD: [tersafe 0x8EE1C hook] ter线程调用 0x8EE1C");
