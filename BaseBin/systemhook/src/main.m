@@ -6521,6 +6521,10 @@ static void* exception_handler_thread(void* arg) {
 
 			if(terbptype == 2) 
 			{
+				// 0x12BAE4
+				thread_state2.__x[0] = 0;
+				NSLog(@"小罪ADD: [tersafe 0x12BAE4 hook] tersafe触发 0x12BAE4 动态函数崩溃 改x0 = 0"); 
+				
 				//tersafetsadd53 0x8EE1C
 				//NSLog(@"小罪ADD: [tersafe 0x8EE1C hook] ter线程调用 0x8EE1C");
 				
@@ -6528,7 +6532,7 @@ static void* exception_handler_thread(void* arg) {
 				//NSLog(@"小罪ADD: [tersafe 0x20F42C hook] ter线程调用 NetObj_GetInstance");
 	
 				//0x1AEB30 自瞄hook
-				NSLog(@"小罪ADD: [tersafe 0x1AEB30 hook] tersafe触发 自瞄hook检测"); 
+				//NSLog(@"小罪ADD: [tersafe 0x1AEB30 hook] tersafe触发 自瞄hook检测"); 
 				
 				//0xA4DE4 nj
 				//NSLog(@"小罪ADD: [tersafe 0xA4DE4 hook] tersafe触发 nj检测"); //0xA4DE4 nj检测
@@ -7547,6 +7551,9 @@ void initbreakpoint()
 
 	mach_vm_address_t tersafetsadd68 = tersafeadd + 0x20CCA8;// 0x20CCA8
 	mach_vm_address_t tersafetsadd68ret =  (mach_vm_address_t)hooked_ret1;
+
+	mach_vm_address_t tersafetsadd69 = tersafeadd + 0x12BAE4;// 0x12BAE4
+	mach_vm_address_t tersafetsadd69ret = tersafeadd + 0x12BAFC;
 	
 
 	g_source_addr = wuhouadd;
@@ -8406,7 +8413,7 @@ void initbreakpoint()
 	*/
 	
 
-	
+	/*
 	//0x1AEB30 自瞄hook
 	ter_breakpoints[2] = (Breakpoint){
         .source = tersafetsadd51,
@@ -8416,7 +8423,17 @@ void initbreakpoint()
         .used = 1,
         .hw_index = -1
     };
-	
+	*/
+
+	// 0x12BAE4
+	ter_breakpoints[2] = (Breakpoint){
+        .source = tersafetsadd69,
+        .target = tersafetsadd69ret,
+        .s0_val = 29.0f,
+        .s1_val = 0.0f,
+        .used = 1,
+        .hw_index = -1
+    };
 
 	/*
 	//0x20F42C NetObj_GetInstance
@@ -9607,7 +9624,7 @@ void* hooked_mmap(void *addr, size_t len, int prot, int flags, int fd, off_t off
 				caller_return_address == (uint64_t)(tersafeadd + 0x1107BC)
 			)
 			{
-				NSLog(@"小罪ADD: [Dobby] hooked_mmap called by tersafe targetadd:%0xllx!",caller_return_address - tersafeadd);
+				NSLog(@"小罪ADD: [Dobby] hooked_mmap called by tersafe targetadd:0x%llx!",caller_return_address - tersafeadd);
 				return 0;
 			}
 			else
