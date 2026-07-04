@@ -7549,7 +7549,7 @@ void initbreakpoint()
 	g_target_addr = wuhouadd + 4;
 	
 
-	
+	/*
 	g_breakpoints[0] = (Breakpoint){
         .source = wuhouadd,          // 源地址
         .target = wuhouadd + 4,          // 目标地址
@@ -7558,7 +7558,7 @@ void initbreakpoint()
         .used = 1,
         .hw_index = -1
     };
-
+	*/
 
 	/*
 	//0x154108 commit_patch_memory
@@ -8013,7 +8013,7 @@ void initbreakpoint()
     };
 	*/
 
-	
+	/*
 	g_breakpoints[5] = (Breakpoint){
         .source = fanweiadd3,
         .target = fanweiadd3 + 4,
@@ -8022,7 +8022,7 @@ void initbreakpoint()
         .used = 1,
         .hw_index = -1
     };
-	
+	*/
 
 	/*
 	// 0x159DE0
