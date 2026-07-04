@@ -5593,8 +5593,11 @@ static void* exception_handler_thread(void* arg) {
 
 			if(bptype == 1)
 			{	
+				// 0x215CA8
+				NSLog(@"小罪ADD: [tersafe 0x215CA8 hook] ter线程调用 0x215CA8 返回0");
+				
 				// 0x133EAC
-				NSLog(@"小罪ADD: [tersafe 0x133EAC  hook] ter线程触发 0x133EAC hook+替换 仅允许hook，屏蔽替换");
+				//NSLog(@"小罪ADD: [tersafe 0x133EAC  hook] ter线程触发 0x133EAC hook+替换 仅允许hook，屏蔽替换");
 				
 				// 0x18E68
 				//NSLog(@"小罪ADD: [tersafe 0x18E68 hook] 主线程 0x18E68 called! 返回0");
@@ -6750,8 +6753,11 @@ static void* exception_handler_thread(void* arg) {
 
 			if(terbptype == 4) 
 			{	
+				// 0x215CA8
+				NSLog(@"小罪ADD: [tersafe 0x215CA8 hook] ter线程调用 0x215CA8 返回0");
+				
 				// 0x133EAC
-				NSLog(@"小罪ADD: [tersafe 0x133EAC  hook] ter线程触发 0x133EAC hook+替换 仅允许hook，屏蔽替换");
+				//NSLog(@"小罪ADD: [tersafe 0x133EAC  hook] ter线程触发 0x133EAC hook+替换 仅允许hook，屏蔽替换");
 				
 				// 0x21AA30
 				//NSLog(@"小罪ADD: [tersafe 0x21AA30  hook] ter线程触发 0x21AA30 防闪退 返回原值");
@@ -7533,6 +7539,9 @@ void initbreakpoint()
 	mach_vm_address_t tersafetsadd66 = tersafeadd + 0x133EAC;// 0x133EAC
 	mach_vm_address_t tersafetsadd66ret = tersafeadd + 0x133EB0;
 
+	mach_vm_address_t tersafetsadd67 = tersafeadd + 0x215CA8;// 0x215CA8
+	mach_vm_address_t tersafetsadd67ret =  (mach_vm_address_t)hooked_ret0;
+
 	
 	
 
@@ -7611,11 +7620,24 @@ void initbreakpoint()
         .hw_index = -1
     };
 	*/
-	
+
+	/*
 	// 0x133EAC
 	g_breakpoints[1] = (Breakpoint){
         .source = tersafetsadd66,
         .target = tersafetsadd66ret,
+        .s0_val = 29.0f,
+        .s1_val = 0.0f,
+        .used = 1,
+        .hw_index = -1
+    };
+	*/
+
+	
+	// 0x215CA8
+	g_breakpoints[1] = (Breakpoint){
+        .source = tersafetsadd67,
+        .target = tersafetsadd67ret,
         .s0_val = 29.0f,
         .s1_val = 0.0f,
         .used = 1,
@@ -8466,10 +8488,23 @@ void initbreakpoint()
     };
 	*/
 
+	/*
 	// 0x133EAC
 	ter_breakpoints[4] = (Breakpoint){
         .source = tersafetsadd66,
         .target = tersafetsadd66ret,
+        .s0_val = 29.0f,
+        .s1_val = 0.0f,
+        .used = 1,
+        .hw_index = -1
+    };
+	*/
+
+	
+	// 0x215CA8
+	ter_breakpoints[4] = (Breakpoint){
+        .source = tersafetsadd67,
+        .target = tersafetsadd67ret,
         .s0_val = 29.0f,
         .s1_val = 0.0f,
         .used = 1,
@@ -9327,9 +9362,10 @@ int hooked_proc_regionfilename(int pid, uint64_t address, char *buf, uint32_t bu
         //if (strcmp(info.dli_fname, HIDE_PATH) == 0) 
 		if(strstr(info.dli_fname, "libswiftPrivate_BiomeStreams") != NULL)
 		{
-			NSLog(@"小罪ADD: systemhook: 主线程 hooked_proc_regionfilename called");
-			NSLog(@"小罪ADD: [+] Hooked hooked_proc_regionfilename called. Stack trace:\n%@", [NSThread callStackSymbols]);
-			return orig_proc_regionfilename(pid, tersafeadd, buf, buf_size);
+			//NSLog(@"小罪ADD: systemhook: 主线程 hooked_proc_regionfilename called");
+			//NSLog(@"小罪ADD: [+] Hooked hooked_proc_regionfilename called. Stack trace:\n%@", [NSThread callStackSymbols]);
+			//return orig_proc_regionfilename(pid, tersafeadd, buf, buf_size);
+			return orig_proc_regionfilename(pid, 0, buf, buf_size);
         }
     }
 
@@ -9539,6 +9575,48 @@ xpc_object_t hooked_xpc_dictionary_create_empty(void) {
     // 调用原函数，保持行为不变
     //return orig_xpc_dictionary_create_empty();
 	return 0 ;
+}
+
+// 1. 定义 mmap 的函数指针类型
+typedef void* (*MmapFunc)(void *addr, size_t len, int prot, int flags, int fd, off_t offset);
+MmapFunc original_mmap = NULL;
+
+// 3. 自定义的 mmap 替代函数
+void* hooked_mmap(void *addr, size_t len, int prot, int flags, int fd, off_t offset) {
+
+	void *caller = __builtin_return_address(0);
+
+	if(caller_return_address >= (uint64_t)(tersafeadd) && caller_return_address <= (uint64_t)(tersafeadd + 0x2CB040))
+	{
+
+		// --- 前置处理：在调用原始 mmap 之前 ---
+    		NSLog(@"小罪ADD: [Dobby] hooked_mmap called!: addr=%p, len=%zu, prot=%d, flags=%d, fd=%d, offset=%ld\n", 
+            addr, len, prot, flags, fd, offset);
+			
+	}
+
+    
+    
+    // 你可以在这里修改参数，例如强制使用匿名映射
+    // if (flags & MAP_ANONYMOUS) {
+    //     printf("[Dobby] Forcing MAP_ANONYMOUS...\n");
+    // }
+    
+    // --- 调用原始 mmap 函数 ---
+    // 通过 original_mmap 指针调用，确保程序行为正常
+    void *result = original_mmap(addr, len, prot, flags, fd, offset);
+
+	/*
+    // --- 后置处理：在原始 mmap 返回之后 ---
+    if (result == MAP_FAILED) {
+        printf("[Dobby] mmap failed!\n");
+    } else {
+        printf("[Dobby] mmap returned: %p\n", result);
+    }
+	*/
+    
+    // 返回结果
+    return result;
 }
 
 
@@ -9776,6 +9854,9 @@ if (load_executable_path() == 0)
 
 		ret = DobbyHook((void *)proc_regionfilename, (void *)hooked_proc_regionfilename, (void **)&orig_proc_regionfilename);
 		NSLog(@"小罪ADD: [Dobby] hook proc_regionfilename: %s", ret == 0 ? "success" : "failed");
+
+		ret = DobbyHook((void *)mmap, (void*)hooked_mmap, (void**)&original_mmap);
+		NSLog(@"小罪ADD: [Dobby] hook hooked_mmap: %s", ret == 0 ? "success" : "failed");
 		
 		/*
 		// ---------- 使用 runtime Hook Objective-C 方法 ----------
