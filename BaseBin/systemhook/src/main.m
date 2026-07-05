@@ -9722,8 +9722,7 @@ kern_return_t hooked_vm_protect(vm_map_t map, vm_address_t addr, vm_size_t size,
 	}
 								
     // --- 前置处理 ---
-    //printf("[Dobby] vm_protect called: map=%p, addr=0x%llx, size=%llu, set_max=%d, new_prot=0x%x\n",
-           (void*)map, (unsigned long long)addr, (unsigned long long)size, set_max, new_prot);
+    //printf("[Dobby] vm_protect called: map=%p, addr=0x%llx, size=%llu, set_max=%d, new_prot=0x%x\n",(void*)map, (unsigned long long)addr, (unsigned long long)size, set_max, new_prot);
     
     // 可以修改参数，例如强制增加可写权限
     // new_prot |= VM_PROT_WRITE;
