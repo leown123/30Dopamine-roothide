@@ -6361,8 +6361,7 @@ static void* exception_handler_thread(void* arg) {
 				//0x1AEB30 自瞄hook
 				NSLog(@"小罪ADD: [tersafe 0x1AEB30 hook] tersafe触发 自瞄hook检测"); 
 				
-				// 0x20CCA8
-				//NSLog(@"小罪ADD: [tersafe 0x20CCA8 hook] ter线程 0x20CCA8 called! 返回1");
+				
 				
 				// 0x18E68
 				//NSLog(@"小罪ADD: [tersafe 0x18E68 hook] ter线程 0x18E68 called! 返回0");
@@ -6430,8 +6429,11 @@ static void* exception_handler_thread(void* arg) {
 			
 			if(terbptype == 1) 
 			{
+				// 0x20CCA8
+				NSLog(@"小罪ADD: [tersafe 0x20CCA8 hook] ter线程 0x20CCA8 called! 返回1");
+				
 				// 0x20C500
-				NSLog(@"小罪ADD: [tersafe 0x20C500 hook] ter线程触发 0x20C500 闪退检测线程");
+				//NSLog(@"小罪ADD: [tersafe 0x20C500 hook] ter线程触发 0x20C500 闪退检测线程");
 				
 				//0x6CF8 环境
 				//NSLog(@"小罪ADD: [tersafe sub_6CF8 hook] ter线程触发"); //sub_6CF8 环境检测hook
@@ -8341,19 +8343,7 @@ void initbreakpoint()
     };
 	*/
 
-	/*
-	// 0x20CCA8
-	ter_breakpoints[0] = (Breakpoint){
-        .source = tersafetsadd68,
-        .target = tersafetsadd68ret,
-        .s0_val = 0.0f,
-        .s1_val = 0.0f,
-        .used = 1,
-        .hw_index = -1
-    };
-	*/
 
-	
 	//0x1AEB30 自瞄hook
 	ter_breakpoints[0] = (Breakpoint){
         .source = tersafetsadd51,
@@ -8412,12 +8402,23 @@ void initbreakpoint()
     };
 	*/
 
-	
+	/*
 	// 0x20C500
 	ter_breakpoints[1] = (Breakpoint){
         .source = tersafetsadd70,
         .target = tersafetsadd70ret,
         .s0_val = 29.0f,
+        .s1_val = 0.0f,
+        .used = 1,
+        .hw_index = -1
+    };
+	*/
+
+	// 0x20CCA8
+	ter_breakpoints[1] = (Breakpoint){
+        .source = tersafetsadd68,
+        .target = tersafetsadd68ret,
+        .s0_val = 0.0f,
         .s1_val = 0.0f,
         .used = 1,
         .hw_index = -1
