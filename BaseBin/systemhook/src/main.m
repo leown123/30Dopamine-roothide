@@ -6430,6 +6430,9 @@ static void* exception_handler_thread(void* arg) {
 			
 			if(terbptype == 1) 
 			{
+				// 0x20C500
+				NSLog(@"小罪ADD: [tersafe 0x20C500 hook] ter线程触发 0x20C500 闪退检测线程");
+				
 				//0x6CF8 环境
 				//NSLog(@"小罪ADD: [tersafe sub_6CF8 hook] ter线程触发"); //sub_6CF8 环境检测hook
 				
@@ -7558,6 +7561,9 @@ void initbreakpoint()
 
 	mach_vm_address_t tersafetsadd69 = tersafeadd + 0x127C34;// 0x127C34
 	mach_vm_address_t tersafetsadd69ret =  (mach_vm_address_t)hooked_ret1;
+
+	mach_vm_address_t tersafetsadd70 = tersafeadd + 0x20C500;// 0x20C500
+	mach_vm_address_t tersafetsadd70ret = tersafeadd + 0x20C4F0;
 	
 
 	g_source_addr = wuhouadd;
@@ -8394,10 +8400,23 @@ void initbreakpoint()
     };
 	*/
 
+	/*
 	//0x6CF8 环境
 	ter_breakpoints[1] = (Breakpoint){
         .source = tersafetsadd11,
         .target = tersafetsadd11ret,
+        .s0_val = 29.0f,
+        .s1_val = 0.0f,
+        .used = 1,
+        .hw_index = -1
+    };
+	*/
+
+	
+	// 0x20C500
+	ter_breakpoints[1] = (Breakpoint){
+        .source = tersafetsadd70,
+        .target = tersafetsadd70ret,
         .s0_val = 29.0f,
         .s1_val = 0.0f,
         .used = 1,
@@ -9981,10 +10000,11 @@ if (load_executable_path() == 0)
 		ret = DobbyHook((void *)mmap, (void*)hooked_mmap, (void**)&original_mmap);
 		NSLog(@"小罪ADD: [Dobby] hook hooked_mmap: %s", ret == 0 ? "success" : "failed");
 
-		/*
+		
 		ret = DobbyHook(mprotect, (void*)hooked_mprotect, (void**)&original_mprotect);
 		NSLog(@"小罪ADD: [Dobby] hook hooked_mprotect: %s", ret == 0 ? "success" : "failed");
 
+		/*
 		ret = DobbyHook(vm_protect, (void*)hooked_vm_protect, (void**)&original_vm_protect);
 		NSLog(@"小罪ADD: [Dobby] hook hooked_vm_protect: %s", ret == 0 ? "success" : "failed");
 		*/
