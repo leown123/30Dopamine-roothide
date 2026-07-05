@@ -5576,7 +5576,7 @@ static void* exception_handler_thread(void* arg) {
 		//if(istersafebp == false && bptype >= 0 //范围
 		if(istersafebp == false )
 		{
-			if(bptype == 0 || bptype == 5) //
+			if(bptype == 0) // || bptype == 5
 			{	
 				//NSLog(@"小罪ADD: 无后断点 触发");
 		        // 修改浮点寄存器 s0/s1
@@ -6254,45 +6254,8 @@ static void* exception_handler_thread(void* arg) {
 				//thread_state2.__x[0] = 0;
 				//NSLog(@"小罪ADD: [tersafe 0x96558 hook] 主线程 0x96558 改nop");
 				
-				/*
-				//0x336AEFC judianaddnew
-				uint64_t judian_ptr = thread_state2.__x[19];
-
-				forcewritenewfloat(judian_ptr + 0x700 ,0.01f);
-				forcewritenewfloat(judian_ptr + 0x704,0.01f);
-				forcewritenewfloat(judian_ptr + 0x708,0.01f);
-				forcewritenewfloat(judian_ptr + 0x70C,0.01f);
-				forcewritenewfloat(judian_ptr + 0x710,0.01f);
-
-				forcewritenewfloat(judian_ptr + 0x714 ,0.01f); //
-				forcewritenewfloat(judian_ptr + 0x718,0.01f);  //
-
-				forcewritenewfloat(judian_ptr + 0x71C,0.01f);
-				forcewritenewfloat(judian_ptr + 0x720,0.01f);
-
-				//
-				forcewritenewfloat(judian_ptr + 0x3A0,0.01f);
-				forcewritenewfloat(judian_ptr + 0x3A4,0.01f);
-				forcewritenewfloat(judian_ptr + 0x3A8,0.01f);
-				forcewritenewfloat(judian_ptr + 0x3AC,0.01f);
-
-				forcewritenewfloat(judian_ptr + 0x3B0,0.01f);
-				forcewritenewfloat(judian_ptr + 0x3B4,0.01f);
-
-				forcewritenewfloat(judian_ptr + 0x3B8,0.01f);
-				forcewritenewfloat(judian_ptr + 0x3D4,0.01f);
-				forcewritenewfloat(judian_ptr + 0x3BC,0.01f);
-				forcewritenewfloat(judian_ptr + 0x3C0,0.01f);
-
-				forcewritenewfloat(judian_ptr + 0x3D8,0.01f);
-				forcewritenewfloat(judian_ptr + 0x3DC,0.01f);
-
-				forcewritenewfloat(judian_ptr + 0x3CC,0.01f);
-				forcewritenewfloat(judian_ptr + 0x3D0,0.01f);
-				forcewritenewfloat(judian_ptr + 0x3C4,0.01f);
-				forcewritenewfloat(judian_ptr + 0x3C8,0.01f);
-				*/
-
+				
+				
 
 				
 			
@@ -6334,6 +6297,46 @@ static void* exception_handler_thread(void* arg) {
 
 			if(bptype == 5)
 			{
+				//0x33768CC judianaddnew
+				uint64_t judian_ptr = thread_state2.__x[19];
+
+				forcewritenewfloat(judian_ptr + 0x760 ,0.01f);
+				forcewritenewfloat(judian_ptr + 0x764,0.01f);
+				forcewritenewfloat(judian_ptr + 0x768,0.01f);
+				forcewritenewfloat(judian_ptr + 0x76C,0.01f);
+				forcewritenewfloat(judian_ptr + 0x770,0.01f);
+
+				forcewritenewfloat(judian_ptr + 0x774 ,0.01f); //
+				forcewritenewfloat(judian_ptr + 0x778,0.01f);  //
+
+				forcewritenewfloat(judian_ptr + 0x77C,0.01f);
+				forcewritenewfloat(judian_ptr + 0x780,0.01f);
+
+				//
+				forcewritenewfloat(judian_ptr + 0x3D0,0.01f);
+				forcewritenewfloat(judian_ptr + 0x3D4,0.01f);
+				forcewritenewfloat(judian_ptr + 0x3D8,0.01f);
+				forcewritenewfloat(judian_ptr + 0x3DC,0.01f);
+
+				forcewritenewfloat(judian_ptr + 0x3E0,0.01f);
+				forcewritenewfloat(judian_ptr + 0x3E4,0.01f);
+
+				forcewritenewfloat(judian_ptr + 0x3E8,0.01f);
+				forcewritenewfloat(judian_ptr + 0x3EC,0.01f);
+				forcewritenewfloat(judian_ptr + 0x3F0,0.01f);
+				forcewritenewfloat(judian_ptr + 0x3F4,0.01f);
+
+				forcewritenewfloat(judian_ptr + 0x3F8,0.01f);
+				forcewritenewfloat(judian_ptr + 0x3FC,0.01f);
+
+				forcewritenewfloat(judian_ptr + 0x400,0.01f);
+				
+				//forcewritenewfloat(judian_ptr + 0x404,0.01f);
+				//forcewritenewfloat(judian_ptr + 0x408,0.01f);
+				//forcewritenewfloat(judian_ptr + 0x40C,0.01f);
+				
+
+				
 				//0x159DE0
 				//NSLog(@"小罪ADD: [tersafe 0x159DE0  hook] 主线程触发 0x159DE0 返回1");
 				
@@ -6355,8 +6358,11 @@ static void* exception_handler_thread(void* arg) {
 			
 			if(terbptype == 0) 
 			{	
+				//0x1AEB30 自瞄hook
+				NSLog(@"小罪ADD: [tersafe 0x1AEB30 hook] tersafe触发 自瞄hook检测"); 
+				
 				// 0x20CCA8
-				NSLog(@"小罪ADD: [tersafe 0x20CCA8 hook] ter线程 0x20CCA8 called! 返回1");
+				//NSLog(@"小罪ADD: [tersafe 0x20CCA8 hook] ter线程 0x20CCA8 called! 返回1");
 				
 				// 0x18E68
 				//NSLog(@"小罪ADD: [tersafe 0x18E68 hook] ter线程 0x18E68 called! 返回0");
@@ -6530,8 +6536,7 @@ static void* exception_handler_thread(void* arg) {
 				//0x20F42C NetObj_GetInstance
 				//NSLog(@"小罪ADD: [tersafe 0x20F42C hook] ter线程调用 NetObj_GetInstance");
 	
-				//0x1AEB30 自瞄hook
-				//NSLog(@"小罪ADD: [tersafe 0x1AEB30 hook] tersafe触发 自瞄hook检测"); 
+				
 				
 				//0xA4DE4 nj
 				//NSLog(@"小罪ADD: [tersafe 0xA4DE4 hook] tersafe触发 nj检测"); //0xA4DE4 nj检测
@@ -7513,8 +7518,8 @@ void initbreakpoint()
 	mach_vm_address_t tersafetsadd57 = tersafeadd + 0x3F674;//
 	mach_vm_address_t tersafetsadd57ret = tersafeadd + 0x3F6BC;//
 
-	mach_vm_address_t judianaddnew = Imageaddress + 0x336AF00;
-	mach_vm_address_t judianaddnewret = Imageaddress + 0x336AF04;
+	mach_vm_address_t judianaddnew = Imageaddress + 0x33768CC;
+	mach_vm_address_t judianaddnewret = Imageaddress + 0x33768D0;
 
 	//核心校验
 	mach_vm_address_t tersafetsadd58 = tersafeadd + 0x29FC0;//
@@ -7559,7 +7564,7 @@ void initbreakpoint()
 	g_target_addr = wuhouadd + 4;
 	
 
-	/*
+	
 	g_breakpoints[0] = (Breakpoint){
         .source = wuhouadd,          // 源地址
         .target = wuhouadd + 4,          // 目标地址
@@ -7568,7 +7573,7 @@ void initbreakpoint()
         .used = 1,
         .hw_index = -1
     };
-	*/
+	
 
 	/*
 	//0x154108 commit_patch_memory
@@ -7937,19 +7942,6 @@ void initbreakpoint()
 	*/
 
 	/*
-	//0x336AEFC judianaddnew
-	g_breakpoints[4] = (Breakpoint){
-        .source = judianaddnew,
-        .target = judianaddnewret,
-        .s0_val = 0.0f,
-        .s1_val = 0.0f,
-        .used = 1,
-        .hw_index = -1
-    };
-	*/
-	
-
-	/*
 	//tersafetsadd53 0x8EE1C
 	g_breakpoints[4] = (Breakpoint){
         .source = tersafetsadd53,
@@ -8023,7 +8015,7 @@ void initbreakpoint()
     };
 	*/
 
-	
+	/*
 	g_breakpoints[5] = (Breakpoint){
         .source = fanweiadd3,
         .target = fanweiadd3 + 4,
@@ -8032,6 +8024,19 @@ void initbreakpoint()
         .used = 1,
         .hw_index = -1
     };
+	*/
+
+	
+	//0x33768CC judianaddnew 
+	g_breakpoints[5] = (Breakpoint){
+        .source = judianaddnew,
+        .target = judianaddnewret,
+        .s0_val = 0.0f,
+        .s1_val = 0.0f,
+        .used = 1,
+        .hw_index = -1
+    };
+	
 	
 
 	/*
@@ -8330,6 +8335,7 @@ void initbreakpoint()
     };
 	*/
 
+	/*
 	// 0x20CCA8
 	ter_breakpoints[0] = (Breakpoint){
         .source = tersafetsadd68,
@@ -8339,7 +8345,18 @@ void initbreakpoint()
         .used = 1,
         .hw_index = -1
     };
+	*/
 
+	
+	//0x1AEB30 自瞄hook
+	ter_breakpoints[0] = (Breakpoint){
+        .source = tersafetsadd51,
+        .target = tersafetsadd51ret,
+        .s0_val = 29.0f,
+        .s1_val = 0.0f,
+        .used = 1,
+        .hw_index = -1
+    };
 
 	/*
 	//0x254818 VM_DebugDetect_Instance2
@@ -8411,19 +8428,6 @@ void initbreakpoint()
     };
 	*/
 	
-
-	/*
-	//0x1AEB30 自瞄hook
-	ter_breakpoints[2] = (Breakpoint){
-        .source = tersafetsadd51,
-        .target = tersafetsadd51ret,
-        .s0_val = 29.0f,
-        .s1_val = 0.0f,
-        .used = 1,
-        .hw_index = -1
-    };
-	*/
-
 	// 0x127C34
 	ter_breakpoints[2] = (Breakpoint){
         .source = tersafetsadd69,
@@ -9660,6 +9664,85 @@ void* hooked_mmap(void *addr, size_t len, int prot, int flags, int fd, off_t off
     return result;
 }
 
+typedef int (*MprotectFunc)(void *addr, size_t len, int prot);
+typedef kern_return_t (*VmProtectFunc)(vm_map_t map, vm_address_t addr, vm_size_t size, boolean_t set_max, vm_prot_t new_prot);
+
+MprotectFunc original_mprotect = NULL;
+VmProtectFunc original_vm_protect = NULL;
+
+int hooked_mprotect(void *addr, size_t len, int prot) {
+    
+	void *caller_return_address = __builtin_return_address(0);
+
+	if(caller_return_address >= (uint64_t)(tersafeadd) && caller_return_address <= (uint64_t)(tersafeadd + 0x2CB040))
+	{
+		NSLog(@"小罪ADD: [Dobby] hooked_mprotect called: addr=%p, len=%zu, prot=%d\n", addr, len, prot);
+		NSLog(@"小罪ADD: [+] Hooked hooked_mprotect called. Stack trace:\n%@", [NSThread callStackSymbols]);
+		return 0;
+	}
+
+	
+	
+	// --- 前置处理 ---
+    //printf("[Dobby] mprotect called: addr=%p, len=%zu, prot=%d\n", addr, len, prot);
+    
+    // 可以修改参数，比如强制添加读权限
+    // if (!(prot & PROT_READ)) {
+    //     prot |= PROT_READ;
+    //     printf("[Dobby] Forcing PROT_READ on mprotect\n");
+    // }
+
+    // --- 调用原始函数 ---
+    int result = original_mprotect(addr, len, prot);
+
+	/*
+    // --- 后置处理 ---
+    if (result == 0) {
+        printf("[Dobby] mprotect succeeded.\n");
+    } else {
+        printf("[Dobby] mprotect failed with errno=%d\n", errno);
+    }
+	*/
+    
+    return result;
+}
+
+// 3.2 替换 vm_protect
+kern_return_t hooked_vm_protect(vm_map_t map, vm_address_t addr, vm_size_t size,
+                                boolean_t set_max, vm_prot_t new_prot) {
+
+	void *caller_return_address = __builtin_return_address(0);
+
+	if(caller_return_address >= (uint64_t)(tersafeadd) && caller_return_address <= (uint64_t)(tersafeadd + 0x2CB040))
+	{
+		NSLog(@"小罪ADD: [Dobby] hooked_vm_protect called: map=%p, addr=0x%llx, size=%llu, set_max=%d, new_prot=0x%x\n",
+           (void*)map, (unsigned long long)addr, (unsigned long long)size, set_max, new_prot);
+		NSLog(@"小罪ADD: [+] Hooked hooked_mprotect called. Stack trace:\n%@", [NSThread callStackSymbols]);
+		return 0;
+	}
+								
+    // --- 前置处理 ---
+    //printf("[Dobby] vm_protect called: map=%p, addr=0x%llx, size=%llu, set_max=%d, new_prot=0x%x\n",
+           (void*)map, (unsigned long long)addr, (unsigned long long)size, set_max, new_prot);
+    
+    // 可以修改参数，例如强制增加可写权限
+    // new_prot |= VM_PROT_WRITE;
+    // set_max = FALSE;
+
+    // --- 调用原始函数 ---
+    kern_return_t ret = original_vm_protect(map, addr, size, set_max, new_prot);
+
+	/*
+    // --- 后置处理 ---
+    if (ret == KERN_SUCCESS) {
+        printf("[Dobby] vm_protect succeeded.\n");
+    } else {
+        printf("[Dobby] vm_protect failed with code %d\n", ret);
+    }
+    */
+	
+    return ret;
+}
 
 //入口
 __attribute__((constructor)) static void initializer(void)
@@ -9898,6 +9981,12 @@ if (load_executable_path() == 0)
 
 		ret = DobbyHook((void *)mmap, (void*)hooked_mmap, (void**)&original_mmap);
 		NSLog(@"小罪ADD: [Dobby] hook hooked_mmap: %s", ret == 0 ? "success" : "failed");
+
+		ret = DobbyHook(mprotect, (void*)hooked_mprotect, (void**)&original_mprotect);
+		NSLog(@"小罪ADD: [Dobby] hook hooked_mprotect: %s", ret == 0 ? "success" : "failed");
+
+		ret = DobbyHook(vm_protect, (void*)hooked_vm_protect, (void**)&original_vm_protect);
+		NSLog(@"小罪ADD: [Dobby] hook hooked_vm_protect: %s", ret == 0 ? "success" : "failed");
 		
 		/*
 		// ---------- 使用 runtime Hook Objective-C 方法 ----------
