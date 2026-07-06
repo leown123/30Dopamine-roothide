@@ -9712,10 +9712,10 @@ void* hooked_mmap(void *addr, size_t len, int prot, int flags, int fd, off_t off
 
 	void *caller_return_address = __builtin_return_address(0);
 
-	if(caller_return_address >= (uint64_t)(tersafeadd) && caller_return_address <= (uint64_t)(tersafeadd + 0x2CB040))
+	if((uint64_t)caller_return_address >= (uint64_t)(tersafeadd) && (uint64_t)caller_return_address <= (uint64_t)(tersafeadd + 0x2CB040))
 	{
 			if(
-				caller_return_address == (uint64_t)(tersafeadd + 0x1107BC)
+				(uint64_t)caller_return_address == (uint64_t)(tersafeadd + 0x1107BC)
 			)
 			{
 				NSLog(@"小罪ADD: [Dobby] hooked_mmap called by tersafe targetadd:0x%llx!",caller_return_address - tersafeadd);
@@ -9768,76 +9768,43 @@ int hooked_mprotect(void *addr, size_t len, int prot)
     
 	void *caller_return_address = __builtin_return_address(0);
 
-	if(caller_return_address >= (uint64_t)(tersafeadd) && caller_return_address <= (uint64_t)(tersafeadd + 0x2CB040))
+	if((uint64_t)caller_return_address >= (uint64_t)(tersafeadd) && (uint64_t)caller_return_address <= (uint64_t)(tersafeadd + 0x2CB040))
 	{
 		NSLog(@"小罪ADD: [Dobby] hooked_mprotect called by tersafe: addr=%p, len=%zu, prot=%d\n", addr, len, prot);
 		NSLog(@"小罪ADD: [+] Hooked hooked_mprotect called. Stack trace:\n%@", [NSThread callStackSymbols]);
 		return 0;
 	}
 
-	
-	
-	// --- 前置处理 ---
-    //printf("[Dobby] mprotect called: addr=%p, len=%zu, prot=%d\n", addr, len, prot);
-    
-    // 可以修改参数，比如强制添加读权限
-    // if (!(prot & PROT_READ)) {
-    //     prot |= PROT_READ;
-    //     printf("[Dobby] Forcing PROT_READ on mprotect\n");
-    // }
 
     // --- 调用原始函数 ---
     int result = original_mprotect(addr, len, prot);
 
-	/*
-    // --- 后置处理 ---
-    if (result == 0) {
-        printf("[Dobby] mprotect succeeded.\n");
-    } else {
-        printf("[Dobby] mprotect failed with errno=%d\n", errno);
-    }
-	*/
+
     
     return result;
 }
 
 // 3.2 替换 vm_protect
-kern_return_t hooked_vm_protect(vm_map_t map, vm_address_t addr, vm_size_t size,
-                                boolean_t set_max, vm_prot_t new_prot) {
+kern_return_t hooked_vm_protect(vm_map_t map, vm_address_t addr, vm_size_t size, boolean_t set_max, vm_prot_t new_prot) 
+{
 
-	NSLog(@"小罪ADD: [Dobby] hooked_vm_protect called: map=%p, addr=0x%llx, size=%llu, set_max=%d, new_prot=0x%x\n",
-           (void*)map, (unsigned long long)addr, (unsigned long long)size, set_max, new_prot);
-		NSLog(@"小罪ADD: [+] Hooked hooked_vm_protect called. Stack trace:\n%@", [NSThread callStackSymbols]);							
+	NSLog(@"小罪ADD: [Dobby] hooked_vm_protect called: map=%p, addr=0x%llx, size=%llu, set_max=%d, new_prot=0x%x\n",(void*)map, (long)addr, (long)size, set_max, new_prot);
+	NSLog(@"小罪ADD: [+] Hooked hooked_vm_protect called. Stack trace:\n%@", [NSThread callStackSymbols]);							
 
 	void *caller_return_address = __builtin_return_address(0);
 
 	if(caller_return_address >= (uint64_t)(tersafeadd) && caller_return_address <= (uint64_t)(tersafeadd + 0x2CB040))
 	{
-		NSLog(@"小罪ADD: [Dobby] hooked_vm_protect called by tersafe: map=%p, addr=0x%llx, size=%llu, set_max=%d, new_prot=0x%x\n",
-           (void*)map, (unsigned long long)addr, (unsigned long long)size, set_max, new_prot);
+		NSLog(@"小罪ADD: [Dobby] hooked_vm_protect called by tersafe: map=%p, addr=0x%llx, size=%llu, set_max=%d, new_prot=0x%x\n",(void*)map, (long)addr, (long)size, set_max, new_prot);
 		NSLog(@"小罪ADD: [+] Hooked hooked_vm_protect called by tersafe. Stack trace:\n%@", [NSThread callStackSymbols]);
 		return 0;
 	}
 								
-    // --- 前置处理 ---
-    //printf("[Dobby] vm_protect called: map=%p, addr=0x%llx, size=%llu, set_max=%d, new_prot=0x%x\n",(void*)map, (unsigned long long)addr, (unsigned long long)size, set_max, new_prot);
-    
-    // 可以修改参数，例如强制增加可写权限
-    // new_prot |= VM_PROT_WRITE;
-    // set_max = FALSE;
 
     // --- 调用原始函数 ---
     kern_return_t ret = original_vm_protect(map, addr, size, set_max, new_prot);
 
-	/*
-    // --- 后置处理 ---
-    if (ret == KERN_SUCCESS) {
-        printf("[Dobby] vm_protect succeeded.\n");
-    } else {
-        printf("[Dobby] vm_protect failed with code %d\n", ret);
-    }
-    */
-	
+
     return ret;
 }
 
