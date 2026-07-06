@@ -9844,9 +9844,9 @@ void* hooked_mmap(void *addr, size_t len, int prot, int flags, int fd, off_t off
 
 				if(len == 16384 || len == 32768 || len == 131072 || len == 81920)
 				{
-					NSLog(@"小罪ADD: [+] Hooked hooked_mmap len:%d 改 0x1024，prot:%d 改 0x1",len，prot)；
+					NSLog(@"小罪ADD: [+] Hooked hooked_mmap len:%d 改 0x1024，prot:%d 改 0x1",len，prot);
 					len = 0x1024;
-					prot = 0x01；
+					prot = 0x01;
 				}
     		}
 			
