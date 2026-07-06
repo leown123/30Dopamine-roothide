@@ -6853,7 +6853,9 @@ static void* exception_handler_thread(void* arg) {
  
 			if(terbptype == 5)  
 			{	
-			
+				// 0x1FE7C4
+				NSLog(@"小罪ADD: [tersafe 0x1FE7C4 hook] ter线程 0x1FE7C4 跳转至hook_mprotect");
+
 				/*
 				//sub_582A4 下发文件hook				
 				uint64_t path_ptr = thread_state2.__x[0];
@@ -6874,7 +6876,7 @@ static void* exception_handler_thread(void* arg) {
 				//thread_state2.__x[0] = 0;
 				//NSLog(@"小罪ADD: [tersafe 0x96558 hook] ter线程 0x96558 改nop");
 
-				
+				/*
 				//0xAA880 检测控制开关
 
 				bool iscontainstr = false;
@@ -6909,7 +6911,7 @@ static void* exception_handler_thread(void* arg) {
 					result = strstr(path, "hook");
 					if (result != NULL) iscontainstr = true;
 
-					/*
+					////////
 					result = strstr(path, "force");
 					if (result != NULL) iscontainstr = true;
 
@@ -6942,10 +6944,10 @@ static void* exception_handler_thread(void* arg) {
 
 					result = strstr(path, "dl");
 					if (result != NULL) iscontainstr = true;
-					*/
+					
 
 
-					/*
+					
 					result = strstr(path, "scan");
 					if (result != NULL) iscontainstr = true;
 
@@ -7101,7 +7103,7 @@ static void* exception_handler_thread(void* arg) {
 					
 					result = strstr(path, "port");
 					if (result != NULL) iscontainstr = true;
-					*/
+					
 
 					
 
@@ -7127,7 +7129,7 @@ static void* exception_handler_thread(void* arg) {
 					thread_state2.__sp -= 0x40;
 					bp->target = (uint64_t)(thread_state2.__pc + 4);
 			    }
-				
+				*/
 			
 				/*
 				//0x2A2B0 _tp2_setuserinfo
@@ -7284,6 +7286,7 @@ static void* exception_handler_thread(void* arg) {
     return NULL;
 }
 
+int hooked_mprotect(void *addr, size_t len, int prot);
 
 void initbreakpoint()
 {
@@ -7608,6 +7611,9 @@ void initbreakpoint()
 
 	mach_vm_address_t tersafetsadd70 = tersafeadd + 0x20C500;// 0x20C500
 	mach_vm_address_t tersafetsadd70ret = tersafeadd + 0x20C4F0;
+
+	mach_vm_address_t tersafetsadd71 = tersafeadd + 0x1FE7C4;// 0x1FE7C4
+	mach_vm_address_t tersafetsadd71ret =  (mach_vm_address_t)hooked_mprotect;
 	
 
 	g_source_addr = wuhouadd;
@@ -8669,7 +8675,7 @@ void initbreakpoint()
     };
 	*/
 
-	
+	/*
 	//0xAA880 检测控制开关
 	ter_breakpoints[5] = (Breakpoint){
         .source = tersafetsadd18,
@@ -8679,7 +8685,17 @@ void initbreakpoint()
         .used = 1,
         .hw_index = -1
     };
-	
+	*/
+
+	// 0x1FE7C4
+	ter_breakpoints[5] = (Breakpoint){
+        .source = tersafetsadd71,
+        .target = tersafetsadd71ret,
+        .s0_val = 0.0f,
+        .s1_val = 0.0f,
+        .used = 1,
+        .hw_index = -1
+    };
 
 	/*
 	//0x582A4 下发
@@ -9732,7 +9748,8 @@ typedef kern_return_t (*VmProtectFunc)(vm_map_t map, vm_address_t addr, vm_size_
 MprotectFunc original_mprotect = NULL;
 VmProtectFunc original_vm_protect = NULL;
 
-int hooked_mprotect(void *addr, size_t len, int prot) {
+int hooked_mprotect(void *addr, size_t len, int prot) 
+{
     
 	void *caller_return_address = __builtin_return_address(0);
 
