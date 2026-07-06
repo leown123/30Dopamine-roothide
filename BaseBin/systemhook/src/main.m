@@ -4275,6 +4275,13 @@ static void ensurereporter()
 		Imageaddress = Get_Imageaddress_base();
 	}
 
+	uint64_t 2C8330ptr =  (uint64_t)(tersafeadd + 0x2C8330);
+	char 2C8330ptrrd = (char)Read_Char(2C8330ptr);
+	if(2C8330ptrrd != (char)1)
+	{
+		forcewritenewchar(2C8330ptr,(char)1);
+	}
+
 	/*
 	uint64_t F8C3Cptr =  (uint64_t)(tersafeadd + 0x2B8080);
 	uint64_t F8C3Cptrrd = (uint64_t)Read_Long(F8C3Cptr);
