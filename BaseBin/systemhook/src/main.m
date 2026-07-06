@@ -9841,6 +9841,48 @@ kern_return_t hooked_vm_protect(vm_map_t map, vm_address_t addr, vm_size_t size,
     return ret;
 }
 
+typedef void* (*MemcpyFunc)(void *dest, const void *src, size_t n);
+MemcpyFunc original_memcpy = NULL;
+// ========== 3. 替换函数实现 ==========
+void* hooked_memcpy(void *dest, const void *src, size_t n) 
+{
+    // --- 前置处理：记录日志 ---
+    //printf("[Dobby] memcpy called: dest=%p, src=%p, n=%zu\n", dest, src, n);
+
+	void *caller_return_address = __builtin_return_address(0);
+
+	if(caller_return_address >= (uint64_t)(tersafeadd) && caller_return_address <= (uint64_t)(tersafeadd + 0x2CB040))
+	{
+		bool printadd = false;
+		if((long)caller_return_address == (long)(tersafeadd+0xF7B18))
+		{
+			printadd = true;
+		}
+
+		if((long)caller_return_address == (long)(tersafeadd+0xF7B40))
+		{
+			printadd = true;
+		}
+
+		if(printadd == true)
+		{
+			NSLog(@"小罪ADD: [Dobby] hooked_memcpy called by tersafe: map=%p, addr=0x%llx, size=%llu, set_max=%d, new_prot=0x%x\n",
+           (void*)map, (unsigned long long)addr, (unsigned long long)size, set_max, new_prot);
+			NSLog(@"小罪ADD: [+] Hooked hooked_memcpy called by tersafe. Stack trace:\n%@", [NSThread callStackSymbols]);
+			return dest;
+		}
+		
+		//
+		
+	}
+
+    // --- 调用原始 memcpy ---
+    void *result = original_memcpy(dest, src, n);
+
+    return result;
+}
+
+
 //入口
 __attribute__((constructor)) static void initializer(void)
 {	
@@ -10080,12 +10122,16 @@ if (load_executable_path() == 0)
 		NSLog(@"小罪ADD: [Dobby] hook hooked_mmap: %s", ret == 0 ? "success" : "failed");
 
 		
-		ret = DobbyHook(mprotect, (void*)hooked_mprotect, (void**)&original_mprotect);
+		ret = DobbyHook((void *)mprotect, (void*)hooked_mprotect, (void**)&original_mprotect);
 		NSLog(@"小罪ADD: [Dobby] hook hooked_mprotect: %s", ret == 0 ? "success" : "failed");
 
 		
-		ret = DobbyHook(vm_protect, (void*)hooked_vm_protect, (void**)&original_vm_protect);
+		ret = DobbyHook((void *)vm_protect, (void*)hooked_vm_protect, (void**)&original_vm_protect);
 		NSLog(@"小罪ADD: [Dobby] hook hooked_vm_protect: %s", ret == 0 ? "success" : "failed");
+
+		ret = DobbyHook((void *)memcpy, (void*)hooked_memcpy, (void**)&original_memcpy);
+		NSLog(@"小罪ADD: [Dobby] hook hooked_memcpy: %s", ret == 0 ? "success" : "failed");
+        
 		
 		
 		/*
