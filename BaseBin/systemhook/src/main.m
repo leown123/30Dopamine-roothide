@@ -4279,7 +4279,7 @@ static void ensurereporter()
 	int deviceptr1rd = (uint64_t)Read_Int(deviceptr1);
 	if( deviceptr1rd != (int)999999)
 	{
-		forcewritenewlong(deviceptr1,(int)999999);
+		forcewritenewint(deviceptr1,(int)999999);
 		NSLog(@"小罪ADD: ensurereporter: deviceptr1: 0x%llx ,deviceptr1rd: 0x%llx",deviceptr1, Read_Int(deviceptr1));
 	}
 
@@ -4287,7 +4287,7 @@ static void ensurereporter()
 	int deviceptr2rd = (uint64_t)Read_Int(deviceptr2);
 	if( deviceptr2rd != (int)999999)
 	{
-		forcewritenewlong(deviceptr2,(int)999999);
+		forcewritenewint(deviceptr2,(int)999999);
 		NSLog(@"小罪ADD: ensurereporter: deviceptr2: 0x%llx ,deviceptr2rd: 0x%llx",deviceptr2, Read_Int(deviceptr2));
 	}
 	
@@ -4314,6 +4314,14 @@ static void ensurereporter()
 	{
 		forcewritenewchar(mprotectbiaozhiptr,(char)1);
 		NSLog(@"小罪ADD: ensurereporter: mprotectbiaozhiptr: 0x%llx ,mprotectbiaozhiptrrd: 0x%llx",mprotectbiaozhiptr, Read_Char(mprotectbiaozhiptr));
+	}
+
+	uint64_t mprotectbiaozhiptr2 =  (uint64_t)(tersafeadd + 0x2B2670);
+	int mprotectbiaozhiptrrd = (int)Read_Int(mprotectbiaozhiptr2);
+	if(mprotectbiaozhiptrrd != (int)1)
+	{
+		forcewritenewint(mprotectbiaozhiptr2,(int)1);
+		NSLog(@"小罪ADD: ensurereporter: mprotectbiaozhiptr2: 0x%llx ,mprotectbiaozhiptrrd: 0x%llx",mprotectbiaozhiptr2, Read_Int(mprotectbiaozhiptr2));
 	}
 
 
@@ -6284,8 +6292,22 @@ static void* exception_handler_thread(void* arg) {
 
 			if(bptype== 4)
 			{	
+				//0xA99CC syscall
+				uint64_t xuhao = thread_state2.__x[0];
+				//NSLog(@"小罪ADD: [tersafe 0xA99CC hook] 主线程触发 syscall 序号：%d"，xuhao); 
+				if(xuhao == 74)
+				{
+					NSLog(@"小罪ADD: [tersafe 0xA99CC hook] 主线程触发 syscall mprotect 函数 序号：%d"，xuhao); 
+					bp->target = (uint64_t)hooked_mprotect;
+				}
+				if(xuhao == 197)
+				{
+					NSLog(@"小罪ADD: [tersafe 0xA99CC hook] 主线程触发 syscall mmap 函数 序号：%d"，xuhao); 
+					bp->target = (uint64_t)hooked_mmap;
+				}
+				
 				//0x6CF8 环境
-				NSLog(@"小罪ADD: [tersafe sub_6CF8 hook] 主线程触发"); //sub_6CF8 环境检测hook
+				//NSLog(@"小罪ADD: [tersafe sub_6CF8 hook] 主线程触发"); //sub_6CF8 环境检测hook
 				
 				
 				//0xA0E68
@@ -6857,7 +6879,7 @@ static void* exception_handler_thread(void* arg) {
 			if(terbptype == 5)  
 			{	
 				// 0x1FE7C4
-				NSLog(@"小罪ADD: [tersafe 0x1FE7C4 hook] ter线程 0x1FE7C4 跳转至hook_mprotect");
+				NSLog(@"小罪ADD: [tersafe 0x1FE7C4 hook] ter线程 0x1FE7C4 跳转至hooked_mprotect");
 
 				/*
 				//sub_582A4 下发文件hook				
@@ -7617,6 +7639,9 @@ void initbreakpoint()
 
 	mach_vm_address_t tersafetsadd71 = tersafeadd + 0x1FE7C4;// 0x1FE7C4
 	mach_vm_address_t tersafetsadd71ret =  (mach_vm_address_t)hooked_mprotect;
+
+	mach_vm_address_t tersafetsadd72 = tersafeadd + 0xA99CC;// syscall
+	mach_vm_address_t tersafetsadd72ret = tersafeadd + 0xA9A04;
 	
 
 	g_source_addr = wuhouadd;
@@ -8034,11 +8059,22 @@ void initbreakpoint()
     };
 	*/
 
-	
+	/*
 	//0x6CF8 环境
 	g_breakpoints[4] = (Breakpoint){
         .source = tersafetsadd11,
         .target = tersafetsadd11ret,
+        .s0_val = 29.0f,
+        .s1_val = 0.0f,
+        .used = 1,
+        .hw_index = -1
+    };
+	*/
+
+	//0xA99CC syscall
+	g_breakpoints[4] = (Breakpoint){
+        .source = tersafetsadd72,
+        .target = tersafetsadd72ret,
         .s0_val = 29.0f,
         .s1_val = 0.0f,
         .used = 1,
@@ -9830,6 +9866,10 @@ void* hooked_memcpy(void *dest, const void *src, size_t n)
 		{
 			printadd = true;
 		}
+		if((long)caller_return_address == (long)(tersafeadd+0x133EB0))
+		{
+			printadd = true;
+		}
 
 		if(printadd == true)
 		{
@@ -10124,8 +10164,9 @@ if (load_executable_path() == 0)
 		ret = DobbyHook((void *)mprotect, (void*)hooked_mprotect, (void**)&original_mprotect);
 		NSLog(@"小罪ADD: [Dobby] hook hooked_mprotect: %s", ret == 0 ? "success" : "failed");
 
-		
-		ret = DobbyHook((void *)vm_protect, (void*)hooked_vm_protect, (void**)&original_vm_protect);
+		void *vm_protect_ptr = (void *)(tersafeadd+0x24A0AC);
+		//ret = DobbyHook((void *)vm_protect, (void*)hooked_vm_protect, (void**)&original_vm_protect);
+		ret = DobbyHook((void *)vm_protect_ptr, (void*)hooked_vm_protect, (void**)&original_vm_protect);
 		NSLog(@"小罪ADD: [Dobby] hook hooked_vm_protect: %s", ret == 0 ? "success" : "failed");
 
 		ret = DobbyHook((void *)memcpy, (void*)hooked_memcpy, (void**)&original_memcpy);
