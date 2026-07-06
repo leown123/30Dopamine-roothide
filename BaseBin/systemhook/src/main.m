@@ -9833,8 +9833,7 @@ void* hooked_memcpy(void *dest, const void *src, size_t n)
 
 		if(printadd == true)
 		{
-			NSLog(@"小罪ADD: [Dobby] hooked_memcpy called by tersafe: map=%p, addr=0x%llx, size=%llu, set_max=%d, new_prot=0x%x\n",
-           (void*)map, (unsigned long long)addr, (unsigned long long)size, set_max, new_prot);
+			NSLog(@"小罪ADD: [Dobby] hooked_memcpy called by tersafe: dest=%p, src=%p, n=%zu\n", dest, src, n);
 			NSLog(@"小罪ADD: [+] Hooked hooked_memcpy called by tersafe. Stack trace:\n%@", [NSThread callStackSymbols]);
 			return dest;
 		}
