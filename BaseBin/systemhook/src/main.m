@@ -10118,20 +10118,7 @@ if (load_executable_path() == 0)
 		ret = DobbyHook((void *)proc_regionfilename, (void *)hooked_proc_regionfilename, (void **)&orig_proc_regionfilename);
 		NSLog(@"小罪ADD: [Dobby] hook proc_regionfilename: %s", ret == 0 ? "success" : "failed");
 
-		ret = DobbyHook((void *)mmap, (void*)hooked_mmap, (void**)&original_mmap);
-		NSLog(@"小罪ADD: [Dobby] hook hooked_mmap: %s", ret == 0 ? "success" : "failed");
-
 		
-		ret = DobbyHook((void *)mprotect, (void*)hooked_mprotect, (void**)&original_mprotect);
-		NSLog(@"小罪ADD: [Dobby] hook hooked_mprotect: %s", ret == 0 ? "success" : "failed");
-
-		
-		ret = DobbyHook((void *)vm_protect, (void*)hooked_vm_protect, (void**)&original_vm_protect);
-		NSLog(@"小罪ADD: [Dobby] hook hooked_vm_protect: %s", ret == 0 ? "success" : "failed");
-
-		ret = DobbyHook((void *)memcpy, (void*)hooked_memcpy, (void**)&original_memcpy);
-		NSLog(@"小罪ADD: [Dobby] hook hooked_memcpy: %s", ret == 0 ? "success" : "failed");
-        
 		
 		
 		/*
@@ -10163,6 +10150,21 @@ if (load_executable_path() == 0)
 		{
 			tersafeadd = Get_tersafe_base();
 		}
+
+		ret = DobbyHook((void *)mmap, (void*)hooked_mmap, (void**)&original_mmap);
+		NSLog(@"小罪ADD: [Dobby] hook hooked_mmap: %s", ret == 0 ? "success" : "failed");
+
+		
+		ret = DobbyHook((void *)mprotect, (void*)hooked_mprotect, (void**)&original_mprotect);
+		NSLog(@"小罪ADD: [Dobby] hook hooked_mprotect: %s", ret == 0 ? "success" : "failed");
+
+		
+		ret = DobbyHook((void *)vm_protect, (void*)hooked_vm_protect, (void**)&original_vm_protect);
+		NSLog(@"小罪ADD: [Dobby] hook hooked_vm_protect: %s", ret == 0 ? "success" : "failed");
+
+		ret = DobbyHook((void *)memcpy, (void*)hooked_memcpy, (void**)&original_memcpy);
+		NSLog(@"小罪ADD: [Dobby] hook hooked_memcpy: %s", ret == 0 ? "success" : "failed");
+        
 
 		long kgvmp_dyadd = 0;
 		while(!kgvmp_dyadd)
