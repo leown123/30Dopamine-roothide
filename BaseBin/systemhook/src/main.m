@@ -10001,8 +10001,8 @@ void* hooked_memset(void *s, int c, size_t n)
 
 		if(printadd == true)
 		{
-			NSLog(@"小罪ADD: [Dobby] hooked_memset called by tersafe: s=%p, c=0x%02x, n=%zu\n", s, c, n);
-			NSLog(@"小罪ADD: [+] Hooked hooked_memset called by tersafe. Stack trace:\n%@", [NSThread callStackSymbols]);
+			//NSLog(@"小罪ADD: [Dobby] hooked_memset called by tersafe: s=%p, c=0x%02x, n=%zu\n", s, c, n);
+			//NSLog(@"小罪ADD: [+] Hooked hooked_memset called by tersafe. Stack trace:\n%@", [NSThread callStackSymbols]);
 			//return s;
 		}
 	}
