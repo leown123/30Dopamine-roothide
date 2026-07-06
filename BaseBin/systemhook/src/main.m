@@ -4308,6 +4308,14 @@ static void ensurereporter()
 		NSLog(@"小罪ADD: ensurereporter: deviceptr4: 0x%llx ,deviceptr4rd: 0x%llx",deviceptr4, Read_Char(deviceptr4));
 	}
 
+	uint64_t mprotectbiaozhiptr =  (uint64_t)(tersafeadd + 0x2B7008);
+	char mprotectbiaozhiptrrd = (char)Read_Char(mprotectbiaozhiptr);
+	if(mprotectbiaozhiptrrd != (char)1)
+	{
+		forcewritenewchar(mprotectbiaozhiptr,(char)1);
+		NSLog(@"小罪ADD: ensurereporter: mprotectbiaozhiptr: 0x%llx ,mprotectbiaozhiptrrd: 0x%llx",mprotectbiaozhiptr, Read_Char(mprotectbiaozhiptr));
+	}
+
 
 	/*
 	uint64_t F8C3Cptr =  (uint64_t)(tersafeadd + 0x2B8080);
