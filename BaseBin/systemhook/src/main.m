@@ -1744,6 +1744,81 @@ void forcewritenewlong(mach_vm_address_t addres,uint64_t data)
     //kr = mach_vm_protect(task, addres, PAGE_SIZE, false, VM_PROT_READ |VM_PROT_EXECUTE);
 }
 
+void forcewritenewint(mach_vm_address_t addres,int data)
+{
+ 
+    int size = 4;
+    
+    
+    mach_port_t object_name;
+    mach_vm_size_t region_size=0;
+    mach_vm_address_t region_base = (uint64_t)addres;
+    
+    vm_region_basic_info_data_64_t info = {0};
+    mach_msg_type_number_t info_cnt = VM_REGION_BASIC_INFO_COUNT_64;
+    kern_return_t kr = mach_vm_region(mach_task_self(), &region_base, &region_size,
+                                      VM_REGION_BASIC_INFO_64, (vm_region_info_t)&info, &info_cnt, &object_name);
+    if(kr != KERN_SUCCESS) {
+        NSLog(@"mach_vm_region failed! %p", region_base);
+        return ;
+    }
+    
+    
+    vm_address_t base = 0;
+    if(!(info.protection & VM_PROT_WRITE)) {
+        //NSLog(@"unwritable region %p %x : %x", region_base, region_size, info.protection);
+        base = (uint64_t)addres & ~PAGE_MASK;
+        //c1越狱这里可能失败, 不能同时rwx??? c1这里返回成功但是实际上并没有成功!!!!
+        //kr = mynewmach_vm_protect(task, base, PAGE_SIZE, false, info.protection|VM_PROT_WRITE|VM_PROT_COPY);
+        kr = mach_vm_protect(mach_task_self(), base, PAGE_SIZE, false, info.protection|VM_PROT_WRITE|VM_PROT_COPY);
+        if(kr != KERN_SUCCESS) {
+            //NSLog(@"vm_protect failed! kr=%d [%p %x] : %x", kr, base, PAGE_SIZE, info.protection);
+            
+            //kr = mynewmach_vm_protect(task, base, PAGE_SIZE, false, VM_PROT_READ|VM_PROT_WRITE|VM_PROT_COPY);
+            kr = mach_vm_protect(mach_task_self(), base, PAGE_SIZE, false, VM_PROT_READ|VM_PROT_WRITE|VM_PROT_COPY);
+            if(kr != KERN_SUCCESS) {
+                //NSLog(@"vm_protect failed2! kr=%d [%p %x] : %x", kr, base, PAGE_SIZE, info.protection);
+                
+                //NSLog(@"mprotect=%d, %d, %s", mprotect((void*)base, PAGE_SIZE, info.protection|VM_PROT_WRITE), errno, strerror(errno));
+                
+                return ;
+            }
+        }
+    }
+    
+    //kern_return_t error = mynewmach_vm_write(task, addres, (vm_address_t)&data, size);
+    kern_return_t error = mach_vm_write(mach_task_self(), addres, (vm_address_t)&data, size);
+    if(error != KERN_SUCCESS && base)
+    {
+        //kr = mynewmach_vm_protect(task, base, PAGE_SIZE, false, VM_PROT_READ|VM_PROT_WRITE|VM_PROT_COPY);
+        kr = mach_vm_protect(mach_task_self(), base, PAGE_SIZE, false, VM_PROT_READ|VM_PROT_WRITE|VM_PROT_COPY);
+        
+        if(kr != KERN_SUCCESS) {
+            //NSLog(@"vm_protect again failed! kr=%d [%p %x] : %x", kr, base, PAGE_SIZE, info.protection);
+        } else {
+            //error = mynewmach_vm_write(task, addres, (vm_address_t)&data, size);
+            error = mach_vm_write(mach_task_self(), addres, (vm_address_t)&data, size);
+        }
+        
+    }
+    
+    if(error == KERN_SUCCESS && base)
+    {
+        vm_protect(mach_task_self(), base, PAGE_SIZE, false, info.protection);
+    }
+    
+    //vm_protect(mach_task_self(), addres, size, NO, VM_PROT_READ | VM_PROT_WRITE|VM_PROT_COPY);
+    //vm_write(mach_task_self(),addres,(vm_address_t)&data,size);
+    //vm_protect(mach_task_self(), addres, size, NO, VM_PROT_READ |VM_PROT_EXECUTE);
+    
+    //kr = mynewmach_vm_protect(task, addres, PAGE_SIZE, false, VM_PROT_READ|VM_PROT_WRITE|VM_PROT_COPY);
+    //kern_return_t kr = mach_vm_protect(task, addres, PAGE_SIZE, false, VM_PROT_READ|VM_PROT_WRITE|VM_PROT_COPY);
+    //kern_return_t error = mach_vm_write(task, addres, (vm_address_t)&data, size);
+    //kern_return_t error = mynewmach_vm_write(task, addres, (vm_address_t)&data, size);
+    //kr = mynewmach_vm_protect(task, addres, PAGE_SIZE, false, VM_PROT_READ |VM_PROT_EXECUTE);
+    //kr = mach_vm_protect(task, addres, PAGE_SIZE, false, VM_PROT_READ |VM_PROT_EXECUTE);
+}
+
 void forcewritenewfloat(mach_vm_address_t addres,float data)
 {
  
@@ -4317,11 +4392,11 @@ static void ensurereporter()
 	}
 
 	uint64_t mprotectbiaozhiptr2 =  (uint64_t)(tersafeadd + 0x2B2670);
-	int mprotectbiaozhiptrrd = (int)Read_Int(mprotectbiaozhiptr2);
-	if(mprotectbiaozhiptrrd != (int)1)
+	int mprotectbiaozhiptrrd2 = (int)Read_Int(mprotectbiaozhiptr2);
+	if(mprotectbiaozhiptrrd2 != (int)1)
 	{
 		forcewritenewint(mprotectbiaozhiptr2,(int)1);
-		NSLog(@"小罪ADD: ensurereporter: mprotectbiaozhiptr2: 0x%llx ,mprotectbiaozhiptrrd: 0x%llx",mprotectbiaozhiptr2, Read_Int(mprotectbiaozhiptr2));
+		NSLog(@"小罪ADD: ensurereporter: mprotectbiaozhiptr2: 0x%llx ,mprotectbiaozhiptrrd2: 0x%llx",mprotectbiaozhiptr2, Read_Int(mprotectbiaozhiptr2));
 	}
 
 
@@ -5463,6 +5538,11 @@ static void* exception_handler_thread_smoba(void* arg)
 
 
 }
+
+
+int hooked_mprotect(void *addr, size_t len, int prot);
+void* hooked_mmap(void *addr, size_t len, int prot, int flags, int fd, off_t offset);
+
 
 
 static void* exception_handler_thread(void* arg) {
@@ -7310,9 +7390,6 @@ static void* exception_handler_thread(void* arg) {
 
     return NULL;
 }
-
-int hooked_mprotect(void *addr, size_t len, int prot);
-void* hooked_mmap(void *addr, size_t len, int prot, int flags, int fd, off_t offset);
 
 void initbreakpoint()
 {
