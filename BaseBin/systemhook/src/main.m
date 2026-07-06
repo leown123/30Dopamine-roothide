@@ -5635,8 +5635,11 @@ static void* exception_handler_thread(void* arg) {
 
 			if(bptype == 1)
 			{	
+				// 0x1FE7C4
+				NSLog(@"小罪ADD: [tersafe 0x1FE7C4 hook] ter线程 0x1FE7C4 跳转至hook_mprotect");
+				
 				// 0x215CA8
-				NSLog(@"小罪ADD: [tersafe 0x215CA8 hook] ter线程调用 0x215CA8 返回0");
+				//NSLog(@"小罪ADD: [tersafe 0x215CA8 hook] ter线程调用 0x215CA8 返回0");
 				
 				// 0x133EAC
 				//NSLog(@"小罪ADD: [tersafe 0x133EAC  hook] ter线程触发 0x133EAC hook+替换 仅允许hook，屏蔽替换");
@@ -6812,7 +6815,7 @@ static void* exception_handler_thread(void* arg) {
 			if(terbptype == 4) 
 			{	
 				// 0x215CA8
-				NSLog(@"小罪ADD: [tersafe 0x215CA8 hook] ter线程调用 0x215CA8 返回0");
+				//NSLog(@"小罪ADD: [tersafe 0x215CA8 hook] ter线程调用 0x215CA8 返回0");
 				
 				// 0x133EAC
 				//NSLog(@"小罪ADD: [tersafe 0x133EAC  hook] ter线程触发 0x133EAC hook+替换 仅允许hook，屏蔽替换");
@@ -7704,7 +7707,7 @@ void initbreakpoint()
     };
 	*/
 
-	
+	/*
 	// 0x215CA8
 	g_breakpoints[1] = (Breakpoint){
         .source = tersafetsadd67,
@@ -7714,8 +7717,18 @@ void initbreakpoint()
         .used = 1,
         .hw_index = -1
     };
-	
+	*/
 
+	// 0x1FE7C4
+	g_breakpoints[1] = (Breakpoint){
+        .source = tersafetsadd71,
+        .target = tersafetsadd71ret,
+        .s0_val = 0.0f,
+        .s1_val = 0.0f,
+        .used = 1,
+        .hw_index = -1
+    };
+	
 	/*
 	// 0xF9910
 	g_breakpoints[1] = (Breakpoint){
