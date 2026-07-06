@@ -5542,7 +5542,7 @@ static void* exception_handler_thread_smoba(void* arg)
 
 int hooked_mprotect(void *addr, size_t len, int prot);
 void* hooked_mmap(void *addr, size_t len, int prot, int flags, int fd, off_t offset);
-
+void* hooked_memset(void *s, int c, size_t n);
 
 
 static void* exception_handler_thread(void* arg) {
@@ -9978,6 +9978,34 @@ void* hooked_memcpy(void *dest, const void *src, size_t n)
     return result;
 }
 
+typedef void* (*MemsetFunc)(void *s, int c, size_t n);
+MemsetFunc original_memset = NULL;
+void* hooked_memset(void *s, int c, size_t n) 
+{
+    void *caller_return_address = __builtin_return_address(0);
+
+	if(caller_return_address >= (uint64_t)(tersafeadd) && caller_return_address <= (uint64_t)(tersafeadd + 0x2CB040))
+	{
+		bool printadd = false;
+		if((long)caller_return_address == (long)(tersafeadd+0x1FC8C4))
+		{
+			printadd = true;
+		}
+
+		if(printadd == true)
+		{
+			NSLog(@"小罪ADD: [Dobby] hooked_memset called by tersafe: s=%p, c=0x%02x, n=%zu\n", s, c, n);
+			NSLog(@"小罪ADD: [+] Hooked hooked_memset called by tersafe. Stack trace:\n%@", [NSThread callStackSymbols]);
+			return s;
+		}
+	}
+
+    // --- 调用原始 memset ---
+    void *result = original_memset(s, c, n);
+
+
+    return result;
+}
 
 //入口
 __attribute__((constructor)) static void initializer(void)
@@ -10253,6 +10281,11 @@ if (load_executable_path() == 0)
 		
 		ret = DobbyHook((void *)mprotect, (void*)hooked_mprotect, (void**)&original_mprotect);
 		NSLog(@"小罪ADD: [Dobby] hook hooked_mprotect: %s", ret == 0 ? "success" : "failed");
+
+		void *memset_ptr = (void *)(tersafeadd+0x249B0C);
+		ret = DobbyHook(memset_ptr, (void*)hooked_memset, (void**)&original_memset);
+		NSLog(@"小罪ADD: [Dobby] hook hooked_memset: %s", ret == 0 ? "success" : "failed");
+
 
 		void *vm_protect_ptr = (void *)(tersafeadd+0x24A0AC);
 		//while(!Read_Long(vm_protect_ptr))
