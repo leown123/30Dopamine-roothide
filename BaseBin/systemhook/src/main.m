@@ -9842,12 +9842,19 @@ void* hooked_mmap(void *addr, size_t len, int prot, int flags, int fd, off_t off
 	            addr, len, prot, flags, fd, offset);
 				NSLog(@"小罪ADD: [+] Hooked hooked_mmap called. Stack trace:\n%@", [NSThread callStackSymbols]);
 
-				if(len == 16384 || len == 32768 || len == 131072 || len == 81920)
+				//if(len == 16384 || len == 32768 || len == 131072 || len == 81920)
 				{
-					NSLog(@"小罪ADD: [+] Hooked hooked_mmap len:%d 改 0x1024，prot:%d 改 0x1",len,prot);
-					len = 0x1024;
+					//NSLog(@"小罪ADD: [+] Hooked hooked_mmap len:%d 改 0x1024，prot:%d 改 0x1",len,prot);
+					//len = 0x1024;
 					//prot = 0x01;
 				}
+
+				if(prot == 5 || prot == 7)
+				{
+					NSLog(@"小罪ADD: [Dobby] hooked_mmap called! (可执行): addr=%p, len=%zu, prot=%d, flags=%d, fd=%d, offset=%ld\n", addr, len, prot, flags, fd, offset);
+					NSLog(@"小罪ADD: [+] Hooked hooked_mmap called ！(可执行). Stack trace:\n%@", [NSThread callStackSymbols]);
+				}
+				
     		}
 			
 	}
@@ -9996,7 +10003,7 @@ void* hooked_memset(void *s, int c, size_t n)
 		{
 			NSLog(@"小罪ADD: [Dobby] hooked_memset called by tersafe: s=%p, c=0x%02x, n=%zu\n", s, c, n);
 			NSLog(@"小罪ADD: [+] Hooked hooked_memset called by tersafe. Stack trace:\n%@", [NSThread callStackSymbols]);
-			return s;
+			//return s;
 		}
 	}
 
