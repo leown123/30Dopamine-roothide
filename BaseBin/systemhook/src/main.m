@@ -9846,7 +9846,7 @@ void* hooked_mmap(void *addr, size_t len, int prot, int flags, int fd, off_t off
 				{
 					NSLog(@"小罪ADD: [+] Hooked hooked_mmap len:%d 改 0x1024，prot:%d 改 0x1",len,prot);
 					len = 0x1024;
-					prot = 0x01;
+					//prot = 0x01;
 				}
     		}
 			
