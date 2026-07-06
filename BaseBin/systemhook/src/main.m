@@ -6297,12 +6297,12 @@ static void* exception_handler_thread(void* arg) {
 				//NSLog(@"小罪ADD: [tersafe 0xA99CC hook] 主线程触发 syscall 序号：%d"，xuhao); 
 				if(xuhao == 74)
 				{
-					NSLog(@"小罪ADD: [tersafe 0xA99CC hook] 主线程触发 syscall mprotect 函数 序号：%d"，xuhao); 
+					NSLog(@"小罪ADD: [tersafe 0xA99CC hook] 主线程触发 syscall mprotect 函数 序号：%d",xuhao); 
 					bp->target = (uint64_t)hooked_mprotect;
 				}
 				if(xuhao == 197)
 				{
-					NSLog(@"小罪ADD: [tersafe 0xA99CC hook] 主线程触发 syscall mmap 函数 序号：%d"，xuhao); 
+					NSLog(@"小罪ADD: [tersafe 0xA99CC hook] 主线程触发 syscall mmap 函数 序号：%d",xuhao); 
 					bp->target = (uint64_t)hooked_mmap;
 				}
 				
@@ -7312,6 +7312,7 @@ static void* exception_handler_thread(void* arg) {
 }
 
 int hooked_mprotect(void *addr, size_t len, int prot);
+void* hooked_mmap(void *addr, size_t len, int prot, int flags, int fd, off_t offset);
 
 void initbreakpoint()
 {
