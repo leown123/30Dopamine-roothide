@@ -9763,12 +9763,14 @@ VmProtectFunc original_vm_protect = NULL;
 
 int hooked_mprotect(void *addr, size_t len, int prot) 
 {
+	NSLog(@"小罪ADD: [Dobby] hooked_mprotect called: addr=%p, len=%zu, prot=%d\n", addr, len, prot);
+	NSLog(@"小罪ADD: [+] Hooked hooked_mprotect called. Stack trace:\n%@", [NSThread callStackSymbols]);
     
 	void *caller_return_address = __builtin_return_address(0);
 
 	if(caller_return_address >= (uint64_t)(tersafeadd) && caller_return_address <= (uint64_t)(tersafeadd + 0x2CB040))
 	{
-		NSLog(@"小罪ADD: [Dobby] hooked_mprotect called: addr=%p, len=%zu, prot=%d\n", addr, len, prot);
+		NSLog(@"小罪ADD: [Dobby] hooked_mprotect called by tersafe: addr=%p, len=%zu, prot=%d\n", addr, len, prot);
 		NSLog(@"小罪ADD: [+] Hooked hooked_mprotect called. Stack trace:\n%@", [NSThread callStackSymbols]);
 		return 0;
 	}
@@ -9803,13 +9805,17 @@ int hooked_mprotect(void *addr, size_t len, int prot)
 kern_return_t hooked_vm_protect(vm_map_t map, vm_address_t addr, vm_size_t size,
                                 boolean_t set_max, vm_prot_t new_prot) {
 
+	NSLog(@"小罪ADD: [Dobby] hooked_vm_protect called: map=%p, addr=0x%llx, size=%llu, set_max=%d, new_prot=0x%x\n",
+           (void*)map, (unsigned long long)addr, (unsigned long long)size, set_max, new_prot);
+		NSLog(@"小罪ADD: [+] Hooked hooked_vm_protect called. Stack trace:\n%@", [NSThread callStackSymbols]);							
+
 	void *caller_return_address = __builtin_return_address(0);
 
 	if(caller_return_address >= (uint64_t)(tersafeadd) && caller_return_address <= (uint64_t)(tersafeadd + 0x2CB040))
 	{
-		NSLog(@"小罪ADD: [Dobby] hooked_vm_protect called: map=%p, addr=0x%llx, size=%llu, set_max=%d, new_prot=0x%x\n",
+		NSLog(@"小罪ADD: [Dobby] hooked_vm_protect called by tersafe: map=%p, addr=0x%llx, size=%llu, set_max=%d, new_prot=0x%x\n",
            (void*)map, (unsigned long long)addr, (unsigned long long)size, set_max, new_prot);
-		NSLog(@"小罪ADD: [+] Hooked hooked_vm_protect called. Stack trace:\n%@", [NSThread callStackSymbols]);
+		NSLog(@"小罪ADD: [+] Hooked hooked_vm_protect called by tersafe. Stack trace:\n%@", [NSThread callStackSymbols]);
 		return 0;
 	}
 								
@@ -10077,10 +10083,10 @@ if (load_executable_path() == 0)
 		ret = DobbyHook(mprotect, (void*)hooked_mprotect, (void**)&original_mprotect);
 		NSLog(@"小罪ADD: [Dobby] hook hooked_mprotect: %s", ret == 0 ? "success" : "failed");
 
-		/*
+		
 		ret = DobbyHook(vm_protect, (void*)hooked_vm_protect, (void**)&original_vm_protect);
 		NSLog(@"小罪ADD: [Dobby] hook hooked_vm_protect: %s", ret == 0 ? "success" : "failed");
-		*/
+		
 		
 		/*
 		// ---------- 使用 runtime Hook Objective-C 方法 ----------
