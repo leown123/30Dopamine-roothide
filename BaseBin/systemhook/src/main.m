@@ -4275,13 +4275,46 @@ static void ensurereporter()
 		Imageaddress = Get_Imageaddress_base();
 	}
 
+	uint64_t 2CA3DCptr =  (uint64_t)(tersafeadd + 0x2CA3DC);
+	int 2CA3DCptrrd = (uint64_t)Read_Int(2CA3DCptr);
+	if( 2CA3DCptrrd != (int)999999)
+	{
+		forcewritenewlong(2CA3DCptr,(int)999999);
+		NSLog(@"小罪ADD: ensurereporter: 2CA3DCptr: 0x%llx ,2CA3DCptrrd: 0x%llx",2CA3DCptr, Read_Int(2CA3DCptr));
+	}
+
+	uint64_t 2CA3D8ptr =  (uint64_t)(tersafeadd + 0x2CA3D8);
+	int 2CA3D8ptrrd = (uint64_t)Read_Int(2CA3D8ptr);
+	if( 2CA3D8ptrrd != (int)999999)
+	{
+		forcewritenewlong(2CA3E8ptr,(int)999999);
+		NSLog(@"小罪ADD: ensurereporter: 2CA3E8ptr: 0x%llx ,2CA3D8ptrrd: 0x%llx",2CA3D8ptr, Read_Int(2CA3D8ptr));
+	}
+	
+
+	uint64_t 2CA3E8ptr =  (uint64_t)(tersafeadd + 0x2CA3E8);
+	uint64_t 2CA3E8ptrrd = (uint64_t)Read_Long(2CA3E8ptr);
+	if( 2CA3E8ptrrd != (uint64_t)-1)
+	{
+		forcewritenewlong(2CA3E8ptr,(uint64_t)-1);
+		NSLog(@"小罪ADD: ensurereporter: 2CA3E8ptr: 0x%llx ,2CA3E8ptrrd: 0x%llx", 2CA3E8ptr,Read_Int(2CA3E8ptr));
+	}
+
+	uint64_t 2C8330ptr =  (uint64_t)(tersafeadd + 0x2C8330);
+	char 2C8330ptrrd = (char)Read_Char(2C8330ptr);
+	if(2C8330ptrrd != (char)1)
+	{
+		forcewritenewchar(2C8330ptr,(char)1);
+		NSLog(@"小罪ADD: ensurereporter: 2C8330ptr: 0x%llx ,2CA3E8ptrrd: 0x%llx",2C8330ptr, Read_Char(2C8330ptr));
+	}
+
 	uint64_t 2C8330ptr =  (uint64_t)(tersafeadd + 0x2C8330);
 	char 2C8330ptrrd = (char)Read_Char(2C8330ptr);
 	if(2C8330ptrrd != (char)1)
 	{
 		forcewritenewchar(2C8330ptr,(char)1);
 	}
-
+	
 	/*
 	uint64_t F8C3Cptr =  (uint64_t)(tersafeadd + 0x2B8080);
 	uint64_t F8C3Cptrrd = (uint64_t)Read_Long(F8C3Cptr);
@@ -10089,9 +10122,9 @@ if (load_executable_path() == 0)
 		ret = DobbyHook(kgvmp_dy_dispatch_async_ptr, (void *)hooked__dispatch_async, (void **)&orig__dispatch_async);
 		NSLog(@"小罪ADD: [Dobby] hook kgvmp_dy_dispatch_async_ptr: %s", ret == 0 ? "success" : "failed");
 
-		void *once_f_addr = (void *)(tersafeadd+0x249860);
+		//void *once_f_addr = (void *)(tersafeadd+0x249860);
 		void * kgvmp_dy_dispatch_once_f_ptr = (void *)(kgvmp_dyadd+0xCFCEC);
-		ret = DobbyHook(once_f_addr, (void *)hooked__dispatch_once_f, (void **)&orig__dispatch_once_f);
+		ret = DobbyHook(kgvmp_dy_dispatch_once_f_ptr, (void *)hooked__dispatch_once_f, (void **)&orig__dispatch_once_f);
 		NSLog(@"小罪ADD: [Dobby] hook kgvmp_dy_dispatch_once_f_ptr: %s", ret == 0 ? "success" : "failed");
 
 		/*
