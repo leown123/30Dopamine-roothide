@@ -4275,46 +4275,40 @@ static void ensurereporter()
 		Imageaddress = Get_Imageaddress_base();
 	}
 
-	uint64_t 2CA3DCptr =  (uint64_t)(tersafeadd + 0x2CA3DC);
-	int 2CA3DCptrrd = (uint64_t)Read_Int(2CA3DCptr);
-	if( 2CA3DCptrrd != (int)999999)
+	uint64_t deviceptr1 =  (uint64_t)(tersafeadd + 0x2CA3DC);
+	int deviceptr1rd = (uint64_t)Read_Int(deviceptr1);
+	if( deviceptr1rd != (int)999999)
 	{
-		forcewritenewlong(2CA3DCptr,(int)999999);
-		NSLog(@"小罪ADD: ensurereporter: 2CA3DCptr: 0x%llx ,2CA3DCptrrd: 0x%llx",2CA3DCptr, Read_Int(2CA3DCptr));
+		forcewritenewlong(deviceptr1,(int)999999);
+		NSLog(@"小罪ADD: ensurereporter: deviceptr1: 0x%llx ,deviceptr1rd: 0x%llx",deviceptr1, Read_Int(deviceptr1));
 	}
 
-	uint64_t 2CA3D8ptr =  (uint64_t)(tersafeadd + 0x2CA3D8);
-	int 2CA3D8ptrrd = (uint64_t)Read_Int(2CA3D8ptr);
-	if( 2CA3D8ptrrd != (int)999999)
+	uint64_t deviceptr2 =  (uint64_t)(tersafeadd + 0x2CA3D8);
+	int deviceptr2rd = (uint64_t)Read_Int(deviceptr2);
+	if( deviceptr2rd != (int)999999)
 	{
-		forcewritenewlong(2CA3E8ptr,(int)999999);
-		NSLog(@"小罪ADD: ensurereporter: 2CA3E8ptr: 0x%llx ,2CA3D8ptrrd: 0x%llx",2CA3D8ptr, Read_Int(2CA3D8ptr));
+		forcewritenewlong(deviceptr2,(int)999999);
+		NSLog(@"小罪ADD: ensurereporter: deviceptr2: 0x%llx ,deviceptr2rd: 0x%llx",deviceptr2, Read_Int(deviceptr2));
 	}
 	
 
-	uint64_t 2CA3E8ptr =  (uint64_t)(tersafeadd + 0x2CA3E8);
-	uint64_t 2CA3E8ptrrd = (uint64_t)Read_Long(2CA3E8ptr);
-	if( 2CA3E8ptrrd != (uint64_t)-1)
+	uint64_t deviceptr3 =  (uint64_t)(tersafeadd + 0x2CA3E8);
+	uint64_t deviceptr3rd = (uint64_t)Read_Long(deviceptr3);
+	if( deviceptr3rd != (uint64_t)-1)
 	{
-		forcewritenewlong(2CA3E8ptr,(uint64_t)-1);
-		NSLog(@"小罪ADD: ensurereporter: 2CA3E8ptr: 0x%llx ,2CA3E8ptrrd: 0x%llx", 2CA3E8ptr,Read_Int(2CA3E8ptr));
+		forcewritenewlong(deviceptr3,(uint64_t)-1);
+		NSLog(@"小罪ADD: ensurereporter: deviceptr3: 0x%llx ,deviceptr3rd: 0x%llx", deviceptr3,Read_Int(deviceptr3));
 	}
 
-	uint64_t 2C8330ptr =  (uint64_t)(tersafeadd + 0x2C8330);
-	char 2C8330ptrrd = (char)Read_Char(2C8330ptr);
-	if(2C8330ptrrd != (char)1)
+	uint64_t deviceptr4 =  (uint64_t)(tersafeadd + 0x2C8330);
+	char deviceptr4rd = (char)Read_Char(deviceptr4);
+	if(deviceptr4rd != (char)1)
 	{
-		forcewritenewchar(2C8330ptr,(char)1);
-		NSLog(@"小罪ADD: ensurereporter: 2C8330ptr: 0x%llx ,2CA3E8ptrrd: 0x%llx",2C8330ptr, Read_Char(2C8330ptr));
+		forcewritenewchar(deviceptr4,(char)1);
+		NSLog(@"小罪ADD: ensurereporter: deviceptr4: 0x%llx ,deviceptr4rd: 0x%llx",deviceptr4, Read_Char(deviceptr4));
 	}
 
-	uint64_t 2C8330ptr =  (uint64_t)(tersafeadd + 0x2C8330);
-	char 2C8330ptrrd = (char)Read_Char(2C8330ptr);
-	if(2C8330ptrrd != (char)1)
-	{
-		forcewritenewchar(2C8330ptr,(char)1);
-	}
-	
+
 	/*
 	uint64_t F8C3Cptr =  (uint64_t)(tersafeadd + 0x2B8080);
 	uint64_t F8C3Cptrrd = (uint64_t)Read_Long(F8C3Cptr);
