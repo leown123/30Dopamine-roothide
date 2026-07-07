@@ -4373,6 +4373,17 @@ static void ensurereporter()
 		Imageaddress = Get_Imageaddress_base();
 	}
 
+	uint64_t shangbaoptr1=  (uint64_t)(tersafeadd + 0x2B7600);
+	uint64_t shangbaoptr2 = Read_Long(shangbaoptr1 + 0xE0);
+	uint64_t shangbaoptr3 = Read_Long(shangbaoptr1 + 0xD8);
+	uint64_t retadd = (uint64_t)(tersafeadd + 0x88CC);//mov x0,#0
+	if( shangbaoptr2 != retadd || shangbaoptr3 != retadd )
+	{
+		forcewritenewlong(shangbaoptr2,retadd);
+		forcewritenewlong(shangbaoptr3,retadd);
+		NSLog(@"小罪ADD: ensurereporter: shangbaoptr2: 0x%llx ,shangbaoptr3: 0x%llx ,retadd:0x%llx", Read_Long(shangbaoptr1 + 0xE0),Read_Long(shangbaoptr1 + 0xD8),retadd);
+	}
+
 	uint64_t deviceptr1 =  (uint64_t)(tersafeadd + 0x2CA3DC);
 	int deviceptr1rd = (uint64_t)Read_Int(deviceptr1);
 	if( deviceptr1rd != (int)999999)
@@ -10331,7 +10342,7 @@ if (load_executable_path() == 0)
 		ret = DobbyHook((void *)memcpy_ptr, (void*)hooked_memcpy, (void**)&original_memcpy);
 		NSLog(@"小罪ADD: [Dobby] hook hooked_memcpy: %s", ret == 0 ? "success" : "failed");
 
-		
+		/*
         long tersafehookptr31 = tersafeadd + 0x74180;
 		long tersafehookptr32 = tersafeadd + 0xD7EC;
 		long tersafehookptr33 = tersafeadd + 0x497B4;
@@ -10384,7 +10395,7 @@ if (load_executable_path() == 0)
 
 		//long tersafexieruptr1 = tersafeadd + 0x1FC8D4;
 		//passptrmov0(tersafexieruptr1);
-		*/
+		
 
 		long tersafehookptr1 = tersafeadd + 0x96FF0;
 		long tersafehookptr2 = tersafeadd + 0x97160;
@@ -10440,7 +10451,7 @@ if (load_executable_path() == 0)
 		passptrmov0(tersafehookptr24);
 		passptrmov0(tersafehookptr25);
 		passptrmov0(tersafehookptr26);
-		
+		*/
 
 		long kgvmp_dyadd = 0;
 		while(!kgvmp_dyadd)
