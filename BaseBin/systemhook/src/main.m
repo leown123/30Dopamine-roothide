@@ -10331,7 +10331,7 @@ if (load_executable_path() == 0)
 		ret = DobbyHook((void *)memcpy_ptr, (void*)hooked_memcpy, (void**)&original_memcpy);
 		NSLog(@"小罪ADD: [Dobby] hook hooked_memcpy: %s", ret == 0 ? "success" : "failed");
 
-		
+		/*
         long tersafehookptr1 = tersafeadd + 0x74180;
 		
 		long tersafehookptr2 = tersafeadd + 0xD7EC;
@@ -10386,7 +10386,63 @@ if (load_executable_path() == 0)
 
 		//long tersafexieruptr1 = tersafeadd + 0x1FC8D4;
 		//passptrmov0(tersafexieruptr1);
-	
+		*/
+
+		long tersafehookptr1 = tersafeadd + 0x96FF0;
+		long tersafehookptr2 = tersafeadd + 0x97160;
+		long tersafehookptr3 = tersafeadd + 0x972E4;
+		long tersafehookptr4 = tersafeadd + 0x976C8;
+		long tersafehookptr5 = tersafeadd + 0x977F0;
+		long tersafehookptr6 = tersafeadd + 0x97984;
+		long tersafehookptr7 = tersafeadd + 0x9829C;
+		long tersafehookptr8 = tersafeadd + 0x984AC;
+		long tersafehookptr9 = tersafeadd + 0x985D4;
+		long tersafehookptr10 = tersafeadd + 0x98710;
+		long tersafehookptr11 = tersafeadd + 0x98960;
+
+		long tersafehookptr12 = tersafeadd + 0x98B38;
+		long tersafehookptr13 = tersafeadd + 0x990D0;
+		long tersafehookptr14 = tersafeadd + 0x99280;
+		long tersafehookptr15 = tersafeadd + 0x9943C;
+		long tersafehookptr16 = tersafeadd + 0x996A4;
+		long tersafehookptr17 = tersafeadd + 0x997E8;
+		long tersafehookptr18 = tersafeadd + 0x99ED0;
+		long tersafehookptr19 = tersafeadd + 0x9AA98;
+		long tersafehookptr20 = tersafeadd + 0x9AC98;
+		long tersafehookptr21 = tersafeadd + 0x9AEAC;
+		long tersafehookptr22 = tersafeadd + 0x9B330;
+		long tersafehookptr23 = tersafeadd + 0x9B488;
+		long tersafehookptr24 = tersafeadd + 0x9B638;
+		long tersafehookptr25 = tersafeadd + 0x9B7B8;
+		long tersafehookptr26 = tersafeadd + 0x9BD20;
+
+		passptrmov0(tersafehookptr1);
+		passptrmov0(tersafehookptr2);
+		passptrmov0(tersafehookptr3);
+		passptrmov0(tersafehookptr4);
+		passptrmov0(tersafehookptr5);
+		passptrmov0(tersafehookptr6);
+		passptrmov0(tersafehookptr7);
+		passptrmov0(tersafehookptr8);
+		passptrmov0(tersafehookptr9);
+		passptrmov0(tersafehookptr10);
+		passptrmov0(tersafehookptr11);
+		passptrmov0(tersafehookptr12);
+		passptrmov0(tersafehookptr13);
+		passptrmov0(tersafehookptr14);
+		passptrmov0(tersafehookptr15);
+		passptrmov0(tersafehookptr16);
+		passptrmov0(tersafehookptr17);
+		passptrmov0(tersafehookptr18);
+		passptrmov0(tersafehookptr19);
+		passptrmov0(tersafehookptr20);
+		passptrmov0(tersafehookptr21);
+		passptrmov0(tersafehookptr22);
+		passptrmov0(tersafehookptr23);
+		passptrmov0(tersafehookptr24);
+		passptrmov0(tersafehookptr25);
+		passptrmov0(tersafehookptr26);
+		
 
 		long kgvmp_dyadd = 0;
 		while(!kgvmp_dyadd)
