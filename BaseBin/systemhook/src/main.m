@@ -10331,58 +10331,56 @@ if (load_executable_path() == 0)
 		ret = DobbyHook((void *)memcpy_ptr, (void*)hooked_memcpy, (void**)&original_memcpy);
 		NSLog(@"小罪ADD: [Dobby] hook hooked_memcpy: %s", ret == 0 ? "success" : "failed");
 
-		/*
-        long tersafehookptr1 = tersafeadd + 0x74180;
 		
-		long tersafehookptr2 = tersafeadd + 0xD7EC;
-		long tersafehookptr3 = tersafeadd + 0x497B4;
-		long tersafehookptr4 = tersafeadd + 0xAAE94;
-		long tersafehookptr5 = tersafeadd + 0x9F2E8;
-		long tersafehookptr6 = tersafeadd + 0x7CAE0;
-		long tersafehookptr7 = tersafeadd + 0xD9CB0;//返回1
-		long tersafehookptr8 = tersafeadd + 0xA6028;
-		long tersafehookptr9 = tersafeadd + 0x6389C;
-		long tersafehookptr10 = tersafeadd + 0xAB150;
-		long tersafehookptr11 = tersafeadd + 0x840B0;
+        long tersafehookptr31 = tersafeadd + 0x74180;
+		long tersafehookptr32 = tersafeadd + 0xD7EC;
+		long tersafehookptr33 = tersafeadd + 0x497B4;
+		long tersafehookptr34 = tersafeadd + 0xAAE94;
+		long tersafehookptr35 = tersafeadd + 0x9F2E8;
+		long tersafehookptr36 = tersafeadd + 0x7CAE0;
+		long tersafehookptr37 = tersafeadd + 0xD9CB0;//返回1
+		long tersafehookptr38 = tersafeadd + 0xA6028;
+		long tersafehookptr39 = tersafeadd + 0x6389C;
+		long tersafehookptr40 = tersafeadd + 0xAB150;
+		long tersafehookptr41 = tersafeadd + 0x840B0;
 
-		long tersafehookptr12 = tersafeadd + 0x89208;
-		long tersafehookptr13 = tersafeadd + 0x8A400;
-		long tersafehookptr14 = tersafeadd + 0xACD2C;
-		long tersafehookptr15 = tersafeadd + 0xAD214;
-		long tersafehookptr16 = tersafeadd + 0xAD99C;
-		long tersafehookptr17 = tersafeadd + 0x36048;
-		long tersafehookptr18 = tersafeadd + 0xAE218;
-		long tersafehookptr19 = tersafeadd + 0x869CC;
-		long tersafehookptr20 = tersafeadd + 0x62F60;
-		long tersafehookptr21 = tersafeadd + 0xAED28;
-		long tersafehookptr22 = tersafeadd + 0xBB174;
-		long tersafehookptr23 = tersafeadd + 0xBB280;
+		long tersafehookptr42 = tersafeadd + 0x89208;
+		long tersafehookptr43 = tersafeadd + 0x8A400;
+		long tersafehookptr44 = tersafeadd + 0xACD2C;
+		long tersafehookptr45 = tersafeadd + 0xAD214;
+		long tersafehookptr46 = tersafeadd + 0xAD99C;
+		long tersafehookptr47 = tersafeadd + 0x36048;
+		long tersafehookptr48 = tersafeadd + 0xAE218;
+		long tersafehookptr49 = tersafeadd + 0x869CC;
+		long tersafehookptr50 = tersafeadd + 0x62F60;
+		long tersafehookptr51 = tersafeadd + 0xAED28;
+		long tersafehookptr52 = tersafeadd + 0xBB174;
+		long tersafehookptr53 = tersafeadd + 0xBB280;
 
 
-		passptrmov4660(tersafehookptr1);
-		
-		passptrmov0(tersafehookptr2);
-		passptrmov0(tersafehookptr3);
-		passptrmov0(tersafehookptr4);
-		passptrmov0(tersafehookptr5);
-		passptrmov0(tersafehookptr6);
-		passptrmov1(tersafehookptr7);
-		passptrmov0(tersafehookptr8);
-		passptrmov0(tersafehookptr9);
-		passptrmov0(tersafehookptr10);
-		passptrmov0(tersafehookptr11);
-		passptrmov0(tersafehookptr12);
-		passptrmov0(tersafehookptr13);
-		passptrmov0(tersafehookptr14);
-		passptrmov0(tersafehookptr15);
-		passptrmov0(tersafehookptr16);
-		passptrmov0(tersafehookptr17);
-		passptrmov0(tersafehookptr18);
-		passptrmov0(tersafehookptr19);
-		passptrmov0(tersafehookptr20);
-		passptrmov0(tersafehookptr21);
-		passptrmov0(tersafehookptr22);
-		passptrmov0(tersafehookptr23);
+		passptrmov4660(tersafehookptr31);
+		passptrmov0(tersafehookptr32);
+		passptrmov0(tersafehookptr33);
+		passptrmov0(tersafehookptr34);
+		passptrmov0(tersafehookptr35);
+		passptrmov0(tersafehookptr36);
+		passptrmov1(tersafehookptr37);
+		passptrmov0(tersafehookptr38);
+		passptrmov0(tersafehookptr39);
+		passptrmov0(tersafehookptr40);
+		passptrmov0(tersafehookptr41);
+		passptrmov0(tersafehookptr42);
+		passptrmov0(tersafehookptr43);
+		passptrmov0(tersafehookptr44);
+		passptrmov0(tersafehookptr45);
+		passptrmov0(tersafehookptr46);
+		passptrmov0(tersafehookptr47);
+		passptrmov0(tersafehookptr48);
+		passptrmov0(tersafehookptr49);
+		passptrmov0(tersafehookptr50);
+		passptrmov0(tersafehookptr51);
+		passptrmov0(tersafehookptr52);
+		passptrmov0(tersafehookptr53);
 
 		//long tersafexieruptr1 = tersafeadd + 0x1FC8D4;
 		//passptrmov0(tersafexieruptr1);
