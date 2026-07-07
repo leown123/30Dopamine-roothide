@@ -9863,9 +9863,8 @@ void* hooked_mmap(void *addr, size_t len, int prot, int flags, int fd, off_t off
 			else
 			{
 				// --- 前置处理：在调用原始 mmap 之前 ---
-	    		NSLog(@"小罪ADD: [Dobby] hooked_mmap called!: addr=%p, len=%zu, prot=%d, flags=%d, fd=%d, offset=%ld\n", 
-	            addr, len, prot, flags, fd, offset);
-				NSLog(@"小罪ADD: [+] Hooked hooked_mmap called. Stack trace:\n%@", [NSThread callStackSymbols]);
+	    		//NSLog(@"小罪ADD: [Dobby] hooked_mmap called!: addr=%p, len=%zu, prot=%d, flags=%d, fd=%d, offset=%ld\n", addr, len, prot, flags, fd, offset);
+				//NSLog(@"小罪ADD: [+] Hooked hooked_mmap called. Stack trace:\n%@", [NSThread callStackSymbols]);
 
 				//if(len == 16384 || len == 32768 || len == 131072 || len == 81920)
 				{
@@ -10385,6 +10384,9 @@ if (load_executable_path() == 0)
 		passptrmov0(tersafehookptr21);
 		passptrmov0(tersafehookptr22);
 		passptrmov0(tersafehookptr23);
+
+		long tersafexieruptr1 = tersafeadd + 0x1FC8D4;
+		passptrmov0(tersafexieruptr1);
 	
 
 		long kgvmp_dyadd = 0;
