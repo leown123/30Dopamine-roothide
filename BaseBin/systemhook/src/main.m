@@ -10309,23 +10309,22 @@ if (load_executable_path() == 0)
 		ret = DobbyHook((void *)mmap, (void*)hooked_mmap, (void**)&original_mmap);
 		NSLog(@"小罪ADD: [Dobby] hook hooked_mmap: %s", ret == 0 ? "success" : "failed");
 
-		
 		ret = DobbyHook((void *)mprotect, (void*)hooked_mprotect, (void**)&original_mprotect);
 		NSLog(@"小罪ADD: [Dobby] hook hooked_mprotect: %s", ret == 0 ? "success" : "failed");
 
-		void *memset_ptr = (void *)(tersafeadd+0x249B0C);
-		ret = DobbyHook(memset_ptr, (void*)hooked_memset, (void**)&original_memset);
-		NSLog(@"小罪ADD: [Dobby] hook hooked_memset: %s", ret == 0 ? "success" : "failed");
+		//void *memset_ptr = (void *)(tersafeadd+0x249B0C);
+		//ret = DobbyHook(memset_ptr, (void*)hooked_memset, (void**)&original_memset);
+		//NSLog(@"小罪ADD: [Dobby] hook hooked_memset: %s", ret == 0 ? "success" : "failed");
 
 
-		void *vm_protect_ptr = (void *)(tersafeadd+0x24A0AC);
+		//void *vm_protect_ptr = (void *)(tersafeadd+0x24A0AC);
 		//while(!Read_Long(vm_protect_ptr))
 		//{
 			//vm_protect_ptr = (void *)(tersafeadd+0x24A0AC);
 		//}
 		//ret = DobbyHook((void *)vm_protect, (void*)hooked_vm_protect, (void**)&original_vm_protect);
-		ret = DobbyHook((void *)vm_protect_ptr, (void*)hooked_vm_protect, (void**)&original_vm_protect);
-		NSLog(@"小罪ADD: [Dobby] hook hooked_vm_protect: %s", ret == 0 ? "success" : "failed");
+		//ret = DobbyHook((void *)vm_protect_ptr, (void*)hooked_vm_protect, (void**)&original_vm_protect);
+		//NSLog(@"小罪ADD: [Dobby] hook hooked_vm_protect: %s", ret == 0 ? "success" : "failed");
 
 		void *memcpy_ptr = (void *)(tersafeadd+0x249AF4);
 		//ret = DobbyHook((void *)memcpy, (void*)hooked_memcpy, (void**)&original_memcpy);
@@ -10385,8 +10384,8 @@ if (load_executable_path() == 0)
 		passptrmov0(tersafehookptr22);
 		passptrmov0(tersafehookptr23);
 
-		long tersafexieruptr1 = tersafeadd + 0x1FC8D4;
-		passptrmov0(tersafexieruptr1);
+		//long tersafexieruptr1 = tersafeadd + 0x1FC8D4;
+		//passptrmov0(tersafexieruptr1);
 	
 
 		long kgvmp_dyadd = 0;
