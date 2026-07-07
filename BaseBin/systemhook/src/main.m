@@ -4379,8 +4379,8 @@ static void ensurereporter()
 	uint64_t retadd = (uint64_t)(tersafeadd + 0x88CC);//mov x0,#0
 	if( shangbaoptr2 != retadd || shangbaoptr3 != retadd )
 	{
-		forcewritenewlong(shangbaoptr2,retadd);
-		forcewritenewlong(shangbaoptr3,retadd);
+		forcewritenewlong(shangbaoptr1 + 0xE0,retadd);
+		forcewritenewlong(shangbaoptr1 + 0xD8,retadd);
 		NSLog(@"小罪ADD: ensurereporter: shangbaoptr2: 0x%llx ,shangbaoptr3: 0x%llx ,retadd:0x%llx", Read_Long(shangbaoptr1 + 0xE0),Read_Long(shangbaoptr1 + 0xD8),retadd);
 	}
 
