@@ -4373,6 +4373,7 @@ static void ensurereporter()
 		Imageaddress = Get_Imageaddress_base();
 	}
 
+	/*
 	uint64_t shangbaoptr1=  (uint64_t)(tersafeadd + 0x2B7600);
 	uint64_t shangbaoptr2 = Read_Long(shangbaoptr1 + 0xE0);
 	uint64_t shangbaoptr3 = Read_Long(shangbaoptr1 + 0xD8);
@@ -4383,6 +4384,7 @@ static void ensurereporter()
 		forcewritenewlong(shangbaoptr1 + 0xD8,retadd);
 		NSLog(@"小罪ADD: ensurereporter: shangbaoptr2: 0x%llx ,shangbaoptr3: 0x%llx ,retadd:0x%llx", Read_Long(shangbaoptr1 + 0xE0),Read_Long(shangbaoptr1 + 0xD8),retadd);
 	}
+	*/
 
 	uint64_t deviceptr1 =  (uint64_t)(tersafeadd + 0x2CA3DC);
 	int deviceptr1rd = (uint64_t)Read_Int(deviceptr1);
@@ -8623,6 +8625,7 @@ void initbreakpoint()
     };
 	*/
 
+	/*
 	// 0x20CCA8
 	ter_breakpoints[1] = (Breakpoint){
         .source = tersafetsadd68,
@@ -8632,6 +8635,7 @@ void initbreakpoint()
         .used = 1,
         .hw_index = -1
     };
+	*/
 
 	/*
 	//0x218D58 RingBuf_Tick
@@ -8657,7 +8661,7 @@ void initbreakpoint()
     };
 	*/
 
-	
+	/*
 	// 0x127C34
 	ter_breakpoints[2] = (Breakpoint){
         .source = tersafetsadd69,
@@ -8667,6 +8671,7 @@ void initbreakpoint()
         .used = 1,
         .hw_index = -1
     };
+	*/
 
 	/*
 	//0x20F42C NetObj_GetInstance
