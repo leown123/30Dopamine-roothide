@@ -9850,14 +9850,23 @@ void bianliimage()
 static xpc_object_t (*orig_xpc_dictionary_create_empty)(void) = NULL;
 
 // 替换函数
-xpc_object_t hooked_xpc_dictionary_create_empty(void) {
-    // 在此处添加自定义逻辑，例如记录调用栈或拒绝某些进程创建
-     NSLog(@"小罪ADD: hooked_xpc_dictionary_create_empty called");
-	 NSLog(@"小罪ADD: [+] Hooked hooked_xpc_dictionary_create_empty called. Stack trace:\n%@", [NSThread callStackSymbols]);
-    
+xpc_object_t hooked_xpc_dictionary_create_empty(void) 
+{	
+	void *caller_return_address = __builtin_return_address(0);
+
+	if((uint64_t)caller_return_address >= (uint64_t)(tersafeadd) && (uint64_t)caller_return_address <= (uint64_t)(tersafeadd + 0x2CB040))
+	{
+		// 在此处添加自定义逻辑，例如记录调用栈或拒绝某些进程创建
+     	NSLog(@"小罪ADD: hooked_xpc_dictionary_create_empty called");
+	 	NSLog(@"小罪ADD: [+] Hooked hooked_xpc_dictionary_create_empty called. Stack trace:\n%@", [NSThread callStackSymbols]);
+   	
+		return 0 ;
+	}
+	
+     
     // 调用原函数，保持行为不变
-    //return orig_xpc_dictionary_create_empty();
-	return 0 ;
+    return orig_xpc_dictionary_create_empty();
+	
 }
 
 // 1. 定义 mmap 的函数指针类型
