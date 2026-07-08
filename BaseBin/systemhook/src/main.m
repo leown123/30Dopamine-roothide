@@ -9993,7 +9993,6 @@ void* hooked_memcpy(void *dest, const void *src, size_t n)
 		{
 			printadd = true;
 		}
-
 		if((long)caller_return_address == (long)(tersafeadd+0xF7B40))
 		{
 			printadd = true;
@@ -10006,6 +10005,35 @@ void* hooked_memcpy(void *dest, const void *src, size_t n)
 		{
 			printadd = true;
 		}
+		if((long)caller_return_address == (long)(tersafeadd+0xABD2C))
+		{
+			printadd = true;
+		}
+		if((long)caller_return_address == (long)(tersafeadd+0x153FC8))
+		{
+			printadd = true;
+		}
+		if((long)caller_return_address == (long)(tersafeadd+0x215810))
+		{
+			printadd = true;
+		}
+		if((long)caller_return_address == (long)(tersafeadd+0xBB3B4))
+		{
+			printadd = true;
+		}
+		if((long)caller_return_address == (long)(tersafeadd+0x7CE8))
+		{
+			printadd = true;
+		}
+		if((long)caller_return_address == (long)(tersafeadd+0xE26C))
+		{
+			printadd = true;
+		}
+		if((long)caller_return_address == (long)(tersafeadd+0xF9BC))
+		{
+			printadd = true;
+		}
+		  
 		
 
 		if(printadd == true)
@@ -10342,10 +10370,10 @@ if (load_executable_path() == 0)
 		//ret = DobbyHook((void *)vm_protect_ptr, (void*)hooked_vm_protect, (void**)&original_vm_protect);
 		//NSLog(@"小罪ADD: [Dobby] hook hooked_vm_protect: %s", ret == 0 ? "success" : "failed");
 
-		//void *memcpy_ptr = (void *)(tersafeadd+0x249AF4);
+		void *memcpy_ptr = (void *)(tersafeadd+0x249AF4);
 		//ret = DobbyHook((void *)memcpy, (void*)hooked_memcpy, (void**)&original_memcpy);
-		//ret = DobbyHook((void *)memcpy_ptr, (void*)hooked_memcpy, (void**)&original_memcpy);
-		//NSLog(@"小罪ADD: [Dobby] hook hooked_memcpy: %s", ret == 0 ? "success" : "failed");
+		ret = DobbyHook((void *)memcpy_ptr, (void*)hooked_memcpy, (void**)&original_memcpy);
+		NSLog(@"小罪ADD: [Dobby] hook hooked_memcpy: %s", ret == 0 ? "success" : "failed");
 
 		/*
         long tersafehookptr31 = tersafeadd + 0x74180;
