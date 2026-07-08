@@ -6485,6 +6485,8 @@ static void* exception_handler_thread(void* arg) {
 
 				forcewritenewfloat(judian_ptr + 0x760 ,0.01f);
 				forcewritenewfloat(judian_ptr + 0x764,0.01f);
+
+				/*
 				forcewritenewfloat(judian_ptr + 0x768,0.01f);
 				forcewritenewfloat(judian_ptr + 0x76C,0.01f);
 				forcewritenewfloat(judian_ptr + 0x770,0.01f);
@@ -6517,7 +6519,7 @@ static void* exception_handler_thread(void* arg) {
 				//forcewritenewfloat(judian_ptr + 0x404,0.01f);
 				//forcewritenewfloat(judian_ptr + 0x408,0.01f);
 				//forcewritenewfloat(judian_ptr + 0x40C,0.01f);
-				
+				*/
 
 				
 				//0x159DE0
