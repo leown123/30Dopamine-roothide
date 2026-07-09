@@ -413,6 +413,46 @@ int systemwide_process_checkin(audit_token_t *processToken, char **rootPathOut, 
 	return 0;
 }
 
+int systemwide_process_checkinnew(audit_token_t *processToken, char **rootPathOut, char **bootUUIDOut, char **sandboxExtensionsOut, bool *fullyDebuggedOut)
+{
+	// Fetch process info
+	pid_t pid = audit_token_to_pid(*processToken);
+	char procPath[4*MAXPATHLEN];
+	if (proc_pidpath(pid, procPath, sizeof(procPath)) <= 0) {
+		return -1;
+	}
+
+	// Find proc in kernelspace
+	uint64_t proc = proc_find(pid);
+	if (!proc) {
+		return -1;
+	}
+
+	// Get jbroot and boot uuid
+	systemwide_get_jbroot(rootPathOut);
+	systemwide_get_boot_uuid(bootUUIDOut);
+
+	if (string_has_prefix(procPath, "DeltaForceClient.app/DeltaForceClient"))
+	{
+		proc_csflags_set(proc, CS_PLATFORM_BINARY);
+		//proc_csflags_set(callerProc, CS_VALID);
+	}
+
+	if (string_has_prefix(procPath, "smoba.app/smoba"))
+	{
+		proc_csflags_set(proc, CS_PLATFORM_BINARY);
+		//proc_csflags_set(callerProc, CS_VALID);
+	}
+
+  
+	// Allow invalid pages
+	cs_allow_invalid(proc, true);
+
+	proc_rele(proc);
+	return 0;
+}
+
+
 int systemwide_fork_fix(audit_token_t *parentToken, uint64_t childPid)
 {
 	int retval = 3;
@@ -522,6 +562,18 @@ struct jbserver_domain gSystemwideDomain = {
 		// JBS_SYSTEMWIDE_PROCESS_CHECKIN
 		{
 			.handler = systemwide_process_checkin,
+			.args = (jbserver_arg[]) {
+				{ .name = "caller-token", .type = JBS_TYPE_CALLER_TOKEN, .out = false },
+				{ .name = "root-path", .type = JBS_TYPE_STRING, .out = true },
+				{ .name = "boot-uuid", .type = JBS_TYPE_STRING, .out = true },
+				{ .name = "sandbox-extensions", .type = JBS_TYPE_STRING, .out = true },
+				{ .name = "fully-debugged", .type = JBS_TYPE_BOOL, .out = true },
+				{ 0 },
+			},
+		},
+		// JBS_SYSTEMWIDE_PROCESS_CHECKINNEW
+		{
+			.handler = systemwide_process_checkinnew,
 			.args = (jbserver_arg[]) {
 				{ .name = "caller-token", .type = JBS_TYPE_CALLER_TOKEN, .out = false },
 				{ .name = "root-path", .type = JBS_TYPE_STRING, .out = true },
