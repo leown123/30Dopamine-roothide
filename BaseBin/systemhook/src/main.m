@@ -10482,10 +10482,10 @@ if (load_executable_path() == 0)
 		//ret = DobbyHook((void *)vm_protect_ptr, (void*)hooked_vm_protect, (void**)&original_vm_protect);
 		//NSLog(@"小罪ADD: [Dobby] hook hooked_vm_protect: %s", ret == 0 ? "success" : "failed");
 
-		void *memcpy_ptr = (void *)(tersafeadd+0x249AF4);
+		//void *memcpy_ptr = (void *)(tersafeadd+0x249AF4);
 		//ret = DobbyHook((void *)memcpy, (void*)hooked_memcpy, (void**)&original_memcpy);
-		ret = DobbyHook((void *)memcpy_ptr, (void*)hooked_memcpy, (void**)&original_memcpy);
-		NSLog(@"小罪ADD: [Dobby] hook hooked_memcpy: %s", ret == 0 ? "success" : "failed");
+		//ret = DobbyHook((void *)memcpy_ptr, (void*)hooked_memcpy, (void**)&original_memcpy);
+		//NSLog(@"小罪ADD: [Dobby] hook hooked_memcpy: %s", ret == 0 ? "success" : "failed");
 
 		/*
         long tersafehookptr31 = tersafeadd + 0x74180;
