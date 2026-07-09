@@ -5767,14 +5767,16 @@ static void* exception_handler_thread(void* arg) {
 
 			if(bptype == 1) //射速专用
 			{
+				uint64_t yuanptr = thread_state2.__x[8] + 0x18;
+				float myf = Read_Float(yuanptr);
+				NSLog(@"小罪ADD: [0x338CD18 hook] 主线程 0x338CD18 原射速: %.2f,拟修改射速:%.2f",myf,bp->s0_val);
+				
 				arm_neon_state64_t neon_state;
 		        mach_msg_type_number_t neon_cnt = ARM_NEON_STATE64_COUNT;
 		        kr = thread_get_state(thread_port, ARM_NEON_STATE64,(thread_state_t)&neon_state, &neon_cnt);
 		        if (kr == KERN_SUCCESS) 
 				{
-		            
-					float myf = *(float*)&neon_state.__v[0];
-					NSLog(@"小罪ADD: [0x338CD18 hook] 主线程 0x338CD18 原射速: %.2f,拟修改射速:%.2f",myf,bp->s0_val);
+					NSLog(@"小罪ADD: [0x338CD18 hook] 主线程 0x338CD18 原射速: %.2f,修改射速:%.2f 成功",myf,bp->s0_val);
 					*(float*)&neon_state.__v[0] = bp->s0_val;
 		            //*(float*)&neon_state.__v[1] = bp->s1_val;
 		            thread_set_state(thread_port, ARM_NEON_STATE64,(thread_state_t)&neon_state, neon_cnt);
@@ -7826,7 +7828,7 @@ void initbreakpoint()
 	mach_vm_address_t tersafetsadd84ret =  (mach_vm_address_t)hooked_ret0;
 
 	mach_vm_address_t shesuadd   = Imageaddress + 0x338CD18; //射速
-	mach_vm_address_t shesuaddret   = Imageaddress + 0x338CD1C;
+	mach_vm_address_t shesuaddret = Imageaddress + 0x338CD1C;
 	
 
 	g_source_addr = wuhouadd;
@@ -7843,6 +7845,7 @@ void initbreakpoint()
         .hw_index = -1
     };
 
+	// 0x338CD18
 	g_breakpoints[1] = (Breakpoint){
         .source = shesuadd,          // 源地址
         .target = shesuaddret,          // 目标地址
