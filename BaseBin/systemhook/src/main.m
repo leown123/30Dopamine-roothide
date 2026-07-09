@@ -4373,6 +4373,14 @@ static void ensurereporter()
 		Imageaddress = Get_Imageaddress_base();
 	}
 
+	uint64_t dkjyptr1 =  (uint64_t)(tersafeadd + 0x2C7D00);
+	int dkjyptr1rd = (uint64_t)Read_Int(deviceptr1);
+	if( dkjyptr1rd != (int)0x1234)
+	{
+		forcewritenewint(deviceptr1,(int)0x1234);
+		NSLog(@"小罪ADD: ensurereporter: dkjyptr1: 0x%llx ,dkjyptr1rd: 0x%llx",dkjyptr1, Read_Int(dkjyptr1));
+	}
+
 	/*
 	uint64_t shangbaoptr1=  (uint64_t)(tersafeadd + 0x2B7600);
 	uint64_t shangbaoptr2 = Read_Long(shangbaoptr1 + 0xE0);
