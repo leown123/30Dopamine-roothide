@@ -5765,10 +5765,28 @@ static void* exception_handler_thread(void* arg) {
 		        }
 			}
 
-			if(bptype == 1)
+			if(bptype == 1) //射速专用
+			{
+				arm_neon_state64_t neon_state;
+		        mach_msg_type_number_t neon_cnt = ARM_NEON_STATE64_COUNT;
+		        kr = thread_get_state(thread_port, ARM_NEON_STATE64,(thread_state_t)&neon_state, &neon_cnt);
+		        if (kr == KERN_SUCCESS) 
+				{
+		            
+					float myf = *(float*)&neon_state.__v[0];
+					NSLog(@"小罪ADD: [0x338CD18 hook] 主线程 0x338CD18 原射速: %.2f,拟修改射速:%.2f",myf,bp->s0_val);
+					*(float*)&neon_state.__v[0] = bp->s0_val;
+		            //*(float*)&neon_state.__v[1] = bp->s1_val;
+		            thread_set_state(thread_port, ARM_NEON_STATE64,(thread_state_t)&neon_state, neon_cnt);
+		        }
+			}
+
+			//if(bptype == 1)
 			{	
+				
+				
 				// 0x1FE7C4
-				NSLog(@"小罪ADD: [tersafe 0x1FE7C4 hook] ter线程 0x1FE7C4 跳转至hook_mprotect");
+				//NSLog(@"小罪ADD: [tersafe 0x1FE7C4 hook] ter线程 0x1FE7C4 跳转至hook_mprotect");
 				
 				// 0x215CA8
 				//NSLog(@"小罪ADD: [tersafe 0x215CA8 hook] ter线程调用 0x215CA8 返回0");
@@ -7806,6 +7824,9 @@ void initbreakpoint()
 
 	mach_vm_address_t tersafetsadd84 = tersafeadd + 0xB52D8;// 0xB52D8
 	mach_vm_address_t tersafetsadd84ret =  (mach_vm_address_t)hooked_ret0;
+
+	mach_vm_address_t shesuadd   = Imageaddress + 0x338CD18; //射速
+	mach_vm_address_t shesuaddret   = Imageaddress + 0x338CD1C;
 	
 
 	g_source_addr = wuhouadd;
@@ -7818,6 +7839,15 @@ void initbreakpoint()
         .target = wuhouadd + 4,          // 目标地址
         .s0_val = -0.03f,             // 要写入 s0 的值
         .s1_val = -0.02f,             // 要写入 s1 的值
+        .used = 1,
+        .hw_index = -1
+    };
+
+	g_breakpoints[1] = (Breakpoint){
+        .source = shesuadd,          // 源地址
+        .target = shesuaddret,          // 目标地址
+        .s0_val = 200.0f,             // 要写入 s0 的值
+        .s1_val = 200.0f,             // 要写入 s1 的值
         .used = 1,
         .hw_index = -1
     };
@@ -7908,6 +7938,7 @@ void initbreakpoint()
     };
 	*/
 
+	/*
 	// 0x1FE7C4
 	g_breakpoints[1] = (Breakpoint){
         .source = tersafetsadd71,
@@ -7917,6 +7948,7 @@ void initbreakpoint()
         .used = 1,
         .hw_index = -1
     };
+	*/
 	
 	/*
 	// 0xF9910
