@@ -4374,7 +4374,7 @@ static void ensurereporter()
 	}
 
 	uint64_t dkjyptr1 =  (uint64_t)(tersafeadd + 0x2C7D00);
-	int dkjyptr1rd = (uint64_t)Read_Int(deviceptr1);
+	int dkjyptr1rd = (uint64_t)Read_Int(dkjyptr1);
 	if( dkjyptr1rd != (int)0x1234)
 	{
 		forcewritenewint(deviceptr1,(int)0x1234);
@@ -5750,7 +5750,7 @@ static void* exception_handler_thread(void* arg) {
 		//if(istersafebp == false && bptype >= 0 //范围
 		if(istersafebp == false )
 		{
-			if(bptype == 0) // || bptype == 5
+			if(bptype == 0 || bptype == 5) // 
 			{	
 				//NSLog(@"小罪ADD: 无后断点 触发");
 		        // 修改浮点寄存器 s0/s1
@@ -6487,12 +6487,14 @@ static void* exception_handler_thread(void* arg) {
 			}
 
 			if(bptype == 5)
-			{
+			{	
+				/*
 				//0x33768CC judianaddnew
 				uint64_t judian_ptr = thread_state2.__x[19];
 
 				forcewritenewfloat(judian_ptr + 0x760 ,0.01f);
 				forcewritenewfloat(judian_ptr + 0x764,0.01f);
+				*/
 
 				/*
 				forcewritenewfloat(judian_ptr + 0x768,0.01f);
@@ -6622,8 +6624,13 @@ static void* exception_handler_thread(void* arg) {
 			
 			if(terbptype == 1) 
 			{
+
+	
+				// 0xD7EC
+				//NSLog(@"小罪ADD: [tersafe 0xD7EC hook] ter线程 0xD7EC called! 返回0");
+				
 				// 0x20CCA8
-				NSLog(@"小罪ADD: [tersafe 0x20CCA8 hook] ter线程 0x20CCA8 called! 返回1");
+				//NSLog(@"小罪ADD: [tersafe 0x20CCA8 hook] ter线程 0x20CCA8 called! 返回1");
 				
 				// 0x20C500
 				//NSLog(@"小罪ADD: [tersafe 0x20C500 hook] ter线程触发 0x20C500 闪退检测线程");
@@ -6725,6 +6732,11 @@ static void* exception_handler_thread(void* arg) {
 
 			if(terbptype == 2) 
 			{
+
+				// 0xB5F48
+				NSLog(@"小罪ADD: [tersafe 0xB5F48 hook] tersafe触发 0xB5F48 返回0"); 
+
+				
 				// 0x127C34
 				//NSLog(@"小罪ADD: [tersafe 0x127C34 hook] tersafe触发 0x127C34 返回1"); 
 				
@@ -6894,10 +6906,14 @@ static void* exception_handler_thread(void* arg) {
 			
 			if(terbptype == 3) 
 			{	
+				// 0x9F2E8
+				NSLog(@"小罪ADD: [tersafe 0x9F2E8 hook] ter线程 0x9F2E8 called 返回0");
+
+				
 				//0x20FCF4 ReportQueue_Enqueue write
 				//NSLog(@"小罪ADD: [tersafe 0x20FCF4 hook] ter线程 ReportQueue_Enqueue write called");
 			
-				
+				/*
 				//异常上报 ReportQueue_Enqueue sub_210EAC
 				uint64_t myptr = thread_state2.__x[1];
 				int opcode = Read_Int(myptr);
@@ -6915,7 +6931,7 @@ static void* exception_handler_thread(void* arg) {
 				if(opcode >= 0x800) result = @"超过0x800的未知异常";
 
 				NSLog(@"小罪ADD: [tersafe sub_210EAC hook] ReportQueue_Enqueue tersafe线程 通道异常上报触发,opcode:%d,异常状态：%@",opcode,result);
-				
+				*/
 				
 				//NSLog(@"小罪ADD: [tersafe 0x2132C8 hook] ter线程 VM_DispatchPendingCallbacks called");
 				
@@ -6962,6 +6978,11 @@ static void* exception_handler_thread(void* arg) {
 
 			if(terbptype == 4) 
 			{	
+
+				// 0xA5DDC
+				thread_state2.__x[0] = 0;
+				NSLog(@"小罪ADD: [tersafe 0xA5DDC hook] ter线程调用 0xA5DDC 返回0");
+				
 				// 0x215CA8
 				//NSLog(@"小罪ADD: [tersafe 0x215CA8 hook] ter线程调用 0x215CA8 返回0");
 				
@@ -7004,8 +7025,12 @@ static void* exception_handler_thread(void* arg) {
  
 			if(terbptype == 5)  
 			{	
+
+				// 0xB52D8
+				//NSLog(@"小罪ADD: [tersafe 0xB52D8 hook] ter线程 0xB52D8 返回0");
+				
 				// 0x1FE7C4
-				NSLog(@"小罪ADD: [tersafe 0x1FE7C4 hook] ter线程 0x1FE7C4 跳转至hooked_mprotect");
+				//NSLog(@"小罪ADD: [tersafe 0x1FE7C4 hook] ter线程 0x1FE7C4 跳转至hooked_mprotect");
 
 				/*
 				//sub_582A4 下发文件hook				
@@ -7766,6 +7791,18 @@ void initbreakpoint()
 
 	mach_vm_address_t tersafetsadd72 = tersafeadd + 0xA99CC;// syscall
 	mach_vm_address_t tersafetsadd72ret = tersafeadd + 0xA9A04;
+
+	mach_vm_address_t tersafetsadd80 = tersafeadd + 0xD7EC;// 0xD7EC
+	mach_vm_address_t tersafetsadd80ret =  (mach_vm_address_t)hooked_ret0;
+
+	mach_vm_address_t tersafetsadd81 = tersafeadd + 0xB5F48;// 0xB5F48
+	mach_vm_address_t tersafetsadd81ret =  (mach_vm_address_t)hooked_ret0;
+
+	mach_vm_address_t tersafetsadd82 = tersafeadd + 0x9F2E8;// 
+	mach_vm_address_t tersafetsadd82ret =  (mach_vm_address_t)hooked_ret0;
+
+	mach_vm_address_t tersafetsadd83 = tersafeadd + 0xA5DDC;// 0xA5DDC
+	mach_vm_address_t tersafetsadd83ret = tersafeadd + 0x0xA600C;
 	
 
 	g_source_addr = wuhouadd;
@@ -8244,7 +8281,7 @@ void initbreakpoint()
     };
 	*/
 
-	/*
+	
 	g_breakpoints[5] = (Breakpoint){
         .source = fanweiadd3,
         .target = fanweiadd3 + 4,
@@ -8253,9 +8290,9 @@ void initbreakpoint()
         .used = 1,
         .hw_index = -1
     };
-	*/
-
 	
+
+	/*
 	//0x33768CC judianaddnew 
 	g_breakpoints[5] = (Breakpoint){
         .source = judianaddnew,
@@ -8265,7 +8302,7 @@ void initbreakpoint()
         .used = 1,
         .hw_index = -1
     };
-	
+	*/
 	
 
 	/*
@@ -8575,6 +8612,57 @@ void initbreakpoint()
         .hw_index = -1
     };
 
+
+	// 0xD7EC
+	ter_breakpoints[1] = (Breakpoint){
+        .source = tersafetsadd80,
+        .target = tersafetsadd80ret,
+        .s0_val = 29.0f,
+        .s1_val = 0.0f,
+        .used = 1,
+        .hw_index = -1
+    };
+
+	// 0xB5F48
+	ter_breakpoints[2] = (Breakpoint){
+        .source = tersafetsadd81,
+        .target = tersafetsadd81ret,
+        .s0_val = 29.0f,
+        .s1_val = 0.0f,
+        .used = 1,
+        .hw_index = -1
+    };
+
+	// 0x9F2E8
+	ter_breakpoints[3] = (Breakpoint){
+        .source = tersafetsadd82,
+        .target = tersafetsadd82ret,
+        .s0_val = 29.0f,
+        .s1_val = 0.0f,
+        .used = 1,
+        .hw_index = -1
+    };
+
+	// 0xA5DDC
+	ter_breakpoints[4] = (Breakpoint){
+        .source = tersafetsadd83,
+        .target = tersafetsadd83ret,
+        .s0_val = 29.0f,
+        .s1_val = 0.0f,
+        .used = 1,
+        .hw_index = -1
+    };
+
+	// 0xB52D8
+	ter_breakpoints[5] = (Breakpoint){
+        .source = tersafetsadd84,
+        .target = tersafetsadd84ret,
+        .s0_val = 29.0f,
+        .s1_val = 0.0f,
+        .used = 1,
+        .hw_index = -1
+    };
+
 	/*
 	//0x254818 VM_DebugDetect_Instance2
 	ter_breakpoints[0] = (Breakpoint){
@@ -8720,7 +8808,7 @@ void initbreakpoint()
     };
 	*/
 
-	
+	/*
 	//0x210EAC ReportQueue_Enqueue
 	ter_breakpoints[3] = (Breakpoint){
         .source = tersafetsadd22,
@@ -8730,7 +8818,7 @@ void initbreakpoint()
         .used = 1,
         .hw_index = -1
     };
-	
+	*/
 
 	/*
 	//0x20FCF4 ReportQueue_Enqueue write
@@ -8865,6 +8953,7 @@ void initbreakpoint()
     };
 	*/
 
+	/*
 	// 0x1FE7C4
 	ter_breakpoints[5] = (Breakpoint){
         .source = tersafetsadd71,
@@ -8874,6 +8963,7 @@ void initbreakpoint()
         .used = 1,
         .hw_index = -1
     };
+	*/
 
 	/*
 	//0x582A4 下发
