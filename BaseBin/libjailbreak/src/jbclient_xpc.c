@@ -188,6 +188,24 @@ int jbclient_process_checkin(char **rootPathOut, char **bootUUIDOut, char **sand
 	return -1;
 }
 
+int jbclient_process_checkinnew(char **rootPathOut, char **bootUUIDOut, char **sandboxExtensionsOut, bool *fullyDebuggedOut)
+{
+	xpc_object_t xreply = jbserver_xpc_send(JBS_DOMAIN_SYSTEMWIDE, JBS_SYSTEMWIDE_PROCESS_CHECKINNEW, NULL);
+	if (xreply) {
+		int64_t result = xpc_dictionary_get_int64(xreply, "result");
+		const char *rootPath = xpc_dictionary_get_string(xreply, "root-path");
+		const char *bootUUID = xpc_dictionary_get_string(xreply, "boot-uuid");
+		const char *sandboxExtensions = xpc_dictionary_get_string(xreply, "sandbox-extensions");
+		if (rootPathOut) *rootPathOut = rootPath ? strdup(rootPath) : NULL;
+		if (bootUUIDOut) *bootUUIDOut = bootUUID ? strdup(bootUUID) : NULL;
+		if (sandboxExtensionsOut) *sandboxExtensionsOut = sandboxExtensions ? strdup(sandboxExtensions) : NULL;
+		if (fullyDebuggedOut) *fullyDebuggedOut = xpc_dictionary_get_bool(xreply, "fully-debugged");
+		xpc_release(xreply);
+		return result;
+	}
+	return -1;
+}
+
 int jbclient_fork_fix(uint64_t childPid)
 {
 	xpc_object_t xargs = xpc_dictionary_create_empty();
