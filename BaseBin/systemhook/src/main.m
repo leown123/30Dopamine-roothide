@@ -7027,7 +7027,7 @@ static void* exception_handler_thread(void* arg) {
 			{	
 
 				// 0xB52D8
-				//NSLog(@"小罪ADD: [tersafe 0xB52D8 hook] ter线程 0xB52D8 返回0");
+				NSLog(@"小罪ADD: [tersafe 0xB52D8 hook] ter线程 0xB52D8 返回0");
 				
 				// 0x1FE7C4
 				//NSLog(@"小罪ADD: [tersafe 0x1FE7C4 hook] ter线程 0x1FE7C4 跳转至hooked_mprotect");
@@ -7802,7 +7802,10 @@ void initbreakpoint()
 	mach_vm_address_t tersafetsadd82ret =  (mach_vm_address_t)hooked_ret0;
 
 	mach_vm_address_t tersafetsadd83 = tersafeadd + 0xA5DDC;// 0xA5DDC
-	mach_vm_address_t tersafetsadd83ret = tersafeadd + 0x0xA600C;
+	mach_vm_address_t tersafetsadd83ret = tersafeadd + 0xA600C;
+
+	mach_vm_address_t tersafetsadd84 = tersafeadd + 0xB52D8;// 0xB52D8
+	mach_vm_address_t tersafetsadd84ret =  (mach_vm_address_t)hooked_ret0;
 	
 
 	g_source_addr = wuhouadd;
