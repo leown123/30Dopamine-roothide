@@ -4377,7 +4377,7 @@ static void ensurereporter()
 	int dkjyptr1rd = (uint64_t)Read_Int(dkjyptr1);
 	if( dkjyptr1rd != (int)0x1234)
 	{
-		forcewritenewint(deviceptr1,(int)0x1234);
+		forcewritenewint(dkjyptr1,(int)0x1234);
 		NSLog(@"小罪ADD: ensurereporter: dkjyptr1: 0x%llx ,dkjyptr1rd: 0x%llx",dkjyptr1, Read_Int(dkjyptr1));
 	}
 
