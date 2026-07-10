@@ -5784,32 +5784,31 @@ static void* exception_handler_thread(void* arg) {
 					float Y = *(float*)&neon_state.__v[1];
 					float R = *(float*)&neon_state.__v[2];
 
-					//float P = Read_Float(spptr + 0x214);
-					//float Y = Read_Float(spptr + 0x218);
-					//float R = Read_Float(spptr + 0x21C);
+					//int jiaoyan = Read_Int(spptr + 0x220);
 	
-					//float P = Read_Float(spptr + 0x274);
-					//float Y = Read_Float(spptr + 0x278);
-					//float R = Read_Float(spptr + 0x27C);
+					//NSLog(@"小罪ADD: [0x338D520 hook] 主线程 0x338D520 追踪：jiaoyan =%d P=%.3f Y=%.3f R=%.3f",jiaoyan,P,Y,R);
 	
-					int jiaoyan = Read_Int(spptr + 0x220);
-	
-					NSLog(@"小罪ADD: [0x338D520 hook] 主线程 0x338D520 追踪：jiaoyan =%d P=%.3f Y=%.3f R=%.3f",jiaoyan,P,Y,R);
-	
-					float zhuizongx = 358.925f;
-					float zhuizongy = 32.954f;
-	
-					//forcewritenewfloat(spptr + 0x274,zhuizongx);
-					//forcewritenewfloat(spptr + 0x278,zhuizongy);
+					//float zhuizongx = 358.925f;
+					//float zhuizongy = 32.954f;
 
-					*(float*)&neon_state.__v[0] = zhuizongx;
-		            *(float*)&neon_state.__v[1] = zhuizongy;
-					*(float*)&neon_state.__v[2] = 0.0f;
-		            
-	
-					forcewritenewint(spptr + 0x220,1);
+					int kaiguan = Read_Int(Imageaddress + 0x14A14000);
 
-					
+					folat zhuizongx = Read_Float(Imageaddress + 0x14A14004);
+					folat zhuizongy = Read_Float(Imageaddress + 0x14A14008);
+
+					if(kaiguan == 1)
+					{
+						//forcewritenewfloat(spptr + 0x274,zhuizongx);
+						//forcewritenewfloat(spptr + 0x278,zhuizongy);
+	
+						*(float*)&neon_state.__v[0] = zhuizongx;
+			            *(float*)&neon_state.__v[1] = zhuizongy;
+						*(float*)&neon_state.__v[2] = 0.0f;
+	
+						forcewritenewint(spptr + 0x220,1);
+						
+					}
+	
 		            thread_set_state(thread_port, ARM_NEON_STATE64,(thread_state_t)&neon_state, neon_cnt);
 		        }
 
