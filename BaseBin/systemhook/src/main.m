@@ -5796,11 +5796,16 @@ static void* exception_handler_thread(void* arg) {
 	
 					NSLog(@"小罪ADD: [0x338D520 hook] 主线程 0x338D520 追踪：jiaoyan =%d P=%.3f Y=%.3f R=%.3f",jiaoyan,P,Y,R);
 	
-					//float zhuizongx = 359.619f;
-					//float zhuizongy = 35.414f;
+					float zhuizongx = 358.925f;
+					float zhuizongy = 32.954f;
 	
 					//forcewritenewfloat(spptr + 0x274,zhuizongx);
 					//forcewritenewfloat(spptr + 0x278,zhuizongy);
+
+					*(float*)&neon_state.__v[0] = zhuizongx;
+		            *(float*)&neon_state.__v[1] = zhuizongy;
+					*(float*)&neon_state.__v[2] = 0.0f;
+		            
 	
 					forcewritenewint(spptr + 0x220,1);
 
