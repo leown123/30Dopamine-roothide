@@ -5767,6 +5767,21 @@ static void* exception_handler_thread(void* arg) {
 
 			if(bptype == 1) //射速专用
 			{
+				// 0x338D520; //追踪
+
+				uint64_t spptr = thread_state2.__sp;
+
+				float P = Read_Float(spptr + 0x214);
+				float Y = Read_Float(spptr + 0x218);
+				float R = Read_Float(spptr + 0x21C);
+
+				//  还原 LDUR            X8, [X29,#-0x88]
+				uint64_t huanyuanptr = thread_state2.__x[29] - 0x88;
+				thread_state2.__x[8] = Read_Long(huanyuanptr);
+				
+				NSLog(@"小罪ADD: [0x338D520 hook] 主线程 0x338D520 追踪： P=%.3f Y=%.3f R=%.3f",P,Y,R);
+				
+				/*
 				uint64_t yuanptr = thread_state2.__x[8] + 0x18;
 				float myf = Read_Float(yuanptr);
 				NSLog(@"小罪ADD: [0x338CD18 hook] 主线程 0x338CD18 原射速: %.2f,拟修改射速:%.2f",myf,bp->s0_val);
@@ -5781,6 +5796,7 @@ static void* exception_handler_thread(void* arg) {
 		            //*(float*)&neon_state.__v[1] = bp->s1_val;
 		            thread_set_state(thread_port, ARM_NEON_STATE64,(thread_state_t)&neon_state, neon_cnt);
 		        }
+				*/
 			}
 
 			//if(bptype == 1)
@@ -7829,6 +7845,10 @@ void initbreakpoint()
 
 	mach_vm_address_t shesuadd   = Imageaddress + 0x338CD18; //射速
 	mach_vm_address_t shesuaddret = Imageaddress + 0x338CD1C;
+
+	mach_vm_address_t zhuizongadd   = Imageaddress + 0x338D520; //追踪
+	mach_vm_address_t zhuizongaddret = Imageaddress + 0x338D524;
+
 	
 
 	g_source_addr = wuhouadd;
@@ -7845,6 +7865,17 @@ void initbreakpoint()
         .hw_index = -1
     };
 
+	// 0x338D520; //追踪
+	g_breakpoints[1] = (Breakpoint){
+        .source = zhuizongadd,          // 源地址
+        .target = zhuizongaddret,          // 目标地址
+        .s0_val = 0.0f,             // 要写入 s0 的值
+        .s1_val = 0.0f,             // 要写入 s1 的值
+        .used = 1,
+        .hw_index = -1
+    };
+
+	/*
 	// 0x338CD18
 	g_breakpoints[1] = (Breakpoint){
         .source = shesuadd,          // 源地址
@@ -7854,6 +7885,7 @@ void initbreakpoint()
         .used = 1,
         .hw_index = -1
     };
+	*/
 	
 
 	/*
