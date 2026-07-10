@@ -5793,8 +5793,8 @@ static void* exception_handler_thread(void* arg) {
 
 					int kaiguan = Read_Int(Imageaddress + 0x14A14000);
 
-					folat zhuizongx = Read_Float(Imageaddress + 0x14A14004);
-					folat zhuizongy = Read_Float(Imageaddress + 0x14A14008);
+					float zhuizongx = Read_Float(Imageaddress + 0x14A14004);
+					float zhuizongy = Read_Float(Imageaddress + 0x14A14008);
 
 					if(kaiguan == 1)
 					{
