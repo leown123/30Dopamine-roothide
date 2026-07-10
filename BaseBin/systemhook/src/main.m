@@ -5779,7 +5779,7 @@ static void* exception_handler_thread(void* arg) {
 				float Y = Read_Float(spptr + 0x278);
 				float R = Read_Float(spptr + 0x27C);
 
-				int jiaoyan = Read_Int(spptr + 0x220)
+				int jiaoyan = Read_Int(spptr + 0x220);
 
 				NSLog(@"小罪ADD: [0x338D520 hook] 主线程 0x338D520 追踪：jiaoyan =%d P=%.3f Y=%.3f R=%.3f",jiaoyan,P,Y,R);
 
