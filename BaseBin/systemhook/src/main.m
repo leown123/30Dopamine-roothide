@@ -6630,11 +6630,12 @@ static void* exception_handler_thread(void* arg) {
 			
 			if(terbptype == 0) 
 			{	
+				// 0x108CA8
+				NSLog(@"小罪ADD: [tersafe 0x108CA8 hook] ter线程 0x108CA8 called! 返回0");
+				
 				//0x1AEB30 自瞄hook
-				NSLog(@"小罪ADD: [tersafe 0x1AEB30 hook] tersafe触发 自瞄hook检测"); 
-				
-				
-				
+				//NSLog(@"小罪ADD: [tersafe 0x1AEB30 hook] tersafe触发 自瞄hook检测"); 
+	
 				// 0x18E68
 				//NSLog(@"小罪ADD: [tersafe 0x18E68 hook] ter线程 0x18E68 called! 返回0");
 				
@@ -7884,6 +7885,9 @@ void initbreakpoint()
 	mach_vm_address_t tersafetsadd84 = tersafeadd + 0xB52D8;// 0xB52D8
 	mach_vm_address_t tersafetsadd84ret =  (mach_vm_address_t)hooked_ret0;
 
+	mach_vm_address_t tersafetsadd85 = tersafeadd + 0x108CA8;// 0x108CA8
+	mach_vm_address_t tersafetsadd85ret =  (mach_vm_address_t)hooked_ret0;
+
 	mach_vm_address_t shesuadd   = Imageaddress + 0x338CD18; //射速
 	mach_vm_address_t shesuaddret = Imageaddress + 0x338CD1C;
 
@@ -8712,11 +8716,22 @@ void initbreakpoint()
     };
 	*/
 
-
+	/*
 	//0x1AEB30 自瞄hook
 	ter_breakpoints[0] = (Breakpoint){
         .source = tersafetsadd51,
         .target = tersafetsadd51ret,
+        .s0_val = 29.0f,
+        .s1_val = 0.0f,
+        .used = 1,
+        .hw_index = -1
+    };
+	*/
+
+	// 0x108CA8
+	ter_breakpoints[0] = (Breakpoint){
+        .source = tersafetsadd85,
+        .target = tersafetsadd85ret,
         .s0_val = 29.0f,
         .s1_val = 0.0f,
         .used = 1,
