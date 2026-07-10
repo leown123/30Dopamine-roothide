@@ -5771,26 +5771,44 @@ static void* exception_handler_thread(void* arg) {
 
 				uint64_t spptr = thread_state2.__sp;
 
-				//float P = Read_Float(spptr + 0x214);
-				//float Y = Read_Float(spptr + 0x218);
-				//float R = Read_Float(spptr + 0x21C);
+				 // 修改浮点寄存器 s0/s1
+		        arm_neon_state64_t neon_state;
+		        mach_msg_type_number_t neon_cnt = ARM_NEON_STATE64_COUNT;
+		        kr = thread_get_state(thread_port, ARM_NEON_STATE64,(thread_state_t)&neon_state, &neon_cnt);
+		        if (kr == KERN_SUCCESS) 
+				{
+		            //*(float*)&neon_state.__v[0] = bp->s0_val;
+		            //*(float*)&neon_state.__v[1] = bp->s1_val;
 
-				float P = Read_Float(spptr + 0x274);
-				float Y = Read_Float(spptr + 0x278);
-				float R = Read_Float(spptr + 0x27C);
+					float P = *(float*)&neon_state.__v[0];
+					float Y = *(float*)&neon_state.__v[1];
+					float R = *(float*)&neon_state.__v[2];
 
-				int jiaoyan = Read_Int(spptr + 0x220);
+					//float P = Read_Float(spptr + 0x214);
+					//float Y = Read_Float(spptr + 0x218);
+					//float R = Read_Float(spptr + 0x21C);
+	
+					//float P = Read_Float(spptr + 0x274);
+					//float Y = Read_Float(spptr + 0x278);
+					//float R = Read_Float(spptr + 0x27C);
+	
+					int jiaoyan = Read_Int(spptr + 0x220);
+	
+					NSLog(@"小罪ADD: [0x338D520 hook] 主线程 0x338D520 追踪：jiaoyan =%d P=%.3f Y=%.3f R=%.3f",jiaoyan,P,Y,R);
+	
+					//float zhuizongx = 359.619f;
+					//float zhuizongy = 35.414f;
+	
+					//forcewritenewfloat(spptr + 0x274,zhuizongx);
+					//forcewritenewfloat(spptr + 0x278,zhuizongy);
+	
+					forcewritenewint(spptr + 0x220,1);
 
-				NSLog(@"小罪ADD: [0x338D520 hook] 主线程 0x338D520 追踪：jiaoyan =%d P=%.3f Y=%.3f R=%.3f",jiaoyan,P,Y,R);
+					
+		            thread_set_state(thread_port, ARM_NEON_STATE64,(thread_state_t)&neon_state, neon_cnt);
+		        }
 
-				float zhuizongx = 359.619f;
-				float zhuizongy = 35.414f;
-
-				forcewritenewfloat(spptr + 0x274,zhuizongx);
-				forcewritenewfloat(spptr + 0x278,zhuizongy);
-
-				forcewritenewint(spptr + 0x220,1);
-
+				
 
 				//  还原 LDUR            X8, [X29,#-0x88]
 				uint64_t huanyuanptr = thread_state2.__x[29] - 0x88;
