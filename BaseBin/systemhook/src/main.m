@@ -6630,8 +6630,8 @@ static void* exception_handler_thread(void* arg) {
 			
 			if(terbptype == 0) 
 			{	
-				// 0x108CA8
-				NSLog(@"小罪ADD: [tersafe 0x108CA8 hook] ter线程 0x108CA8 called! 返回0");
+				// 0xF56D0
+				NSLog(@"小罪ADD: [tersafe 0xF56D0 hook] ter线程 0xF56D0 called! 返回0");
 				
 				//0x1AEB30 自瞄hook
 				//NSLog(@"小罪ADD: [tersafe 0x1AEB30 hook] tersafe触发 自瞄hook检测"); 
@@ -6704,8 +6704,8 @@ static void* exception_handler_thread(void* arg) {
 			{
 
 	
-				// 0xD7EC
-				//NSLog(@"小罪ADD: [tersafe 0xD7EC hook] ter线程 0xD7EC called! 返回0");
+				// 0x582A4
+				//NSLog(@"小罪ADD: [tersafe 0x582A4 hook] ter线程 0x582A4 called! 返回0");
 				
 				// 0x20CCA8
 				//NSLog(@"小罪ADD: [tersafe 0x20CCA8 hook] ter线程 0x20CCA8 called! 返回1");
@@ -7870,7 +7870,7 @@ void initbreakpoint()
 	mach_vm_address_t tersafetsadd72 = tersafeadd + 0xA99CC;// syscall
 	mach_vm_address_t tersafetsadd72ret = tersafeadd + 0xA9A04;
 
-	mach_vm_address_t tersafetsadd80 = tersafeadd + 0xD7EC;// 0xD7EC
+	mach_vm_address_t tersafetsadd80 = tersafeadd + 0x582A4;// 0x582A4
 	mach_vm_address_t tersafetsadd80ret =  (mach_vm_address_t)hooked_ret0;
 
 	mach_vm_address_t tersafetsadd81 = tersafeadd + 0xB5F48;// 0xB5F48
@@ -7885,7 +7885,7 @@ void initbreakpoint()
 	mach_vm_address_t tersafetsadd84 = tersafeadd + 0xB52D8;// 0xB52D8
 	mach_vm_address_t tersafetsadd84ret =  (mach_vm_address_t)hooked_ret0;
 
-	mach_vm_address_t tersafetsadd85 = tersafeadd + 0x108CA8;// 0x108CA8
+	mach_vm_address_t tersafetsadd85 = tersafeadd + 0xF56D0;// 0xF56D0
 	mach_vm_address_t tersafetsadd85ret =  (mach_vm_address_t)hooked_ret0;
 
 	mach_vm_address_t shesuadd   = Imageaddress + 0x338CD18; //射速
@@ -8728,7 +8728,7 @@ void initbreakpoint()
     };
 	*/
 
-	// 0x108CA8
+	// 0xF56D0
 	ter_breakpoints[0] = (Breakpoint){
         .source = tersafetsadd85,
         .target = tersafetsadd85ret,
@@ -8739,7 +8739,7 @@ void initbreakpoint()
     };
 
 
-	// 0xD7EC
+	// 0x582A4
 	ter_breakpoints[1] = (Breakpoint){
         .source = tersafetsadd80,
         .target = tersafetsadd80ret,
