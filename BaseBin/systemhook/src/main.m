@@ -7910,6 +7910,7 @@ void initbreakpoint()
         .hw_index = -1
     };
 
+	/*
 	// 0x338D520; //追踪
 	g_breakpoints[1] = (Breakpoint){
         .source = zhuizongadd,          // 源地址
@@ -7919,6 +7920,7 @@ void initbreakpoint()
         .used = 1,
         .hw_index = -1
     };
+	*/
 
 	/*
 	// 0x338CD18
