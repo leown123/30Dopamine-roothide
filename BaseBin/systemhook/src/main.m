@@ -5779,7 +5779,7 @@ static void* exception_handler_thread(void* arg) {
 					vm_address_t address = 0;
 				    vm_size_t size = 0x1000;
 				    int flags  = VM_FLAGS_ANYWHERE;
-				    kern_return_t kr  = vm_allocate(target_task,&address,size,flags);
+				    kern_return_t kr  = vm_allocate(mach_task_self (),&address,size,flags);
 					if(kr != KERN_SUCCESS)
     				{
 						NSLog(@"小罪ADD: kaiguanptradd: 申请追踪内存失败！");
@@ -5790,12 +5790,12 @@ static void* exception_handler_thread(void* arg) {
 						forcewritenewlong(kaiguanptradd,address);
 						if(Read_Long(kaiguanptradd) == (long)address)
 						{
-							NSLog(@"小罪ADD: kaiguanptradd: 写入申请追踪内存:%llx 到:%llx 成功！",address，kaiguanptradd);
+							NSLog(@"小罪ADD: kaiguanptradd: 写入申请追踪内存:%llx 到:%llx 成功！",address,kaiguanptradd);
 							kaiguanptradd2 = Read_Long(kaiguanptradd);
 						}
 						else
 						{
-							NSLog(@"小罪ADD: kaiguanptradd: 写入申请追踪内存:%llx 到:%llx 失败！",address，kaiguanptradd);
+							NSLog(@"小罪ADD: kaiguanptradd: 写入申请追踪内存:%llx 到:%llx 失败！",address,kaiguanptradd);
 							forcewritenewlong(kaiguanptradd,0);
 						}
 						
