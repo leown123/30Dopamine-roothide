@@ -7031,11 +7031,14 @@ static void* exception_handler_thread(void* arg) {
 			
 			if(terbptype == 3) 
 			{	
+				// 0x7BD4C
+				NSLog(@"小罪ADD: [tersafe 0x7BD4C hook] ter线程 0x7BD4C called 返回0");
+				
 				// 0x9F134
 				//NSLog(@"小罪ADD: [tersafe 0x9F134 hook] ter线程 0x9F134 called 返回0");
 				
 				// 0x9F2E8
-				NSLog(@"小罪ADD: [tersafe 0x9F2E8 hook] ter线程 0x9F2E8 called 返回0");
+				//NSLog(@"小罪ADD: [tersafe 0x9F2E8 hook] ter线程 0x9F2E8 called 返回0");
 
 				
 				//0x20FCF4 ReportQueue_Enqueue write
@@ -7979,6 +7982,15 @@ void initbreakpoint()
 	mach_vm_address_t tersafetsadd90 = tersafeadd + 0x13BF4;// 0x13BF4
 	mach_vm_address_t tersafetsadd90ret =  (mach_vm_address_t)hooked_ret0;
 
+	
+    //
+	mach_vm_address_t tersafetsadd90 = tersafeadd + 0x7BD4C;// 0x7BD4C
+	mach_vm_address_t tersafetsadd90ret =  (mach_vm_address_t)hooked_ret0;
+
+	mach_vm_address_t tersafetsadd90 = tersafeadd + 0x7BDA0;// 0x7BDA0
+	mach_vm_address_t tersafetsadd90ret =  (mach_vm_address_t)hooked_ret0;
+
+
 
 	
 
@@ -8885,7 +8897,7 @@ void initbreakpoint()
         .hw_index = -1
     };
 
-	
+	/*
 	// 0x9F2E8
 	ter_breakpoints[3] = (Breakpoint){
         .source = tersafetsadd82,
@@ -8895,6 +8907,7 @@ void initbreakpoint()
         .used = 1,
         .hw_index = -1
     };
+	*/
 	
 	/*
 	// 0x9F134
@@ -8907,7 +8920,16 @@ void initbreakpoint()
         .hw_index = -1
     };
 	*/
-	
+
+	// 0x7BD4C
+	ter_breakpoints[3] = (Breakpoint){
+        .source = tersafetsadd90,
+        .target = tersafetsadd90ret,
+        .s0_val = 29.0f,
+        .s1_val = 0.0f,
+        .used = 1,
+        .hw_index = -1
+    };
 	
 	/*
 	// 0x72964
