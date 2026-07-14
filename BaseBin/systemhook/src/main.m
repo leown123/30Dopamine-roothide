@@ -7984,11 +7984,11 @@ void initbreakpoint()
 
 	
     //
-	mach_vm_address_t tersafetsadd90 = tersafeadd + 0x7BD4C;// 0x7BD4C
-	mach_vm_address_t tersafetsadd90ret =  (mach_vm_address_t)hooked_ret0;
+	mach_vm_address_t tersafetsadd91 = tersafeadd + 0x7BD4C;// 0x7BD4C
+	mach_vm_address_t tersafetsadd91ret =  (mach_vm_address_t)hooked_ret0;
 
-	mach_vm_address_t tersafetsadd90 = tersafeadd + 0x7BDA0;// 0x7BDA0
-	mach_vm_address_t tersafetsadd90ret =  (mach_vm_address_t)hooked_ret0;
+	mach_vm_address_t tersafetsadd92 = tersafeadd + 0x7BDA0;// 0x7BDA0
+	mach_vm_address_t tersafetsadd93ret =  (mach_vm_address_t)hooked_ret0;
 
 
 
@@ -8923,8 +8923,8 @@ void initbreakpoint()
 
 	// 0x7BD4C
 	ter_breakpoints[3] = (Breakpoint){
-        .source = tersafetsadd90,
-        .target = tersafetsadd90ret,
+        .source = tersafetsadd91,
+        .target = tersafetsadd91ret,
         .s0_val = 29.0f,
         .s1_val = 0.0f,
         .used = 1,
