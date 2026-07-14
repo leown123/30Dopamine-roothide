@@ -5792,6 +5792,7 @@ static void* exception_handler_thread(void* arg) {
 						{
 							NSLog(@"小罪ADD: kaiguanptradd: 写入申请追踪内存:%llx 到:%llx 成功！",address,kaiguanptradd);
 							kaiguanptradd2 = Read_Long(kaiguanptradd);
+							forcewritenewlong(kaiguanptradd2,0);
 						}
 						else
 						{
