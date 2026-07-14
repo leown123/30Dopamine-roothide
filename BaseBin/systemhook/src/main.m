@@ -4754,8 +4754,10 @@ static void ensurereporter()
 		NSLog(@"小罪ADD: ensurereporter: yueyuptr4: 0x%llx ,yueyuptr4count: %d", yueyuptr4,yueyuptr4count);
 	}
 
-	//bianlixianchenghack();
-	
+	if(!cs2paused && !cs3paused)
+	{
+		bianlixianchenghack();
+	}
 
 }
 
@@ -6702,8 +6704,11 @@ static void* exception_handler_thread(void* arg) {
 			
 			if(terbptype == 1) 
 			{
+				// 0xB52D8
+				//NSLog(@"小罪ADD: [tersafe 0xB52D8 hook] ter线程 0xB52D8 返回0");
+
 				// 0x9EB74
-				NSLog(@"小罪ADD: [tersafe 0x9EB74 hook] ter线程 0x9EB74 called! 返回0");
+				//NSLog(@"小罪ADD: [tersafe 0x9EB74 hook] ter线程 0x9EB74 called! 返回0");
 	
 				// 0x582A4
 				//NSLog(@"小罪ADD: [tersafe 0x582A4 hook] ter线程 0x582A4 called! 返回0");
@@ -6986,10 +6991,10 @@ static void* exception_handler_thread(void* arg) {
 			if(terbptype == 3) 
 			{	
 				// 0x9F134
-				NSLog(@"小罪ADD: [tersafe 0x9F134 hook] ter线程 0x9F134 called 返回0");
+				//NSLog(@"小罪ADD: [tersafe 0x9F134 hook] ter线程 0x9F134 called 返回0");
 				
 				// 0x9F2E8
-				//NSLog(@"小罪ADD: [tersafe 0x9F2E8 hook] ter线程 0x9F2E8 called 返回0");
+				NSLog(@"小罪ADD: [tersafe 0x9F2E8 hook] ter线程 0x9F2E8 called 返回0");
 
 				
 				//0x20FCF4 ReportQueue_Enqueue write
@@ -7110,8 +7115,6 @@ static void* exception_handler_thread(void* arg) {
 			if(terbptype == 5)  
 			{	
 
-				// 0xB52D8
-				NSLog(@"小罪ADD: [tersafe 0xB52D8 hook] ter线程 0xB52D8 返回0");
 				
 				// 0x1FE7C4
 				//NSLog(@"小罪ADD: [tersafe 0x1FE7C4 hook] ter线程 0x1FE7C4 跳转至hooked_mprotect");
@@ -7136,7 +7139,7 @@ static void* exception_handler_thread(void* arg) {
 				//thread_state2.__x[0] = 0;
 				//NSLog(@"小罪ADD: [tersafe 0x96558 hook] ter线程 0x96558 改nop");
 
-				/*
+				
 				//0xAA880 检测控制开关
 
 				bool iscontainstr = false;
@@ -7171,7 +7174,18 @@ static void* exception_handler_thread(void* arg) {
 					result = strstr(path, "hook");
 					if (result != NULL) iscontainstr = true;
 
-					////////
+					//
+					result = strstr(path, "force");
+					if (result != NULL) iscontainstr = true;
+
+					result = strstr(path, "HB");
+					if (result != NULL) iscontainstr = true;
+
+					result = strstr(path, "hb");
+					if (result != NULL) iscontainstr = true;
+
+
+					/*
 					result = strstr(path, "force");
 					if (result != NULL) iscontainstr = true;
 
@@ -7363,7 +7377,7 @@ static void* exception_handler_thread(void* arg) {
 					
 					result = strstr(path, "port");
 					if (result != NULL) iscontainstr = true;
-					
+					*/
 
 					
 
@@ -7389,7 +7403,7 @@ static void* exception_handler_thread(void* arg) {
 					thread_state2.__sp -= 0x40;
 					bp->target = (uint64_t)(thread_state2.__pc + 4);
 			    }
-				*/
+				
 			
 				/*
 				//0x2A2B0 _tp2_setuserinfo
@@ -8748,6 +8762,7 @@ void initbreakpoint()
     };
 	*/
 
+	/*
 	// 0xF56D0
 	ter_breakpoints[0] = (Breakpoint){
         .source = tersafetsadd85,
@@ -8757,6 +8772,7 @@ void initbreakpoint()
         .used = 1,
         .hw_index = -1
     };
+	*/
 
 	/*
 	// 0x582A4
@@ -8770,10 +8786,22 @@ void initbreakpoint()
     };
 	*/
 
+	/*
 	// 0x9EB74
 	ter_breakpoints[1] = (Breakpoint){
         .source = tersafetsadd87,
         .target = tersafetsadd87ret,
+        .s0_val = 29.0f,
+        .s1_val = 0.0f,
+        .used = 1,
+        .hw_index = -1
+    };
+	*/
+
+	// 0xB52D8
+	ter_breakpoints[1] = (Breakpoint){
+        .source = tersafetsadd84,
+        .target = tersafetsadd84ret,
         .s0_val = 29.0f,
         .s1_val = 0.0f,
         .used = 1,
@@ -8792,7 +8820,7 @@ void initbreakpoint()
         .hw_index = -1
     };
 
-	/*
+	
 	// 0x9F2E8
 	ter_breakpoints[3] = (Breakpoint){
         .source = tersafetsadd82,
@@ -8802,8 +8830,8 @@ void initbreakpoint()
         .used = 1,
         .hw_index = -1
     };
-	*/
-
+	
+	/*
 	// 0x9F134
 	ter_breakpoints[3] = (Breakpoint){
         .source = tersafetsadd88,
@@ -8813,9 +8841,10 @@ void initbreakpoint()
         .used = 1,
         .hw_index = -1
     };
+	*/
 	
 	
-
+	/*
 	// 0x72964
 	ter_breakpoints[4] = (Breakpoint){
         .source = tersafetsadd86,
@@ -8825,6 +8854,7 @@ void initbreakpoint()
         .used = 1,
         .hw_index = -1
     };
+	*/
 
 	/*
 	// 0xA5DDC
@@ -8838,16 +8868,7 @@ void initbreakpoint()
     };
 	*/
 
-	// 0xB52D8
-	ter_breakpoints[5] = (Breakpoint){
-        .source = tersafetsadd84,
-        .target = tersafetsadd84ret,
-        .s0_val = 29.0f,
-        .s1_val = 0.0f,
-        .used = 1,
-        .hw_index = -1
-    };
-
+	
 	/*
 	//0x254818 VM_DebugDetect_Instance2
 	ter_breakpoints[0] = (Breakpoint){
@@ -9126,7 +9147,7 @@ void initbreakpoint()
     };
 	*/
 
-	/*
+	
 	//0xAA880 检测控制开关
 	ter_breakpoints[5] = (Breakpoint){
         .source = tersafetsadd18,
@@ -9136,7 +9157,7 @@ void initbreakpoint()
         .used = 1,
         .hw_index = -1
     };
-	*/
+	
 
 	/*
 	// 0x1FE7C4
