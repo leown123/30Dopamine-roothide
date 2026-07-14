@@ -2327,6 +2327,13 @@ uint64_t hooked_ret0(uint64_t a1)//
 	return 0;
 }
 
+uint64_t hooked_ret0log(uint64_t a1,uint64_t a2,uint64_t a3,uint64_t a4)//
+{
+	NSLog(@"小罪ADD: [+] hooked_ret0log called. a1=0x%llx,a2=0x%llx,a3=0x%llx,a4=0x%llx", a1, a2, a3, a4);
+	NSLog(@"小罪ADD: [+] hooked_ret0log called. Stack trace:\n%@", [NSThread callStackSymbols]);
+	return 0;
+}
+
 uint64_t hooked_ret999(uint64_t a1)//
 {
 	//NSLog(@"小罪ADD: [+] hooked_ret0 called. a1=0x%llx", a1);
@@ -7985,7 +7992,7 @@ void initbreakpoint()
 	
     //
 	mach_vm_address_t tersafetsadd91 = tersafeadd + 0x7BD4C;// 0x7BD4C
-	mach_vm_address_t tersafetsadd91ret =  (mach_vm_address_t)hooked_ret0;
+	mach_vm_address_t tersafetsadd91ret =  (mach_vm_address_t)hooked_ret0log;
 
 	mach_vm_address_t tersafetsadd92 = tersafeadd + 0x7BDA0;// 0x7BDA0
 	mach_vm_address_t tersafetsadd93ret =  (mach_vm_address_t)hooked_ret0;
