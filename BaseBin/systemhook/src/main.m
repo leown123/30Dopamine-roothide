@@ -6540,6 +6540,56 @@ static void* exception_handler_thread(void* arg) {
 
 			if(bptype== 4)
 			{	
+				
+				//0x33768CC judianaddnew
+				uint64_t judian_ptr = thread_state2.__x[19];
+
+				float a1 = Read_Float(judian_ptr + 0x760);
+				float a2 = Read_Float(judian_ptr + 0x764);
+
+				if(a1 != 0.01f || a2 != 0.01f)
+				{
+					forcewritenewfloat(judian_ptr + 0x760 ,0.01f);
+					forcewritenewfloat(judian_ptr + 0x764 ,0.01f);
+				}
+				
+
+				/*
+				forcewritenewfloat(judian_ptr + 0x768,0.01f);
+				forcewritenewfloat(judian_ptr + 0x76C,0.01f);
+				forcewritenewfloat(judian_ptr + 0x770,0.01f);
+
+				forcewritenewfloat(judian_ptr + 0x774 ,0.01f); //
+				forcewritenewfloat(judian_ptr + 0x778,0.01f);  //
+
+				forcewritenewfloat(judian_ptr + 0x77C,0.01f);
+				forcewritenewfloat(judian_ptr + 0x780,0.01f);
+
+				//
+				forcewritenewfloat(judian_ptr + 0x3D0,0.01f);
+				forcewritenewfloat(judian_ptr + 0x3D4,0.01f);
+				forcewritenewfloat(judian_ptr + 0x3D8,0.01f);
+				forcewritenewfloat(judian_ptr + 0x3DC,0.01f);
+
+				forcewritenewfloat(judian_ptr + 0x3E0,0.01f);
+				forcewritenewfloat(judian_ptr + 0x3E4,0.01f);
+
+				forcewritenewfloat(judian_ptr + 0x3E8,0.01f);
+				forcewritenewfloat(judian_ptr + 0x3EC,0.01f);
+				forcewritenewfloat(judian_ptr + 0x3F0,0.01f);
+				forcewritenewfloat(judian_ptr + 0x3F4,0.01f);
+
+				forcewritenewfloat(judian_ptr + 0x3F8,0.01f);
+				forcewritenewfloat(judian_ptr + 0x3FC,0.01f);
+
+				forcewritenewfloat(judian_ptr + 0x400,0.01f);
+				
+				//forcewritenewfloat(judian_ptr + 0x404,0.01f);
+				//forcewritenewfloat(judian_ptr + 0x408,0.01f);
+				//forcewritenewfloat(judian_ptr + 0x40C,0.01f);
+				*/
+				
+				/*
 				//0xA99CC syscall
 				uint64_t xuhao = thread_state2.__x[0];
 				//NSLog(@"小罪ADD: [tersafe 0xA99CC hook] 主线程触发 syscall 序号：%d"，xuhao); 
@@ -6553,6 +6603,7 @@ static void* exception_handler_thread(void* arg) {
 					NSLog(@"小罪ADD: [tersafe 0xA99CC hook] 主线程触发 syscall mmap 函数 序号：%d",xuhao); 
 					bp->target = (uint64_t)hooked_mmap;
 				}
+				*/
 				
 				//0x6CF8 环境
 				//NSLog(@"小罪ADD: [tersafe sub_6CF8 hook] 主线程触发"); //sub_6CF8 环境检测hook
@@ -6612,48 +6663,7 @@ static void* exception_handler_thread(void* arg) {
 
 			if(bptype == 5)
 			{	
-				/*
-				//0x33768CC judianaddnew
-				uint64_t judian_ptr = thread_state2.__x[19];
-
-				forcewritenewfloat(judian_ptr + 0x760 ,0.01f);
-				forcewritenewfloat(judian_ptr + 0x764,0.01f);
-				*/
-
-				/*
-				forcewritenewfloat(judian_ptr + 0x768,0.01f);
-				forcewritenewfloat(judian_ptr + 0x76C,0.01f);
-				forcewritenewfloat(judian_ptr + 0x770,0.01f);
-
-				forcewritenewfloat(judian_ptr + 0x774 ,0.01f); //
-				forcewritenewfloat(judian_ptr + 0x778,0.01f);  //
-
-				forcewritenewfloat(judian_ptr + 0x77C,0.01f);
-				forcewritenewfloat(judian_ptr + 0x780,0.01f);
-
-				//
-				forcewritenewfloat(judian_ptr + 0x3D0,0.01f);
-				forcewritenewfloat(judian_ptr + 0x3D4,0.01f);
-				forcewritenewfloat(judian_ptr + 0x3D8,0.01f);
-				forcewritenewfloat(judian_ptr + 0x3DC,0.01f);
-
-				forcewritenewfloat(judian_ptr + 0x3E0,0.01f);
-				forcewritenewfloat(judian_ptr + 0x3E4,0.01f);
-
-				forcewritenewfloat(judian_ptr + 0x3E8,0.01f);
-				forcewritenewfloat(judian_ptr + 0x3EC,0.01f);
-				forcewritenewfloat(judian_ptr + 0x3F0,0.01f);
-				forcewritenewfloat(judian_ptr + 0x3F4,0.01f);
-
-				forcewritenewfloat(judian_ptr + 0x3F8,0.01f);
-				forcewritenewfloat(judian_ptr + 0x3FC,0.01f);
-
-				forcewritenewfloat(judian_ptr + 0x400,0.01f);
 				
-				//forcewritenewfloat(judian_ptr + 0x404,0.01f);
-				//forcewritenewfloat(judian_ptr + 0x408,0.01f);
-				//forcewritenewfloat(judian_ptr + 0x40C,0.01f);
-				*/
 
 				
 				//0x159DE0
@@ -8454,6 +8464,7 @@ void initbreakpoint()
     };
 	*/
 
+	/*
 	//0xA99CC syscall
 	g_breakpoints[4] = (Breakpoint){
         .source = tersafetsadd72,
@@ -8463,7 +8474,7 @@ void initbreakpoint()
         .used = 1,
         .hw_index = -1
     };
-	
+	*/
 
 	/*
 	// 0x96558
@@ -8503,6 +8514,16 @@ void initbreakpoint()
     };
 	*/
 
+	//0x33768CC judianaddnew 
+	g_breakpoints[4] = (Breakpoint){
+        .source = judianaddnew,
+        .target = judianaddnewret,
+        .s0_val = 0.0f,
+        .s1_val = 0.0f,
+        .used = 1,
+        .hw_index = -1
+    };
+
 	
 	g_breakpoints[5] = (Breakpoint){
         .source = fanweiadd3,
@@ -8514,18 +8535,6 @@ void initbreakpoint()
     };
 	
 
-	/*
-	//0x33768CC judianaddnew 
-	g_breakpoints[5] = (Breakpoint){
-        .source = judianaddnew,
-        .target = judianaddnewret,
-        .s0_val = 0.0f,
-        .s1_val = 0.0f,
-        .used = 1,
-        .hw_index = -1
-    };
-	*/
-	
 
 	/*
 	// 0x159DE0
