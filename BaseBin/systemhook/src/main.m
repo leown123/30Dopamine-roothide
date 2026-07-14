@@ -6632,8 +6632,11 @@ static void* exception_handler_thread(void* arg) {
 			
 			if(terbptype == 0) 
 			{	
+				// 0x13A10
+				NSLog(@"小罪ADD: [tersafe 0x13A10 hook] ter线程 0x13A10 called! 返回0");
+			
 				// 0xF56D0
-				NSLog(@"小罪ADD: [tersafe 0xF56D0 hook] ter线程 0xF56D0 called! 返回0");
+				//NSLog(@"小罪ADD: [tersafe 0xF56D0 hook] ter线程 0xF56D0 called! 返回0");
 				
 				//0x1AEB30 自瞄hook
 				//NSLog(@"小罪ADD: [tersafe 0x1AEB30 hook] tersafe触发 自瞄hook检测"); 
@@ -7065,8 +7068,12 @@ static void* exception_handler_thread(void* arg) {
 
 			if(terbptype == 4) 
 			{	
+				// 0x13BF4
+				NSLog(@"小罪ADD: [tersafe 0x13BF4 hook] ter线程 0x13BF4 called 返回0");
+
+				
 				// 0x72964
-				NSLog(@"小罪ADD: [tersafe 0x72964 hook] ter线程 0x72964 called 返回1");
+				//NSLog(@"小罪ADD: [tersafe 0x72964 hook] ter线程 0x72964 called 返回1");
 
 				// 0xA5DDC
 				//thread_state2.__x[0] = 0;
@@ -7184,6 +7191,8 @@ static void* exception_handler_thread(void* arg) {
 					result = strstr(path, "hb");
 					if (result != NULL) iscontainstr = true;
 
+					result = strstr(path, "scan");
+					if (result != NULL) iscontainstr = true;
 
 					/*
 					result = strstr(path, "force");
@@ -7924,6 +7933,13 @@ void initbreakpoint()
 
 	mach_vm_address_t tersafetsadd88 = tersafeadd + 0x9F134;// 0x9F134
 	mach_vm_address_t tersafetsadd88ret =  (mach_vm_address_t)hooked_ret0;
+
+	//
+	mach_vm_address_t tersafetsadd89 = tersafeadd + 0x13A10;// 0x13A10
+	mach_vm_address_t tersafetsadd89ret =  (mach_vm_address_t)hooked_ret0;
+
+	mach_vm_address_t tersafetsadd90 = tersafeadd + 0x13BF4;// 0x13BF4
+	mach_vm_address_t tersafetsadd90ret =  (mach_vm_address_t)hooked_ret0;
 
 
 	
@@ -8774,6 +8790,17 @@ void initbreakpoint()
     };
 	*/
 
+	
+	// 0x13A10
+	ter_breakpoints[0] = (Breakpoint){
+        .source = tersafetsadd89,
+        .target = tersafetsadd89ret,
+        .s0_val = 29.0f,
+        .s1_val = 0.0f,
+        .used = 1,
+        .hw_index = -1
+    };
+
 	/*
 	// 0x582A4
 	ter_breakpoints[1] = (Breakpoint){
@@ -8867,6 +8894,18 @@ void initbreakpoint()
         .hw_index = -1
     };
 	*/
+
+	
+
+	// 0x13BF4
+	ter_breakpoints[4] = (Breakpoint){
+        .source = tersafetsadd90,
+        .target = tersafetsadd90ret,
+        .s0_val = 29.0f,
+        .s1_val = 0.0f,
+        .used = 1,
+        .hw_index = -1
+    };
 
 	
 	/*
