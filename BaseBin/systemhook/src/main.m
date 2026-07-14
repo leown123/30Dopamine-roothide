@@ -5771,6 +5771,37 @@ static void* exception_handler_thread(void* arg) {
 			{
 				// 0x338D520; //追踪
 
+				long kaiguanptradd = Imageaddress + 0x14A14000;
+				long kaiguanptradd2 = Read_Long(kaiguanptradd);
+				
+				if(kaiguanptradd2 < 0x1000)
+				{
+					vm_address_t address = 0;
+				    vm_size_t size = 0x1000;
+				    int flags  = VM_FLAGS_ANYWHERE;
+				    kern_return_t kr  = vm_allocate(target_task,&address,size,flags);
+					if(kr != KERN_SUCCESS)
+    				{
+						NSLog(@"小罪ADD: kaiguanptradd: 申请追踪内存失败！");
+					}
+					else
+					{
+						NSLog(@"小罪ADD: kaiguanptradd: 申请追踪内存:%llx",address);
+						forcewritenewlong(kaiguanptradd,address);
+						if(Read_Long(kaiguanptradd) == (long)address)
+						{
+							NSLog(@"小罪ADD: kaiguanptradd: 写入申请追踪内存:%llx 到:%llx 成功！",address，kaiguanptradd);
+							kaiguanptradd2 = Read_Long(kaiguanptradd);
+						}
+						else
+						{
+							NSLog(@"小罪ADD: kaiguanptradd: 写入申请追踪内存:%llx 到:%llx 失败！",address，kaiguanptradd);
+							forcewritenewlong(kaiguanptradd,0);
+						}
+						
+					}
+				}
+
 				uint64_t spptr = thread_state2.__sp;
 
 				 // 修改浮点寄存器 s0/s1
@@ -5793,10 +5824,16 @@ static void* exception_handler_thread(void* arg) {
 					//float zhuizongx = 358.925f;
 					//float zhuizongy = 32.954f;
 
+					
+					int kaiguan = Read_Int(kaiguanptradd2);
+					float zhuizongx = Read_Float(kaiguanptradd2 + 0x4);
+					float zhuizongy = Read_Float(kaiguanptradd2 + 0x8);
+					
+					/*
 					int kaiguan = Read_Int(Imageaddress + 0x14A14000);
-
 					float zhuizongx = Read_Float(Imageaddress + 0x14A14004);
 					float zhuizongy = Read_Float(Imageaddress + 0x14A14008);
+					*/
 
 					if(kaiguan == 1)
 					{
