@@ -2334,6 +2334,21 @@ uint64_t hooked_ret0log(uint64_t a1,uint64_t a2,uint64_t a3,uint64_t a4)//
 	return 0;
 }
 
+uint64_t hooked_89B4( 
+		int report_type,
+        int report_id,
+        int session_value,
+        char *main_text,
+        int string_count,
+        uint64_t string_array,
+        int value_count,
+        uint64_t *value_array)
+{
+	NSLog(@"小罪ADD: [+] hooked_89B4 called. report_type=%d,report_id=%d,string_count=%d,string_array=%s", report_type, report_id, string_count, string_array);
+	NSLog(@"小罪ADD: [+] hooked_89B4 called. Stack trace:\n%@", [NSThread callStackSymbols]);
+	return 0;
+}
+
 uint64_t hooked_ret999(uint64_t a1)//
 {
 	//NSLog(@"小罪ADD: [+] hooked_ret0 called. a1=0x%llx", a1);
@@ -7048,8 +7063,11 @@ static void* exception_handler_thread(void* arg) {
 			
 			if(terbptype == 3) 
 			{	
+				// 0x89B4
+				NSLog(@"小罪ADD: [tersafe 0x89B4 hook] ter线程 0x89B4 called 返回0");
+				
 				// 0x7BD4C
-				NSLog(@"小罪ADD: [tersafe 0x7BD4C hook] ter线程 0x7BD4C called 返回0");
+				//NSLog(@"小罪ADD: [tersafe 0x7BD4C hook] ter线程 0x7BD4C called 返回0");
 				
 				// 0x9F134
 				//NSLog(@"小罪ADD: [tersafe 0x9F134 hook] ter线程 0x9F134 called 返回0");
@@ -8005,9 +8023,11 @@ void initbreakpoint()
 	mach_vm_address_t tersafetsadd91ret =  (mach_vm_address_t)hooked_ret0log;
 
 	mach_vm_address_t tersafetsadd92 = tersafeadd + 0x7BDA0;// 0x7BDA0
-	mach_vm_address_t tersafetsadd93ret =  (mach_vm_address_t)hooked_ret0;
+	mach_vm_address_t tersafetsadd92ret =  (mach_vm_address_t)hooked_ret0;
 
-
+	mach_vm_address_t tersafetsadd93 = tersafeadd + 0x89B4;// 0x89B4
+	mach_vm_address_t tersafetsadd93ret =  (mach_vm_address_t)hooked_89B4;
+	
 
 	
 
@@ -8937,10 +8957,22 @@ void initbreakpoint()
     };
 	*/
 
+	/*
 	// 0x7BD4C
 	ter_breakpoints[3] = (Breakpoint){
         .source = tersafetsadd91,
         .target = tersafetsadd91ret,
+        .s0_val = 29.0f,
+        .s1_val = 0.0f,
+        .used = 1,
+        .hw_index = -1
+    };
+	*/
+
+	// 0x89B4
+	ter_breakpoints[3] = (Breakpoint){
+        .source = tersafetsadd93,
+        .target = tersafetsadd93ret,
         .s0_val = 29.0f,
         .s1_val = 0.0f,
         .used = 1,
