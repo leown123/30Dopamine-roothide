@@ -5838,8 +5838,8 @@ static void* exception_handler_thread(void* arg) {
 		        kr = thread_get_state(thread_port, ARM_NEON_STATE64,(thread_state_t)&neon_state, &neon_cnt);
 		        if (kr == KERN_SUCCESS) 
 				{
-		            //*(float*)&neon_state.__v[0] = bp->s0_val;
-		            //*(float*)&neon_state.__v[1] = bp->s1_val;
+		            // *(float*)&neon_state.__v[0] = bp->s0_val;
+		            // *(float*)&neon_state.__v[1] = bp->s1_val;
 
 					float P = *(float*)&neon_state.__v[0];
 					float Y = *(float*)&neon_state.__v[1];
@@ -8928,7 +8928,7 @@ void initbreakpoint()
     };
 	*/
 
-	
+	/*
 	// 0xB52D8
 	ter_breakpoints[1] = (Breakpoint){
         .source = tersafetsadd84,
