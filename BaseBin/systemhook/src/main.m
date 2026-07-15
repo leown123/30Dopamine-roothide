@@ -4778,7 +4778,7 @@ static void ensurereporter()
 
 	if(!cs2paused && !cs3paused)
 	{
-		bianlixianchenghack();
+		//bianlixianchenghack();
 	}
 
 }
@@ -8928,7 +8928,7 @@ void initbreakpoint()
     };
 	*/
 
-	/*
+	
 	// 0xB52D8
 	ter_breakpoints[1] = (Breakpoint){
         .source = tersafetsadd84,
@@ -8938,9 +8938,9 @@ void initbreakpoint()
         .used = 1,
         .hw_index = -1
     };
+	*/
 
-
-
+	
 	// 0xB5F48
 	ter_breakpoints[2] = (Breakpoint){
         .source = tersafetsadd81,
@@ -8950,7 +8950,7 @@ void initbreakpoint()
         .used = 1,
         .hw_index = -1
     };
-	*/
+	
 
 	/*
 	// 0x9F2E8
