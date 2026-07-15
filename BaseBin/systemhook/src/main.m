@@ -5773,8 +5773,13 @@ static void* exception_handler_thread(void* arg) {
 		
 		//if(istersafebp == false && bptype >= 0 //范围
 		if(istersafebp == false )
-		{
-			if(bptype == 0 || bptype == 5) // 
+		{	
+			if(bptype == 0) // 
+			{
+				// 0x89B4
+				NSLog(@"小罪ADD: [tersafe 0x89B4 hook] 主线程 0x89B4 called 返回0");
+			}
+			if(bptype == 5) // bptype == 0 || 
 			{	
 				//NSLog(@"小罪ADD: 无后断点 触发");
 		        // 修改浮点寄存器 s0/s1
@@ -8035,12 +8040,23 @@ void initbreakpoint()
 	g_target_addr = wuhouadd + 4;
 	
 
-	
+	/*
 	g_breakpoints[0] = (Breakpoint){
         .source = wuhouadd,          // 源地址
         .target = wuhouadd + 4,          // 目标地址
         .s0_val = -0.03f,             // 要写入 s0 的值
         .s1_val = -0.02f,             // 要写入 s1 的值
+        .used = 1,
+        .hw_index = -1
+    };
+	*/
+
+	// 0x89B4
+	g_breakpoints[0] = (Breakpoint){
+        .source = tersafetsadd93,
+        .target = tersafetsadd93ret,
+        .s0_val = 29.0f,
+        .s1_val = 0.0f,
         .used = 1,
         .hw_index = -1
     };
@@ -8876,7 +8892,7 @@ void initbreakpoint()
     };
 	*/
 
-	
+	/*
 	// 0x13A10
 	ter_breakpoints[0] = (Breakpoint){
         .source = tersafetsadd89,
@@ -8886,6 +8902,7 @@ void initbreakpoint()
         .used = 1,
         .hw_index = -1
     };
+	*/
 
 	/*
 	// 0x582A4
@@ -8911,6 +8928,7 @@ void initbreakpoint()
     };
 	*/
 
+	/*
 	// 0xB52D8
 	ter_breakpoints[1] = (Breakpoint){
         .source = tersafetsadd84,
@@ -8932,6 +8950,7 @@ void initbreakpoint()
         .used = 1,
         .hw_index = -1
     };
+	*/
 
 	/*
 	// 0x9F2E8
@@ -9004,7 +9023,7 @@ void initbreakpoint()
 	*/
 
 	
-
+	/*
 	// 0x13BF4
 	ter_breakpoints[4] = (Breakpoint){
         .source = tersafetsadd90,
@@ -9014,6 +9033,7 @@ void initbreakpoint()
         .used = 1,
         .hw_index = -1
     };
+	*/
 
 	
 	/*
