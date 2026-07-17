@@ -9160,6 +9160,7 @@ void initbreakpoint()
         .hw_index = -1
     };
 
+	/*
 	// 0xB6E48
 	ter_breakpoints[2] = (Breakpoint){
         .source = tersafetsadd96,
@@ -9169,7 +9170,7 @@ void initbreakpoint()
         .used = 1,
         .hw_index = -1
     };
-
+	*/
 	
 	/*
 	//0x254818 VM_DebugDetect_Instance2
