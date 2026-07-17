@@ -5784,12 +5784,8 @@ static void* exception_handler_thread(void* arg) {
 		//if(istersafebp == false && bptype >= 0 //范围
 		if(istersafebp == false )
 		{	
-			if(bptype == 0) // 
-			{
-				// 0x12A4F0;
-				NSLog(@"小罪ADD: [tersafe 0x12A4F0 hook] 主线程 0x12A4F0 called 返回1");
-			}
-			if(bptype == 5) // bptype == 0 || 
+		
+			if(bptype == 0 || bptype == 5) // 
 			{	
 				//NSLog(@"小罪ADD: 无后断点 触发");
 		        // 修改浮点寄存器 s0/s1
@@ -8102,6 +8098,7 @@ void initbreakpoint()
     };
 	*/
 
+	/*
 	// 0x12A4F0
 	g_breakpoints[0] = (Breakpoint){
         .source = tersafetsadd97,
@@ -8111,10 +8108,7 @@ void initbreakpoint()
         .used = 1,
         .hw_index = -1
     };
-
-	
-	
-
+	*/
 	
 	// 0x338D520; //追踪
 	g_breakpoints[1] = (Breakpoint){
@@ -8396,7 +8390,7 @@ void initbreakpoint()
     };
 	*/
 
-	
+	/*
 	//0x218D58 RingBuf_Tick
 	g_breakpoints[2] = (Breakpoint){
         .source = tersafetsadd24,
@@ -8406,6 +8400,7 @@ void initbreakpoint()
         .used = 1,
         .hw_index = -1
     };
+	*/
 	
 
 	
@@ -8638,7 +8633,7 @@ void initbreakpoint()
         .hw_index = -1
     };
 
-	
+	/*
 	g_breakpoints[5] = (Breakpoint){
         .source = fanweiadd3,
         .target = fanweiadd3 + 4,
@@ -8647,7 +8642,7 @@ void initbreakpoint()
         .used = 1,
         .hw_index = -1
     };
-	
+	*/
 
 
 	/*
@@ -9160,7 +9155,7 @@ void initbreakpoint()
         .hw_index = -1
     };
 
-	/*
+	
 	// 0xB6E48
 	ter_breakpoints[2] = (Breakpoint){
         .source = tersafetsadd96,
@@ -9170,7 +9165,7 @@ void initbreakpoint()
         .used = 1,
         .hw_index = -1
     };
-	*/
+	
 	
 	/*
 	//0x254818 VM_DebugDetect_Instance2
@@ -9450,7 +9445,7 @@ void initbreakpoint()
     };
 	*/
 
-	
+	/*
 	//0xAA880 检测控制开关
 	ter_breakpoints[5] = (Breakpoint){
         .source = tersafetsadd18,
@@ -9460,6 +9455,7 @@ void initbreakpoint()
         .used = 1,
         .hw_index = -1
     };
+	*/
 	
 
 	/*
