@@ -5820,7 +5820,7 @@ static void* exception_handler_thread(void* arg) {
 
 			if(bptype == 1) //射速专用
 			{
-				// ; //追踪
+				//0x338D520 ; //追踪
 
 				long kaiguanptradd = Imageaddress + 0x14A14000;
 				long kaiguanptradd2 = Read_Long(kaiguanptradd);
@@ -8047,7 +8047,7 @@ void initbreakpoint()
 	mach_vm_address_t shesuadd   = Imageaddress + 0x338CD18; //射速
 	mach_vm_address_t shesuaddret = Imageaddress + 0x338CD1C;
 
-	mach_vm_address_t zhuizongadd   = Imageaddress + ; //追踪
+	mach_vm_address_t zhuizongadd   = Imageaddress + 0x338D520; //追踪
 	mach_vm_address_t zhuizongaddret = Imageaddress + 0x338D524;
 
 	//
@@ -8139,7 +8139,7 @@ void initbreakpoint()
     };
 	*/
 	
-	// ; //追踪
+	// 0x0x338D520 ; //追踪
 	g_breakpoints[1] = (Breakpoint){
         .source = zhuizongadd,          // 源地址
         .target = zhuizongaddret,          // 目标地址
