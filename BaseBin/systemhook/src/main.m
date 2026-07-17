@@ -6939,8 +6939,6 @@ static void* exception_handler_thread(void* arg) {
 				//NSLog(@"小罪ADD: [tersafe 0xB5F48 hook] tersafe触发 0xB5F48 返回0"); 
 
 				
-				// 0x127C34
-				//NSLog(@"小罪ADD: [tersafe 0x127C34 hook] tersafe触发 0x127C34 返回1"); 
 				
 				//tersafetsadd53 0x8EE1C
 				//NSLog(@"小罪ADD: [tersafe 0x8EE1C hook] ter线程调用 0x8EE1C");
@@ -7108,6 +7106,9 @@ static void* exception_handler_thread(void* arg) {
 			
 			if(terbptype == 3) 
 			{	
+				// 0x127C34
+				NSLog(@"小罪ADD: [tersafe 0x127C34 hook] tersafe触发 0x127C34 返回1"); 
+				
 			
 				// 0x7BD4C
 				//NSLog(@"小罪ADD: [tersafe 0x7BD4C hook] ter线程 0x7BD4C called 返回0");
@@ -9221,6 +9222,19 @@ void initbreakpoint()
         .used = 1,
         .hw_index = -1
     };
+
+	
+	
+	// 0x127C34
+	ter_breakpoints[3] = (Breakpoint){
+        .source = tersafetsadd69,
+        .target = tersafetsadd69ret,
+        .s0_val = 29.0f,
+        .s1_val = 0.0f,
+        .used = 1,
+        .hw_index = -1
+    };
+	
 	
 	
 	/*
@@ -9319,17 +9333,6 @@ void initbreakpoint()
     };
 	*/
 
-	/*
-	// 0x127C34
-	ter_breakpoints[2] = (Breakpoint){
-        .source = tersafetsadd69,
-        .target = tersafetsadd69ret,
-        .s0_val = 29.0f,
-        .s1_val = 0.0f,
-        .used = 1,
-        .hw_index = -1
-    };
-	*/
 
 	/*
 	//0x20F42C NetObj_GetInstance
