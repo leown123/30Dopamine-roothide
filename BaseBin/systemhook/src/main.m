@@ -6738,6 +6738,7 @@ static void* exception_handler_thread(void* arg) {
 			if(terbptype == 0) 
 			{	
 				// 0xBAD6C
+				thread_state2.__x[0] = 0;
 				NSLog(@"小罪ADD: [tersafe 0xBAD6C hook] ter线程 0xBAD6C called! 返回0");
 				
 				// 0x12A4F0
@@ -6820,6 +6821,7 @@ static void* exception_handler_thread(void* arg) {
 			if(terbptype == 1) 
 			{
 				// 0xBADBC
+				thread_state2.__x[0] = 0;
 				NSLog(@"小罪ADD: [tersafe 0xBADBC hook] ter线程 0xBADBC 返回0");
 				
 				// 0x126608
