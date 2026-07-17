@@ -4395,6 +4395,15 @@ static void ensurereporter()
 		Imageaddress = Get_Imageaddress_base();
 	}
 
+	uint64_t yichangjishuptr1 =  (uint64_t)(tersafeadd + 0x2C863C);
+	int yichangjishuptr1rd = (int)Read_Int(yichangjishuptr1);
+	if( yichangjishuptr1rd != (int)0)
+	{
+		forcewritenewint(yichangjishuptr1,(int)0);
+		NSLog(@"小罪ADD: ensurereporter: yichangjishuptr1: 0x%llx ,yichangjishuptr1rd: 0x%llx",yichangjishuptr1, Read_Int(yichangjishuptr1));
+	}
+	
+	/*
 	uint64_t dkjyptr1 =  (uint64_t)(tersafeadd + 0x2C7D00);
 	int dkjyptr1rd = (uint64_t)Read_Int(dkjyptr1);
 	if( dkjyptr1rd != (int)0x1234)
@@ -4402,6 +4411,7 @@ static void ensurereporter()
 		forcewritenewint(dkjyptr1,(int)0x1234);
 		NSLog(@"小罪ADD: ensurereporter: dkjyptr1: 0x%llx ,dkjyptr1rd: 0x%llx",dkjyptr1, Read_Int(dkjyptr1));
 	}
+	*/
 
 	/*
 	uint64_t shangbaoptr1=  (uint64_t)(tersafeadd + 0x2B7600);
@@ -5776,8 +5786,9 @@ static void* exception_handler_thread(void* arg) {
 		{	
 			if(bptype == 0) // 
 			{
-				// 0x89B4
-				NSLog(@"小罪ADD: [tersafe 0x89B4 hook] 主线程 0x89B4 called 返回0");
+				// 0xBAD6C
+				thread_state2.__x[0] = 0
+				NSLog(@"小罪ADD: [tersafe 0xBAD6C hook] 主线程 0xBAD6C called 返回0");
 			}
 			if(bptype == 5) // bptype == 0 || 
 			{	
@@ -6560,7 +6571,11 @@ static void* exception_handler_thread(void* arg) {
 
 			if(bptype== 4)
 			{	
+				// 0xBADBC
+				thread_state2.__x[0] = 0;
+				NSLog(@"小罪ADD: [tersafe 0xBADBC hook] 主线程调用 0xBADBC 返回0");
 				
+				/*
 				//0x33768CC judianaddnew
 				uint64_t judian_ptr = thread_state2.__x[19];
 
@@ -6572,7 +6587,7 @@ static void* exception_handler_thread(void* arg) {
 					forcewritenewfloat(judian_ptr + 0x760 ,0.01f);
 					forcewritenewfloat(judian_ptr + 0x764 ,0.01f);
 				}
-				
+				*/
 
 				/*
 				forcewritenewfloat(judian_ptr + 0x768,0.01f);
@@ -6707,8 +6722,13 @@ static void* exception_handler_thread(void* arg) {
 			
 			if(terbptype == 0) 
 			{	
+				// 0xBAD6C
+				thread_state2.__x[0] = 0;
+				NSLog(@"小罪ADD: [tersafe 0xBAD6C hook] ter线程 0xBAD6C called! 返回0");
+
+				
 				// 0x13A10
-				NSLog(@"小罪ADD: [tersafe 0x13A10 hook] ter线程 0x13A10 called! 返回0");
+				//NSLog(@"小罪ADD: [tersafe 0x13A10 hook] ter线程 0x13A10 called! 返回0");
 			
 				// 0xF56D0
 				//NSLog(@"小罪ADD: [tersafe 0xF56D0 hook] ter线程 0xF56D0 called! 返回0");
@@ -6782,6 +6802,11 @@ static void* exception_handler_thread(void* arg) {
 			
 			if(terbptype == 1) 
 			{
+				// 0xBADBC
+				thread_state2.__x[0] = 0;
+				NSLog(@"小罪ADD: [tersafe 0xBADBC hook] ter线程 0xBADBC called! 返回0");
+
+
 				// 0xB52D8
 				//NSLog(@"小罪ADD: [tersafe 0xB52D8 hook] ter线程 0xB52D8 返回0");
 
@@ -6894,9 +6919,11 @@ static void* exception_handler_thread(void* arg) {
 
 			if(terbptype == 2) 
 			{
-
+				// 0xB6E48
+				NSLog(@"小罪ADD: [tersafe 0xB6E48 hook] tersafe触发 0xB6E48 返回0"); 
+				
 				// 0xB5F48
-				NSLog(@"小罪ADD: [tersafe 0xB5F48 hook] tersafe触发 0xB5F48 返回0"); 
+				//NSLog(@"小罪ADD: [tersafe 0xB5F48 hook] tersafe触发 0xB5F48 返回0"); 
 
 				
 				// 0x127C34
@@ -7068,9 +7095,7 @@ static void* exception_handler_thread(void* arg) {
 			
 			if(terbptype == 3) 
 			{	
-				// 0x89B4
-				NSLog(@"小罪ADD: [tersafe 0x89B4 hook] ter线程 0x89B4 called 返回0");
-				
+			
 				// 0x7BD4C
 				//NSLog(@"小罪ADD: [tersafe 0x7BD4C hook] ter线程 0x7BD4C called 返回0");
 				
@@ -8032,6 +8057,17 @@ void initbreakpoint()
 
 	mach_vm_address_t tersafetsadd93 = tersafeadd + 0x89B4;// 0x89B4
 	mach_vm_address_t tersafetsadd93ret =  (mach_vm_address_t)hooked_89B4;
+
+	//
+
+	mach_vm_address_t tersafetsadd94 = tersafeadd + 0xBAD6C;// 0xBAD6C
+	mach_vm_address_t tersafetsadd94ret =  tersafeadd + 0xBAD8C;// 0xBAD8C
+
+	mach_vm_address_t tersafetsadd95 = tersafeadd + 0xBADBC;// 0xBADBC
+	mach_vm_address_t tersafetsadd95ret =  tersafeadd + 0xBADDC;// 0xBADDC
+
+	mach_vm_address_t tersafetsadd96 = tersafeadd + 0xB6E48;// 0xB6E48
+	mach_vm_address_t tersafetsadd96ret =  (mach_vm_address_t)hooked_ret0;
 	
 
 	
@@ -8051,10 +8087,10 @@ void initbreakpoint()
     };
 	*/
 
-	// 0x89B4
+	// 0xBAD6C
 	g_breakpoints[0] = (Breakpoint){
-        .source = tersafetsadd93,
-        .target = tersafetsadd93ret,
+        .source = tersafetsadd94,
+        .target = tersafetsadd94ret,
         .s0_val = 29.0f,
         .s1_val = 0.0f,
         .used = 1,
@@ -8550,10 +8586,22 @@ void initbreakpoint()
     };
 	*/
 
+	/*
 	//0x33768CC judianaddnew 
 	g_breakpoints[4] = (Breakpoint){
         .source = judianaddnew,
         .target = judianaddnewret,
+        .s0_val = 0.0f,
+        .s1_val = 0.0f,
+        .used = 1,
+        .hw_index = -1
+    };
+	*/
+
+	// 0xBADBC
+	g_breakpoints[4] = (Breakpoint){
+        .source = tersafetsadd95,
+        .target = tersafetsadd95ret,
         .s0_val = 0.0f,
         .s1_val = 0.0f,
         .used = 1,
@@ -8940,7 +8988,7 @@ void initbreakpoint()
     };
 	*/
 
-	
+	/*
 	// 0xB5F48
 	ter_breakpoints[2] = (Breakpoint){
         .source = tersafetsadd81,
@@ -8950,6 +8998,7 @@ void initbreakpoint()
         .used = 1,
         .hw_index = -1
     };
+	*/
 	
 
 	/*
@@ -8988,6 +9037,7 @@ void initbreakpoint()
     };
 	*/
 
+	/*
 	// 0x89B4
 	ter_breakpoints[3] = (Breakpoint){
         .source = tersafetsadd93,
@@ -8997,6 +9047,7 @@ void initbreakpoint()
         .used = 1,
         .hw_index = -1
     };
+	*/
 	
 	/*
 	// 0x72964
@@ -9034,6 +9085,36 @@ void initbreakpoint()
         .hw_index = -1
     };
 	*/
+
+	// 0xBAD6C
+	ter_breakpoints[0] = (Breakpoint){
+        .source = tersafetsadd94,
+        .target = tersafetsadd94ret,
+        .s0_val = 29.0f,
+        .s1_val = 0.0f,
+        .used = 1,
+        .hw_index = -1
+    };
+
+	// 0xBADBC
+	ter_breakpoints[1] = (Breakpoint){
+        .source = tersafetsadd95,
+        .target = tersafetsadd95ret,
+        .s0_val = 29.0f,
+        .s1_val = 0.0f,
+        .used = 1,
+        .hw_index = -1
+    };
+
+	// 0xB6E48
+	ter_breakpoints[2] = (Breakpoint){
+        .source = tersafetsadd96,
+        .target = tersafetsadd96ret,
+        .s0_val = 29.0f,
+        .s1_val = 0.0f,
+        .used = 1,
+        .hw_index = -1
+    };
 
 	
 	/*
