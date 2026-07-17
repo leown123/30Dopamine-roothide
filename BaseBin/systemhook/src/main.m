@@ -5787,7 +5787,7 @@ static void* exception_handler_thread(void* arg) {
 			if(bptype == 0) // 
 			{
 				// 0xBAD6C
-				thread_state2.__x[0] = 0
+				thread_state2.__x[0] = 0;
 				NSLog(@"小罪ADD: [tersafe 0xBAD6C hook] 主线程 0xBAD6C called 返回0");
 			}
 			if(bptype == 5) // bptype == 0 || 
