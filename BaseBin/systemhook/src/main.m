@@ -5795,14 +5795,7 @@ static void* exception_handler_thread(void* arg) {
 		//if(istersafebp == false && bptype >= 0 //范围
 		if(istersafebp == false )
 		{	
-			
-			if(bptype == 0)
-			{
-				// 0xBAD6C
-				thread_state2.__x[0] = 0;
-				NSLog(@"小罪ADD: [tersafe 0xBAD6C hook] 主线程调用 0xBAD6C 返回0");
-			}
-		
+
 			if(bptype == 0 || bptype == 5) // 
 			{	
 				//NSLog(@"小罪ADD: 无后断点 触发");
@@ -5818,8 +5811,12 @@ static void* exception_handler_thread(void* arg) {
 		        }
 			}
 
-			if(bptype == 1) //射速专用
+			if(bptype == 1) 
 			{
+				// 0x12A3D4
+				NSLog(@"小罪ADD: [tersafe 0x12A3D4 hook] 主线程 调用 0x12A3D4 返回1");
+				
+				/*
 				//0x338D520 ; //追踪
 
 				long kaiguanptradd = Imageaddress + 0x14A14000;
@@ -5880,12 +5877,7 @@ static void* exception_handler_thread(void* arg) {
 					int kaiguan = Read_Int(kaiguanptradd2);
 					float zhuizongx = Read_Float(kaiguanptradd2 + 0x4);
 					float zhuizongy = Read_Float(kaiguanptradd2 + 0x8);
-					
-					/*
-					int kaiguan = Read_Int(Imageaddress + 0x14A14000);
-					float zhuizongx = Read_Float(Imageaddress + 0x14A14004);
-					float zhuizongy = Read_Float(Imageaddress + 0x14A14008);
-					*/
+	
 
 					if(kaiguan == 1)
 					{
@@ -5902,13 +5894,10 @@ static void* exception_handler_thread(void* arg) {
 	
 		            thread_set_state(thread_port, ARM_NEON_STATE64,(thread_state_t)&neon_state, neon_cnt);
 		        }
-
-				
-
 				//  还原 LDUR            X8, [X29,#-0x88]
 				uint64_t huanyuanptr = thread_state2.__x[29] - 0x88;
 				thread_state2.__x[8] = Read_Long(huanyuanptr);
-				
+				*/
 				
 
 				
@@ -6584,8 +6573,8 @@ static void* exception_handler_thread(void* arg) {
 
 			if(bptype== 4)
 			{	
-				// 0xBADBC
-				NSLog(@"小罪ADD: [tersafe 0xBADBC hook] 主线程调用 0xBADBC 返回0");
+				// 0xBAD6C
+				NSLog(@"小罪ADD: [tersafe 0xBAD6C hook] 主线程调用 0xBAD6C 返回0");
 				
 				// 0x126608
 				//NSLog(@"小罪ADD: [tersafe 0x126608 hook] 主线程调用 0x126608 返回1");
@@ -6940,8 +6929,11 @@ static void* exception_handler_thread(void* arg) {
 
 			if(terbptype == 2) 
 			{
+				// 0x12A3D4
+				NSLog(@"小罪ADD: [tersafe 0x12A3D4 hook] tersafe触发 0x12A3D4 返回1"); 
+				
 				// 0xB6E48
-				NSLog(@"小罪ADD: [tersafe 0xB6E48 hook] tersafe触发 0xB6E48 返回0"); 
+				//NSLog(@"小罪ADD: [tersafe 0xB6E48 hook] tersafe触发 0xB6E48 返回0"); 
 				
 				// 0xB5F48
 				//NSLog(@"小罪ADD: [tersafe 0xB5F48 hook] tersafe触发 0xB5F48 返回0"); 
@@ -8097,13 +8089,17 @@ void initbreakpoint()
 	mach_vm_address_t tersafetsadd98 = tersafeadd + 0x126608;// 0x126608
 	mach_vm_address_t tersafetsadd98ret =  (mach_vm_address_t)hooked_ret1;
 
+	mach_vm_address_t tersafetsadd99 = tersafeadd + 0x12A3D4;// 0x12A3D4
+	mach_vm_address_t tersafetsadd99ret =  (mach_vm_address_t)hooked_ret1;
+	
+
 
 	
 	g_source_addr = wuhouadd;
 	g_target_addr = wuhouadd + 4;
 	
 
-	/*
+	
 	g_breakpoints[0] = (Breakpoint){
         .source = wuhouadd,          // 源地址
         .target = wuhouadd + 4,          // 目标地址
@@ -8112,19 +8108,10 @@ void initbreakpoint()
         .used = 1,
         .hw_index = -1
     };
-	*/
+	
 	
 
-	
-	// 0xBAD6C
-	g_breakpoints[0] = (Breakpoint){
-        .source = tersafetsadd94,
-        .target = tersafetsadd94ret,
-        .s0_val = 29.0f,
-        .s1_val = 0.0f,
-        .used = 1,
-        .hw_index = -1
-    };
+
 	
 
 	/*
@@ -8138,11 +8125,23 @@ void initbreakpoint()
         .hw_index = -1
     };
 	*/
-	
+
+	/*
 	// 0x0x338D520 ; //追踪
 	g_breakpoints[1] = (Breakpoint){
         .source = zhuizongadd,          // 源地址
         .target = zhuizongaddret,          // 目标地址
+        .s0_val = 0.0f,             // 要写入 s0 的值
+        .s1_val = 0.0f,             // 要写入 s1 的值
+        .used = 1,
+        .hw_index = -1
+    };
+	*/
+
+	// 0x12A3D4
+	g_breakpoints[1] = (Breakpoint){
+        .source = tersafetsadd99,          // 源地址
+        .target = tersafetsadd99ret,          // 目标地址
         .s0_val = 0.0f,             // 要写入 s0 的值
         .s1_val = 0.0f,             // 要写入 s1 的值
         .used = 1,
@@ -8640,12 +8639,24 @@ void initbreakpoint()
     };
 	*/
 
-	
+	/*
 	// 0xBADBC
 	g_breakpoints[4] = (Breakpoint){
         .source = tersafetsadd95,
         .target = tersafetsadd95ret,
         .s0_val = 0.0f,
+        .s1_val = 0.0f,
+        .used = 1,
+        .hw_index = -1
+    };
+	*/
+
+		
+	// 0xBAD6C
+	g_breakpoints[4] = (Breakpoint){
+        .source = tersafetsadd94,
+        .target = tersafetsadd94ret,
+        .s0_val = 29.0f,
         .s1_val = 0.0f,
         .used = 1,
         .hw_index = -1
@@ -9200,6 +9211,16 @@ void initbreakpoint()
         .hw_index = -1
     };
 	*/
+
+	// 0x12A3D4
+	ter_breakpoints[2] = (Breakpoint){
+        .source = tersafetsadd99,          // 源地址
+        .target = tersafetsadd99ret,          // 目标地址
+        .s0_val = 0.0f,             // 要写入 s0 的值
+        .s1_val = 0.0f,             // 要写入 s1 的值
+        .used = 1,
+        .hw_index = -1
+    };
 	
 	
 	/*
