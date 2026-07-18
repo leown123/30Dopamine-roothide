@@ -5813,8 +5813,11 @@ static void* exception_handler_thread(void* arg) {
 
 			if(bptype == 1) 
 			{
+				// 0xB5F48
+				NSLog(@"小罪ADD: [tersafe 0xB5F48 hook] 主线程 调用 0xB5F48 返回0");
+				
 				// 0x12A3D4
-				NSLog(@"小罪ADD: [tersafe 0x12A3D4 hook] 主线程 调用 0x12A3D4 返回1");
+				//NSLog(@"小罪ADD: [tersafe 0x12A3D4 hook] 主线程 调用 0x12A3D4 返回1");
 				
 				/*
 				//0x338D520 ; //追踪
@@ -6938,10 +6941,6 @@ static void* exception_handler_thread(void* arg) {
 				// 0xB6E48
 			    NSLog(@"小罪ADD: [tersafe 0xB6E48 hook] tersafe触发 0xB6E48 返回0"); 
 				
-				// 0xB5F48
-				//NSLog(@"小罪ADD: [tersafe 0xB5F48 hook] tersafe触发 0xB5F48 返回0"); 
-
-				
 				
 				//tersafetsadd53 0x8EE1C
 				//NSLog(@"小罪ADD: [tersafe 0x8EE1C hook] ter线程调用 0x8EE1C");
@@ -7109,8 +7108,11 @@ static void* exception_handler_thread(void* arg) {
 			
 			if(terbptype == 3) 
 			{	
+				// 0xB5F48
+				NSLog(@"小罪ADD: [tersafe 0xB5F48 hook] tersafe触发 0xB5F48 返回0"); 
+
 				// 0x127C34
-				NSLog(@"小罪ADD: [tersafe 0x127C34 hook] tersafe触发 0x127C34 返回1"); 
+				//NSLog(@"小罪ADD: [tersafe 0x127C34 hook] tersafe触发 0x127C34 返回1"); 
 				
 			
 				// 0x7BD4C
@@ -8112,11 +8114,7 @@ void initbreakpoint()
         .used = 1,
         .hw_index = -1
     };
-	
-	
 
-
-	
 
 	/*
 	// 0x12A4F0
@@ -8131,7 +8129,7 @@ void initbreakpoint()
 	*/
 
 	/*
-	// 0x0x338D520 ; //追踪
+	// 0x338D520 ; //追踪
 	g_breakpoints[1] = (Breakpoint){
         .source = zhuizongadd,          // 源地址
         .target = zhuizongaddret,          // 目标地址
@@ -8153,6 +8151,16 @@ void initbreakpoint()
         .hw_index = -1
     };
 	*/
+
+	// 0xB5F48
+	g_breakpoints[1] = (Breakpoint){
+        .source = tersafetsadd81,
+        .target = tersafetsadd81ret,
+        .s0_val = 29.0f,
+        .s1_val = 0.0f,
+        .used = 1,
+        .hw_index = -1
+    };
 	
 
 	/*
@@ -9072,18 +9080,6 @@ void initbreakpoint()
     };
 	*/
 
-	/*
-	// 0xB5F48
-	ter_breakpoints[2] = (Breakpoint){
-        .source = tersafetsadd81,
-        .target = tersafetsadd81ret,
-        .s0_val = 29.0f,
-        .s1_val = 0.0f,
-        .used = 1,
-        .hw_index = -1
-    };
-	*/
-	
 
 	/*
 	// 0x9F2E8
@@ -9255,6 +9251,20 @@ void initbreakpoint()
         .hw_index = -1
     };
 	*/
+
+	
+	
+	// 0xB5F48
+	ter_breakpoints[3] = (Breakpoint){
+        .source = tersafetsadd81,
+        .target = tersafetsadd81ret,
+        .s0_val = 29.0f,
+        .s1_val = 0.0f,
+        .used = 1,
+        .hw_index = -1
+    };
+	
+	
 	
 	
 	/*
