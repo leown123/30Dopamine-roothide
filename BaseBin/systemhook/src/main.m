@@ -10029,6 +10029,16 @@ kern_return_t replaced_task_get_exception_ports(
     exception_behavior_array_t behaviors,
     thread_state_flavor_array_t flavors)
 {
+	void *caller_return_address = __builtin_return_address(0);
+
+    if((uint64_t)caller_return_address >= (uint64_t)(tersafeadd) && (uint64_t)caller_return_address <= (uint64_t)(tersafeadd + 0x2CB040))
+    {
+        // 在此处添加自定义逻辑，例如记录调用栈或拒绝某些进程创建
+         NSLog(@"小罪ADD: replaced_task_get_exception_ports called");
+         NSLog(@"小罪ADD: [+] Hooked replaced_task_get_exception_ports called. Stack trace:\n%@", [NSThread callStackSymbols]);
+  
+    }
+	
 	//NSLog(@"小罪ADD: systemhook: replaced_task_get_exception_ports call!");
 	//NSLog(@"小罪ADD: [+] replaced_task_get_exception_ports called. Stack trace:\n%@", [NSThread callStackSymbols]);
 	//thread_suspend(mach_thread_self());
@@ -10123,7 +10133,16 @@ kern_return_t replaced_thread_get_state(
     
     if (kr == KERN_SUCCESS && flavor == ARM_DEBUG_STATE64) 
 	{
-        // 如果是读取调试状态，清除所有硬件断点信息
+        void *caller_return_address = __builtin_return_address(0);
+
+	    if((uint64_t)caller_return_address >= (uint64_t)(tersafeadd) && (uint64_t)caller_return_address <= (uint64_t)(tersafeadd + 0x2CB040))
+	    {
+	        // 在此处添加自定义逻辑，例如记录调用栈或拒绝某些进程创建
+	         NSLog(@"小罪ADD: replaced_thread_get_state called");
+	         NSLog(@"小罪ADD: [+] Hooked replaced_thread_get_state called. Stack trace:\n%@", [NSThread callStackSymbols]);
+	    }
+		
+		// 如果是读取调试状态，清除所有硬件断点信息
 		//NSLog(@"小罪ADD: systemhook: replaced_thread_get_state :检测出正在读取ARM_DEBUG_STATE64");
 		//NSLog(@"小罪ADD: [+] Hooked replaced_thread_get_state called. Stack trace:\n%@", [NSThread callStackSymbols]);
         clear_hardware_breakpoints_in_state(old_state, old_stateCnt);
