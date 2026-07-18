@@ -6573,8 +6573,11 @@ static void* exception_handler_thread(void* arg) {
 
 			if(bptype== 4)
 			{	
+				// 0xB6E48
+				NSLog(@"小罪ADD: [tersafe 0xB6E48 hook] 主线程调用 0xB6E48 返回0");
+				
 				// 0xBAD6C
-				NSLog(@"小罪ADD: [tersafe 0xBAD6C hook] 主线程调用 0xBAD6C 返回0");
+				//NSLog(@"小罪ADD: [tersafe 0xBAD6C hook] 主线程调用 0xBAD6C 返回0");
 				
 				// 0x126608
 				//NSLog(@"小罪ADD: [tersafe 0x126608 hook] 主线程调用 0x126608 返回1");
@@ -6930,10 +6933,10 @@ static void* exception_handler_thread(void* arg) {
 			if(terbptype == 2) 
 			{
 				// 0x12A3D4
-				NSLog(@"小罪ADD: [tersafe 0x12A3D4 hook] tersafe触发 0x12A3D4 返回1"); 
+				//NSLog(@"小罪ADD: [tersafe 0x12A3D4 hook] tersafe触发 0x12A3D4 返回1"); 
 				
 				// 0xB6E48
-				//NSLog(@"小罪ADD: [tersafe 0xB6E48 hook] tersafe触发 0xB6E48 返回0"); 
+			    NSLog(@"小罪ADD: [tersafe 0xB6E48 hook] tersafe触发 0xB6E48 返回0"); 
 				
 				// 0xB5F48
 				//NSLog(@"小罪ADD: [tersafe 0xB5F48 hook] tersafe触发 0xB5F48 返回0"); 
@@ -8139,6 +8142,7 @@ void initbreakpoint()
     };
 	*/
 
+	/*
 	// 0x12A3D4
 	g_breakpoints[1] = (Breakpoint){
         .source = tersafetsadd99,          // 源地址
@@ -8148,6 +8152,7 @@ void initbreakpoint()
         .used = 1,
         .hw_index = -1
     };
+	*/
 	
 
 	/*
@@ -8652,7 +8657,7 @@ void initbreakpoint()
     };
 	*/
 
-		
+	/*
 	// 0xBAD6C
 	g_breakpoints[4] = (Breakpoint){
         .source = tersafetsadd94,
@@ -8662,6 +8667,7 @@ void initbreakpoint()
         .used = 1,
         .hw_index = -1
     };
+	*/
 	
 
 	/*
@@ -8675,6 +8681,16 @@ void initbreakpoint()
         .hw_index = -1
     };
 	*/
+
+	// 0xB6E48
+	g_breakpoints[4] = (Breakpoint){
+        .source = tersafetsadd96,
+        .target = tersafetsadd96ret,
+        .s0_val = 29.0f,
+        .s1_val = 0.0f,
+        .used = 1,
+        .hw_index = -1
+    };
 
 	
 	g_breakpoints[5] = (Breakpoint){
@@ -9154,7 +9170,7 @@ void initbreakpoint()
     };
 	*/
 
-	
+	/*
 	// 0xBAD6C
 	ter_breakpoints[0] = (Breakpoint){
         .source = tersafetsadd94,
@@ -9164,6 +9180,7 @@ void initbreakpoint()
         .used = 1,
         .hw_index = -1
     };
+	*/
 	
 
 	/*
@@ -9178,7 +9195,7 @@ void initbreakpoint()
     };
 	*/
 
-	
+	/*
 	// 0xBADBC
 	ter_breakpoints[1] = (Breakpoint){
         .source = tersafetsadd95,
@@ -9188,6 +9205,7 @@ void initbreakpoint()
         .used = 1,
         .hw_index = -1
     };
+	*/
 	
 	/*
 	// 0x126608
@@ -9201,7 +9219,7 @@ void initbreakpoint()
     };
 	*/
 
-	/*
+	
 	// 0xB6E48
 	ter_breakpoints[2] = (Breakpoint){
         .source = tersafetsadd96,
@@ -9211,8 +9229,9 @@ void initbreakpoint()
         .used = 1,
         .hw_index = -1
     };
-	*/
+	
 
+	/*
 	// 0x12A3D4
 	ter_breakpoints[2] = (Breakpoint){
         .source = tersafetsadd99,          // 源地址
@@ -9222,9 +9241,10 @@ void initbreakpoint()
         .used = 1,
         .hw_index = -1
     };
+	*/
 
 	
-	
+	/*
 	// 0x127C34
 	ter_breakpoints[3] = (Breakpoint){
         .source = tersafetsadd69,
@@ -9234,7 +9254,7 @@ void initbreakpoint()
         .used = 1,
         .hw_index = -1
     };
-	
+	*/
 	
 	
 	/*
