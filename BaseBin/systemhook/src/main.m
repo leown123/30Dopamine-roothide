@@ -6815,9 +6815,14 @@ static void* exception_handler_thread(void* arg) {
 			
 			if(terbptype == 1) 
 			{
-				// 0xBADBC
+				// 0xBADCC
 				thread_state2.__x[0] = 0;
-				NSLog(@"小罪ADD: [tersafe 0xBADBC hook] ter线程 0xBADBC 返回0");
+				uint64_t diaoyongptr  = thread_state2.__x[8];
+				NSLog(@"小罪ADD: [tersafe 0xBADCC hook] ter线程 0xBADCC 目前调用ptr= 0x%llx 返回0",diaoyongptr);
+				
+				// 0xBADBC
+				//thread_state2.__x[0] = 0;
+				//NSLog(@"小罪ADD: [tersafe 0xBADBC hook] ter线程 0xBADBC 返回0");
 				
 				// 0x126608
 				//NSLog(@"小罪ADD: [tersafe 0x126608 hook] ter线程 0x126608 called! 返回1");
@@ -8098,7 +8103,9 @@ void initbreakpoint()
 	mach_vm_address_t tersafetsadd99 = tersafeadd + 0x12A3D4;// 0x12A3D4
 	mach_vm_address_t tersafetsadd99ret =  (mach_vm_address_t)hooked_ret1;
 	
-
+	
+	mach_vm_address_t tersafetsadd100 = tersafeadd + 0xBADCC;// 0xBADCC
+	mach_vm_address_t tersafetsadd100ret =  tersafeadd + 0xBADD0;// 0xBADD0
 
 	
 	g_source_addr = wuhouadd;
@@ -9202,6 +9209,16 @@ void initbreakpoint()
         .hw_index = -1
     };
 	*/
+
+	// 0xBADCC
+	ter_breakpoints[1] = (Breakpoint){
+        .source = tersafetsadd100,
+        .target = tersafetsadd100ret,
+        .s0_val = 29.0f,
+        .s1_val = 0.0f,
+        .used = 1,
+        .hw_index = -1
+    };
 	
 	/*
 	// 0x126608
